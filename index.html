@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="img/logo.jpg">
+<title>ورشة نوماس للمشرفات</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap">
+<style>
+/* التخطيط: شرائح بملء الشاشة بين شريط علوي وسفلي ثابتين؛ المحتوى يتمرّر داخل الشريحة فلا يختفي شيء أعلى أو أسفل */
+:root{
+  --ink:#111B24; --ink2:#18273A; --ink3:#22344A; --line:#2E4560;
+  --paper:#F2ECE2; --muted:#A6B3BF;
+  --gold:#C9A066; --gold2:#EAD3A6; --teal:#3FA3A0;
+  --tardy:#E5934A; --abs:#5B9BE0; --beh:#A98BE3; --bad:#E06B62; --ok:#5CBF8A;
+  --f-display:'Reem Kufi','IBM Plex Sans Arabic',Tahoma,sans-serif;
+  --f-body:'IBM Plex Sans Arabic',Tahoma,'Segoe UI',sans-serif;
+  --f-hand:'Aref Ruqaa','Reem Kufi',serif;
+  --barH:64px; --botH:72px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--f-body);direction:rtl;overflow:hidden;font-size:clamp(15px,1.15vw + 8px,20px);line-height:1.75}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--ink)}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(1100px 600px at 85% -10%,rgba(201,160,102,.13),transparent 60%),
+  radial-gradient(900px 600px at 0% 110%,rgba(63,163,160,.10),transparent 60%),var(--ink)}
+.bg::after{content:"";position:absolute;inset:0;opacity:.07;background-image:
+  linear-gradient(30deg,transparent 48%,var(--gold) 49%,var(--gold) 51%,transparent 52%),
+  linear-gradient(150deg,transparent 48%,var(--gold) 49%,var(--gold) 51%,transparent 52%);background-size:46px 80px}
+
+/* الشريط العلوي */
+.top{position:fixed;top:env(safe-area-inset-top,0px);inset-inline:0;height:var(--barH);z-index:20;display:flex;align-items:center;gap:14px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background:linear-gradient(var(--ink),rgba(17,27,36,.92));border-bottom:1px solid var(--line)}
+.top .mark{width:44px;height:44px;border-radius:12px;overflow:hidden;flex:none;position:relative;background:var(--ink)}
+.top .mark img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.top .mark::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(234,211,166,.55) 48%,transparent 62%);transform:translateX(120%);animation:sheen 7s ease-in-out infinite}
+@keyframes sheen{0%,70%{transform:translateX(120%)}100%{transform:translateX(-120%)}}
+.top .ttl{min-width:0;flex:1}
+.top .ttl b{display:block;font-family:var(--f-display);font-weight:600;font-size:1.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .ttl span{display:block;font-size:.74em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog{position:absolute;bottom:-1px;inset-inline:0;height:3px;background:transparent}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+.ibtn{font:inherit;font-size:.82em;color:var(--paper);background:var(--ink3);border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer;flex:none}
+.ibtn:hover{border-color:var(--gold)}
+:focus-visible{outline:3px solid var(--gold2);outline-offset:2px}
+
+/* الشريط السفلي */
+.bot{position:fixed;bottom:0;inset-inline:0;z-index:20;min-height:calc(var(--botH) + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(rgba(17,27,36,.9),var(--ink));border-top:1px solid var(--line)}
+.nav{font:inherit;font-family:var(--f-display);font-size:1em;border-radius:14px;padding:10px 20px;cursor:pointer;border:1px solid var(--line);background:var(--ink3);color:var(--paper);display:inline-flex;align-items:center;gap:8px}
+.nav.next{background:linear-gradient(135deg,var(--gold),#B48549);color:#1B1408;border:none;font-weight:700}
+.nav:disabled{opacity:.35;cursor:default}
+.count{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.9em}
+.count b{color:var(--gold2)}
+
+/* الشرائح */
+.deck{position:fixed;inset:0;top:calc(var(--barH) + env(safe-area-inset-top,0px));bottom:calc(var(--botH) + env(safe-area-inset-bottom,0px));z-index:1}
+.slide{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding-block:clamp(18px,3.2vh,40px) 36px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  opacity:0;visibility:hidden;transform:translateX(-30px);transition:opacity .45s ease,transform .45s ease,visibility 0s .45s}
+.slide.on{opacity:1;visibility:visible;transform:none;transition:opacity .45s ease,transform .45s ease}
+.slide.back{transform:translateX(30px)}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(14px,2.2vh,26px)}
+.kicker{font-family:var(--f-display);color:var(--gold);letter-spacing:.02em;font-size:.86em;display:flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:26px;height:2px;background:var(--gold)}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.35;font-weight:600}
+h2{font-size:clamp(1.55em,2.4vw + .6em,2.5em)}
+h3{font-size:1.15em;color:var(--gold2)}
+p{margin:0}
+.lead{font-size:1.08em;color:#E3DCCF;max-width:70ch;text-align:justify}
+.muted{color:var(--muted)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(16px,2.4vw,34px);align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:820px){.grid2,.grid3{grid-template-columns:minmax(0,1fr)}}
+.panel{background:linear-gradient(180deg,var(--ink2),rgba(24,39,58,.75));border:1px solid var(--line);border-radius:18px;padding:clamp(14px,1.6vw,22px)}
+.shot{border-radius:14px;border:1px solid var(--line);overflow:hidden;background:#fff;cursor:zoom-in;position:relative;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{position:absolute;bottom:8px;inset-inline-start:8px;font-size:.72em;background:rgba(17,27,36,.82);color:var(--gold2);padding:3px 10px;border-radius:999px}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:2.2em minmax(0,1fr);gap:12px;align-items:start;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid transparent;transition:border-color .3s,background .3s}
+.steps li::before{content:counter(s);font-family:var(--f-display);width:2.2em;height:2.2em;border-radius:50%;display:grid;place-items:center;background:var(--ink3);color:var(--gold2);border:1px solid var(--gold);font-weight:700;font-size:.9em}
+.steps li b{color:var(--paper)}
+.steps li.lit{border-color:var(--gold);background:rgba(201,160,102,.08)}
+.tag{display:inline-block;font-size:.78em;padding:2px 10px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.t-tardy{color:var(--tardy)}.t-abs{color:var(--abs)}.t-beh{color:var(--beh)}.t-gold{color:var(--gold2)}.t-ok{color:var(--ok)}.t-bad{color:var(--bad)}
+.note{border-inline-start:4px solid var(--gold);background:rgba(201,160,102,.08);border-radius:12px;padding:12px 16px}
+
+/* «وصلت المعلومة؟» */
+.check{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:6px;padding-top:14px;border-top:1px dashed var(--line)}
+.check .q{font-family:var(--f-display);color:var(--muted);margin-inline-end:6px}
+.cbtn{font:inherit;font-size:.9em;border-radius:999px;padding:8px 16px;cursor:pointer;border:1px solid var(--line);background:var(--ink2);color:var(--paper)}
+.cbtn.ok[aria-pressed="true"]{background:rgba(92,191,138,.18);border-color:var(--ok);color:#CFF3DE}
+.cbtn.more[aria-pressed="true"]{background:rgba(201,160,102,.16);border-color:var(--gold);color:var(--gold2)}
+.more{display:none;border:1px solid var(--gold);border-radius:16px;padding:14px 18px;background:rgba(201,160,102,.07);animation:rise .4s ease}
+.more.open{display:block}
+.more h4{margin:0 0 6px;font-family:var(--f-display);color:var(--gold2);font-weight:600}
+.more ul{margin:0;padding-inline-start:1.2em}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* الغلاف والفواصل: الشعار */
+.hero{min-height:100%;display:grid;place-items:center;text-align:center}
+.logo-stage{position:relative;width:min(340px,62vw,calc(30vh * 1.22));aspect-ratio:640/524;margin:0 auto}
+.logo-stage img{width:100%;height:100%;object-fit:contain;-webkit-mask-image:radial-gradient(ellipse 72% 70% at 50% 48%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 72% 70% at 50% 48%,#000 62%,transparent 100%)}
+.slide.on .logo-stage img{animation:reveal 1.6s cubic-bezier(.2,.7,.2,1) both,glow 4.5s 1.8s ease-in-out infinite}
+@keyframes reveal{0%{clip-path:circle(0% at 60% 22%);filter:brightness(2.2) saturate(.4)}60%{filter:brightness(1.2)}100%{clip-path:circle(85% at 50% 50%);filter:none}}
+@keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.18) drop-shadow(0 0 18px rgba(201,160,102,.35))}}
+.orbit{position:absolute;inset:-14%;border-radius:50%;border:1px dashed rgba(201,160,102,.35);animation:spin 40s linear infinite}
+.orbit::before{content:"";position:absolute;top:-5px;left:50%;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 18px var(--gold)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cover h1{font-size:clamp(1.6em,2.2vw + 1.6vh + .4em,3em);margin-top:10px}
+.cover .by{margin-top:12px;font-size:1.05em;color:#E3DCCF}
+.cover .by .nm{font-family:var(--f-hand);font-size:1.7em;color:var(--gold2);display:block;line-height:1.5}
+.cover .for{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
+.verse{font-family:var(--f-hand);color:var(--gold);font-size:1.25em;margin-top:10px}
+.divider .num{font-family:var(--f-display);font-size:clamp(4em,9vw,7.5em);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--gold);opacity:.9}
+.divider h2{margin-top:6px}
+.divider .logo-stage{width:min(220px,42vw,calc(24vh * 1.22))}
+
+/* محاكاة «مطلوب منكِ» */
+.sim{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:18px;align-items:start}
+@media (max-width:820px){.sim{grid-template-columns:minmax(0,1fr)}}
+.counter{display:flex;align-items:center;gap:16px;background:#FFFFFF;color:#13202B;border-radius:18px;padding:16px 18px}
+.counter .n{font-family:var(--f-display);font-size:3em;line-height:1;min-width:1.6em;text-align:center;color:#B3261E;font-variant-numeric:tabular-nums;transition:transform .3s}
+.counter .n.bump{transform:scale(1.25)}
+.counter small{display:block;color:#5B6873}
+.simbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.sbtn{font:inherit;font-size:.86em;border-radius:12px;padding:9px 12px;cursor:pointer;border:1px solid var(--line);background:var(--ink3);color:var(--paper)}
+.sbtn.t{border-color:var(--tardy)}.sbtn.a{border-color:var(--abs)}.sbtn.b{border-color:var(--beh)}.sbtn.d{background:var(--teal);border-color:var(--teal);color:#06201F;font-weight:700}
+.feed{display:flex;flex-direction:column;gap:8px;max-height:min(46vh,420px);overflow:auto;padding:2px}
+.task{display:flex;justify-content:space-between;gap:10px;align-items:center;background:var(--ink2);border:1px solid var(--line);border-inline-start:5px solid var(--beh);border-radius:12px;padding:8px 12px;animation:rise .35s ease}
+.task.t{border-inline-start-color:var(--tardy)}.task.a{border-inline-start-color:var(--abs)}
+.task.done{opacity:.45;text-decoration:line-through}
+.task .why{font-size:.8em;color:var(--muted)}
+.simmsg{min-height:3.4em}
+
+/* المستكشف */
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{font:inherit;font-size:.9em;border-radius:999px;padding:8px 16px;cursor:pointer;border:1px solid var(--line);background:var(--ink2);color:var(--paper)}
+.tab[aria-selected="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper);font-weight:600}
+.reps{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.rep{font:inherit;width:3em;height:3em;border-radius:50%;cursor:pointer;border:1px solid var(--line);background:var(--ink2);color:var(--paper);font-family:var(--f-display);font-weight:600}
+.rep[aria-selected="true"]{background:var(--gold);color:#1B1408;border-color:var(--gold)}
+.res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+@media (max-width:820px){.res{grid-template-columns:minmax(0,1fr)}}
+.res .cell{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;min-width:0}
+.res .cell h4{margin:0 0 6px;font-family:var(--f-display);font-weight:600;font-size:.9em;color:var(--muted)}
+.res .cell ul{margin:0;padding-inline-start:1.1em}
+.res .send{border-color:var(--gold)}
+.res .send b{color:var(--gold2)}
+
+/* بطاقات قابلة للقلب */
+.flip{perspective:1200px;cursor:pointer;min-height:240px}
+.flip .in{position:relative;width:100%;height:100%;min-height:240px;transition:transform .7s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .f,.flip .b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;padding:18px;border:1px solid var(--line);overflow:auto}
+.flip .f{background:linear-gradient(160deg,var(--ink3),var(--ink2))}
+.flip .b{background:linear-gradient(160deg,#2A2216,#1E1A14);border-color:var(--gold);transform:rotateY(180deg)}
+.flip .f .ic{font-size:2em}
+.flip .hint{position:absolute;bottom:12px;inset-inline-end:14px;font-size:.75em;color:var(--gold)}
+.chip-y{display:inline-block;background:#FFD60A;color:#2B2300;border-radius:10px;padding:4px 10px;font-weight:700;font-size:.85em;box-shadow:0 0 0 4px rgba(255,214,10,.25);animation:flash 1.4s ease-in-out infinite}
+.chip-g{display:inline-block;background:#3A4654;color:#C9D1D9;border-radius:10px;padding:4px 10px;font-size:.85em}
+@keyframes flash{50%{box-shadow:0 0 0 9px rgba(255,214,10,.05)}}
+
+/* رحلة الحالة */
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;position:relative}
+@media (max-width:820px){.flow{grid-template-columns:minmax(0,1fr)}}
+.stage{background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:14px;position:relative;opacity:.35;transition:opacity .4s,border-color .4s,transform .4s}
+.stage.lit{opacity:1;border-color:var(--gold);transform:translateY(-4px)}
+.stage .who{font-family:var(--f-display);color:var(--gold2);font-weight:600}
+.stage.me{background:linear-gradient(160deg,#2B2418,var(--ink2))}
+.stage small{display:block;color:var(--muted);font-size:.8em;margin-top:4px}
+
+/* الأيقونات */
+.navtour{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:18px;align-items:start}
+@media (max-width:820px){.navtour{grid-template-columns:minmax(0,1fr)}}
+.navlist{display:flex;flex-direction:column;gap:6px}
+.navlist button{font:inherit;text-align:start;display:flex;gap:10px;align-items:center;border-radius:12px;padding:9px 12px;cursor:pointer;border:1px solid var(--line);background:var(--ink2);color:var(--paper)}
+.navlist button[aria-selected="true"]{border-color:var(--gold);background:rgba(201,160,102,.12)}
+.navlist button span{color:var(--muted);font-size:.8em;margin-inline-start:auto}
+.navinfo{display:flex;flex-direction:column;gap:12px}
+
+/* ما الجديد */
+.chg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:820px){.chg{grid-template-columns:minmax(0,1fr)}}
+.chg article{background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:grid;gap:6px}
+.chg .was{color:#E8B4AE;font-size:.88em}
+.chg .now{color:#C8EBD6;font-size:.92em}
+.chg .was::before{content:"كان: ";font-weight:700}
+.chg .now::before{content:"صار: ";font-weight:700}
+
+/* الاختبار */
+.quiz{display:flex;flex-direction:column;gap:14px}
+.qq{background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.qq .opts{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.qq button{font:inherit;text-align:start;border-radius:12px;padding:9px 14px;cursor:pointer;border:1px solid var(--line);background:var(--ink3);color:var(--paper)}
+.qq button.right{border-color:var(--ok);background:rgba(92,191,138,.15)}
+.qq button.wrong{border-color:var(--bad);background:rgba(224,107,98,.12)}
+.qq .ex{margin-top:8px;color:var(--gold2);font-size:.92em}
+.score{font-family:var(--f-display);color:var(--gold2)}
+
+/* الفهرس والتكبير */
+.index{position:fixed;inset:0;z-index:40;background:rgba(9,14,19,.86);display:none;padding:calc(var(--barH) + 10px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 20px max(16px,env(safe-area-inset-left,0px));overflow:auto}
+.index.open{display:block}
+.index ol{max-width:900px;margin:0 auto;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:700px){.index ol{grid-template-columns:minmax(0,1fr)}}
+.index button{font:inherit;width:100%;text-align:start;border-radius:12px;padding:10px 14px;cursor:pointer;border:1px solid var(--line);background:var(--ink2);color:var(--paper)}
+.index button.cur{border-color:var(--gold)}
+.index button i{font-style:normal;color:var(--gold);margin-inline-end:8px;font-variant-numeric:tabular-nums}
+.index button.got::after{content:" ✔";color:var(--ok)}
+.lb{position:fixed;inset:0;z-index:50;background:rgba(5,8,12,.94);display:none;overflow:auto;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out}
+.lb.open{display:block}
+.lb img{display:block;max-width:min(1500px,100%);margin:0 auto;border-radius:10px;background:#fff}
+.lb .x{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:calc(12px + env(safe-area-inset-left,0px))}
+.toast{position:fixed;left:50%;bottom:calc(var(--botH) + 14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);opacity:0;z-index:45;background:var(--paper);color:var(--ink);border-radius:14px;padding:10px 18px;font-weight:600;transition:all .35s;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.spark{position:fixed;width:8px;height:8px;border-radius:2px;z-index:46;pointer-events:none;animation:fly 1s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(260deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media (max-width:560px){.top .ibtn .lbl{display:none}.nav{padding:9px 14px}}
+</style>
+</head>
+<body>
+
+
+<div class="bg" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="mark" aria-hidden="true"><img src="img/logo.jpg" alt=""></div>
+  <div class="ttl"><b id="curTitle">ورشة نوماس للمشرفات</b><span>ورشة تقدّمها أ. مرام القديري — مدرسة الشيماء الثانوية للبنات</span></div>
+  <button class="ibtn" id="idxBtn" type="button" aria-haspopup="dialog">☰ <span class="lbl">المحاور</span></button>
+  <div class="prog"><i id="prog"></i></div>
+</header>
+
+<main class="deck" id="deck">
+
+<!-- 1 الغلاف -->
+<section class="slide cover" data-title="الغلاف">
+  <div class="hero"><div>
+    <div class="logo-stage"><div class="orbit" aria-hidden="true"></div><img src="img/logo.jpg" alt="شعار منصة نوماس"></div>
+    <h1>دوركِ في منصة نوماس<br>خطوة بخطوة حسب السياسة</h1>
+    <div class="by">ورشة تقدّمها<span class="nm">أ. مرام القديري</span>المشرفة الإدارية</div>
+    <div class="for"><span class="tag t-gold">المستهدف: الزميلات المشرفات الإداريات</span><span class="tag t-gold">مدرسة الشيماء الثانوية للبنات</span><span class="tag t-gold">العام الدراسي 2026 – 2027</span></div>
+    <div class="verse">﴿ وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ ﴾</div>
+  </div></div>
+</section>
+
+<!-- 2 الهدف -->
+<section class="slide" data-title="الهدف من الورشة">
+  <div class="wrap">
+    <div class="kicker">لماذا نجتمع اليوم؟</div>
+    <h2>الهدف من الورشة</h2>
+    <p class="lead">أن تتقن كل مشرفة إدارية دورها في منصة نوماس كما تنص عليه سياسة إدارة سلوك الطلبة 2026، فتنجز إجراءاتها أولًا بأول، وتطبع نماذجها موقّعة، وترسلها للجهة الصحيحة دون كتابة أو بحث.</p>
+    <div class="grid2">
+      <div class="panel">
+        <h3>في نهاية الورشة ستكون كل مشرفة قادرة على أن:</h3>
+        <ol class="steps" style="margin-top:10px">
+          <li><div><b>تفسّر</b> لماذا يزيد عدد «مطلوب منكِ»، وكيف ينقص.</div></li>
+          <li><div><b>تنفّذ</b> دورها في كل تكرار للمخالفة والتأخير والغياب حسب السياسة.</div></li>
+          <li><div><b>تستخدم</b> النماذج الصفراء، وتضيف توقيعها وتوقيع الطالبة.</div></li>
+          <li><div><b>ترسل</b> النموذج للجهة التي تحددها السياسة، مع نسخة للنائبة الإدارية ومديرة المدرسة.</div></li>
+          <li><div><b>تتنقّل</b> بين أيقونات المنصة: ملف الطالبة، التعديل والحذف، التسجيل بأثر رجعي، والطباعة.</div></li>
+        </ol>
+      </div>
+      <div class="panel" style="display:grid;gap:12px">
+        <h3>المستهدفات</h3>
+        <p>الزميلات <b>المشرفات الإداريات</b> بمدرسة الشيماء الثانوية للبنات.</p>
+        <h3>مدة الورشة</h3>
+        <p>أربعة محاور قصيرة، وبعد كل شريحة نسأل: <b>وصلت المعلومة؟</b> أم نحتاج تفصيلًا أكثر؟</p>
+        <div class="note">كل الصور في هذا العرض من نسخة تجريبية للمنصة بأسماء طالبات وهمية، حفاظًا على خصوصية بناتنا.</div>
+      </div>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>السياسة هي المرجع: المنصة لا تطلب منكِ شيئًا لم تنص عليه سياسة إدارة سلوك الطلبة 2026.</li><li>كل ما يُكتب في المنصة يحفظ حق الطالبة وحقكِ: تاريخ التنفيذ، والتواصل مع ولي الأمر، والتوقيع.</li></ul></div>
+  </div>
+</section>
+
+<!-- 3 المحاور -->
+<section class="slide" data-title="محاور الورشة">
+  <div class="wrap">
+    <div class="kicker">خريطة اليوم</div>
+    <h2>أربعة محاور</h2>
+    <div class="grid2" id="agenda" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+      <button class="panel" data-jump="أولًا" type="button" style="text-align:start;font:inherit;color:inherit;cursor:pointer"><h3>١ — السلوك ودوركِ</h3><p class="muted">رحلة الحالة، ولماذا يزيد «مطلوب منكِ»، وماذا تفعلين بعد التسجيل.</p></button>
+      <button class="panel" data-jump="ثانيًا" type="button" style="text-align:start;font:inherit;color:inherit;cursor:pointer"><h3>٢ — التوقيع والنماذج والإرسال</h3><p class="muted">توقيعكِ مرة واحدة، النماذج الصفراء، وإرسالها للجهة المعنية.</p></button>
+      <button class="panel" data-jump="ثالثًا" type="button" style="text-align:start;font:inherit;color:inherit;cursor:pointer"><h3>٣ — دوركِ في كل تكرار</h3><p class="muted">مستكشف تفاعلي للسياسة: اختاري المخالفة والتكرار.</p></button>
+      <button class="panel" data-jump="رابعًا" type="button" style="text-align:start;font:inherit;color:inherit;cursor:pointer"><h3>٤ — أيقونات المنصة وما الجديد</h3><p class="muted">جولة أيقونة أيقونة، وما تغيّر بناءً على طلبات المشرفات.</p></button>
+    </div>
+    <p class="muted">اضغطي أي محور للانتقال إليه، أو استخدمي زر «التالي».</p>
+  </div>
+</section>
+
+<!-- 4 فاصل -->
+<section class="slide divider" data-title="أولًا: السلوك ودوركِ" data-sec="أولًا">
+  <div class="hero"><div>
+    <div class="logo-stage"><img src="img/logo.jpg" alt="" aria-hidden="true"></div>
+    <div class="num">١</div>
+    <h2>السلوك ودوركِ</h2>
+    <p class="muted" style="margin-top:8px">من لحظة التسجيل حتى اكتمال الإجراء</p>
+  </div></div>
+</section>
+
+<!-- 5 رحلة الحالة -->
+<section class="slide" data-title="رحلة الحالة">
+  <div class="wrap">
+    <div class="kicker">كيف تمشي الحالة؟</div>
+    <h2>رحلة الحالة في نوماس</h2>
+    <p class="lead">كل مخالفة أو تأخير أو غياب يُسجَّل يصبح <b>حالة</b>. الحالة تمشي على الجهات بالترتيب الذي تحدده السياسة، ولا تفتح أي جهة دورها قبل أن تكمل التي قبلها.</p>
+    <div class="flow" id="flow">
+      <div class="stage"><div class="who">المعلمة / المشرفة</div>تسجّل المخالفة أو التأخير أو الغياب<small>تبدأ الحالة</small></div>
+      <div class="stage me"><div class="who">أنتِ: المشرفة الإدارية</div>تنفّذين إجراءكِ، وتوثّقينه، وتطبعين النموذج<small>مهلتكِ يومان دراسيان</small></div>
+      <div class="stage"><div class="who">منسقة شؤون الطالبات</div>أ. أحلام الخليفي — إذا نصت السياسة على الإحالة<small>بعد اكتمال دوركِ</small></div>
+      <div class="stage"><div class="who">الأخصائية الاجتماعية / النفسية</div>دراسة الحالة وخطة العلاج<small>حسب التكرار</small></div>
+      <div class="stage"><div class="who">فريق إدارة السلوك / الإدارة</div>الاجتماع والقرار<small>في التكرارات المتقدمة</small></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="sbtn d" id="flowPlay" type="button">▶ شغّلي الرحلة</button><span class="muted" style="align-self:center">المرحلة المضيئة هي الجهة التي عليها الدور الآن.</span></div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>المهلة لكل جهة يومان دراسيان من يوم وصول الحالة إليها، وبعدها تظهر الحالة «متأخرة» بالأحمر.</li><li>إذا سُجّلت الحالة بأثر رجعي (مخالفة من أيام سابقة) تبدأ المهلة من يوم التسجيل، لا من يوم المخالفة.</li><li>لا تصل الحالة للمنسقة أو الأخصائية إلا بعد أن توثّقي أنتِ إجراءكِ، فتوثيقكِ هو الذي يحرّك الحالة.</li></ul></div>
+  </div>
+</section>
+
+<!-- 6 لماذا يزيد -->
+<section class="slide" data-title="لماذا يزيد «مطلوب منكِ»؟">
+  <div class="wrap">
+    <div class="kicker">السؤال الأكثر تكرارًا</div>
+    <h2>لماذا يزيد «مطلوب منكِ» كلما سجّلتُ؟</h2>
+    <p class="lead">لأن كل تسجيل يفتح حالة جديدة لها إجراء عليكِ أنتِ. الرقم لا ينقص إلا حين تضغطين <b>«حفظ وتوثيق التنفيذ»</b>. جرّبي بنفسكِ:</p>
+    <div class="sim">
+      <div>
+        <div class="counter"><div class="n" id="simN">0</div><div><b>مطلوب منكِ أنتِ</b><small>كما يظهر في أعلى «تنظيم مهامي»</small></div></div>
+        <div class="simbtns">
+          <button class="sbtn t" data-add="t" type="button">⏰ سجّلي تأخيرًا صباحيًا</button>
+          <button class="sbtn a" data-add="a" type="button">📅 سجّلي غياب يوم</button>
+          <button class="sbtn b" data-add="b" type="button">⚠ سجّلي مخالفة زي</button>
+          <button class="sbtn d" id="simDoc" type="button">✔ وثّقي أقدم إجراء</button>
+          <button class="sbtn" id="simReset" type="button">↺ من جديد</button>
+        </div>
+        <p class="note simmsg" id="simMsg" style="margin-top:12px">ابدئي بتسجيل تأخير للطالبة نفسها ثلاث مرات، وراقبي الرقم.</p>
+      </div>
+      <div class="feed" id="simFeed" aria-live="polite"></div>
+    </div>
+    <div class="panel">
+      <h3>الأسباب الخمسة لزيادة الرقم</h3>
+      <ol class="steps" style="margin-top:8px">
+        <li><div><b>كل تسجيل حالة مستقلة:</b> ثلاث مرات تأخير لطالبة واحدة = ثلاث حالات = ثلاث مهام عليكِ.</div></li>
+        <li><div><b>المهمة لا تختفي بالتنفيذ وحده:</b> تختفي فقط بعد «حفظ وتوثيق التنفيذ» (التاريخ + التواصل مع ولي الأمر).</div></li>
+        <li><div><b>التكرار يرفع الإجراء:</b> في التكرار الثالث مثلًا تضيف السياسة الأخصائية الاجتماعية، فتظهر لكِ إحالة جديدة.</div></li>
+        <li><div><b>ما نقص في حالة سابقة يُضاف للحالة التالية</b> حسب السياسة، حتى لا يضيع حق الطالبة.</div></li>
+        <li><div><b>الحالات المتأخرة تبقى ظاهرة بالأحمر</b> حتى توثَّق، ولا تُحذف وحدها.</div></li>
+      </ol>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر: كيف أُنزل الرقم؟</h4><ul><li>وثّقي أولًا بأول: كل إجراء نفّذتِه اضغطي له «وثّقي الإجراء» في اليوم نفسه.</li><li>إذا نفّذتِ الإجراء ولم توثّقيه، وثّقيه الآن بتاريخ التنفيذ الصحيح من القائمة.</li><li>إذا سُجّلت الحالة خطأً (طالبة غير صحيحة أو تكرار مكرر) احذفيها من «🗑 حذف».</li><li>الحالات القديمة المنقولة من نظام Excel صارت تُحسب في عدد التكرار فقط، ولم تعد مهامًا عليكِ.</li></ul></div>
+  </div>
+</section>
+
+<!-- 7 اقرئي البطاقة -->
+<section class="slide" data-title="اقرئي بطاقة المهمة">
+  <div class="wrap">
+    <div class="kicker">البطاقة تخبركِ بكل شيء</div>
+    <h2>اقرئي بطاقة المهمة من أعلى لأسفل</h2>
+    <div class="grid2">
+      <figure class="shot" style="margin:0" data-zoom><img src="img/card-lama3.jpg" alt="بطاقة مهمة تأخير صباحي في التكرار الثالث"><figcaption>اضغطي للتكبير</figcaption></figure>
+      <ol class="steps" id="cardSteps">
+        <li><div><b>اسم الطالبة وشعبتها</b> ونوع الحالة وتاريخها، ورقم ولي الأمر للاتصال مباشرة.</div></li>
+        <li><div><b>📌 لماذا وصلتكِ؟</b> سطر يشرح سبب المهمة: «لأنكِ سجّلتِ تأخر الطالبة، والسياسة في التكرار 3 تطلب منكِ…».</div></li>
+        <li><div><b>📋 ما تم حسب السياسة:</b> ما نفّذته الجهات قبلكِ، فلا تبدئين قبل اكتماله.</div></li>
+        <li><div><b>المطلوب منكِ حسب السياسة:</b> نص الإجراء كما ورد في السياسة حرفيًا.</div></li>
+        <li><div><b>الأزرار الصفراء:</b> النماذج المطلوبة الآن، معبأة تلقائيًا وجاهزة للطباعة.</div></li>
+        <li><div><b>تاريخ التنفيذ + التواصل مع ولي الأمر</b> ثم «حفظ وتوثيق التنفيذ»، وتنتقل الحالة للجهة التالية.</div></li>
+      </ol>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>«📋 قوالب جاهزة من السياسة» تكتب الملاحظة عنكِ بصيغة «تم …»، ويمكنكِ تعديلها.</li><li>«🎤 سجّلي بصوتكِ» يحوّل كلامكِ إلى نص في خانة الملاحظات.</li><li>الشارات الصغيرة (المشرفة: بانتظار — الاجتماعية: لم يحن دورها) توضح أين وصلت الحالة.</li></ul></div>
+  </div>
+</section>
+
+<!-- 8 اشرحي لي -->
+<section class="slide" data-title="زر «اشرحي لي»">
+  <div class="wrap">
+    <div class="kicker">في «تنظيم مهامي»</div>
+    <h2>لا تحفظي السياسة: اضغطي «📖 اشرحي لي»</h2>
+    <div class="grid2">
+      <figure class="shot" style="margin:0" data-zoom><img src="img/explain.jpg" alt="نافذة اشرحي لي"><figcaption>اضغطي للتكبير</figcaption></figure>
+      <div style="display:grid;gap:12px">
+        <p class="lead">في صفحة <b>«تنظيم مهامي»</b> مهامكِ مرتبة حسب الأقرب موعدًا، وملونة حسب النوع:</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="tag t-tardy">برتقالي: تأخير صباحي</span><span class="tag t-abs">أزرق: غياب</span><span class="tag t-beh">بنفسجي: سلوك</span></div>
+        <p>زر <b>«📖 اشرحي لي»</b> يفتح خطوات الإجراء من نص السياسة لهذه الطالبة وهذا التكرار بالترتيب، مع آخر موعد، وماذا تفعلين بعد التنفيذ.</p>
+        <figure class="shot" style="margin:0" data-zoom><img src="img/board.jpg" alt="صفحة تنظيم مهامي"><figcaption>تنظيم مهامي</figcaption></figure>
+      </div>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>«⏳ بانتظار غيركِ — للاطلاع فقط»: حالات ليست عليكِ الآن، تظهر لتعرفي أين وصلت.</li><li>الرقم بجانب «تنظيم مهامي» في القائمة اليمنى هو مجموع مهامكِ في السلوك والغياب معًا.</li></ul></div>
+  </div>
+</section>
+
+<!-- 9 بعد التسجيل -->
+<section class="slide" data-title="بعد التسجيل: دوركِ">
+  <div class="wrap">
+    <div class="kicker">بعد أن تسجّلي الحالة</div>
+    <h2>ستّ خطوات تُكمل دوركِ</h2>
+    <ol class="steps" id="afterSteps">
+      <li><div><b>اقرئي «المطلوب منكِ حسب السياسة»</b> في بطاقة الحالة، أو اضغطي «اشرحي لي».</div></li>
+      <li><div><b>تواصلي مع ولي الأمر</b> على الرقم الظاهر في البطاقة، إذا نص الإجراء على الإشعار.</div></li>
+      <li><div><b>افتحي النموذج الأصفر</b> (مثل «تعهد طالب»): كل البيانات معبأة، والإجراءات الوقائية مكتوبة.</div></li>
+      <li><div><b>وقّعي أنتِ، ثم وقّعي الطالبة</b> بعد أن تقرأ الإجراء وتشرحيه لها، ثم اطبعي.</div></li>
+      <li><div><b>اضغطي «حفظ وتوثيق التنفيذ»</b> بتاريخ التنفيذ وطريقة التواصل مع ولي الأمر.</div></li>
+      <li><div><b>أرسلي النموذج</b> من «✉ إرسال بالبريد» للجهة التي تحددها السياسة (تُختار تلقائيًا).</div></li>
+    </ol>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="sbtn d" data-play="afterSteps" type="button">▶ اعرضي الخطوات واحدة واحدة</button></div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>إذا لم يرد ولي الأمر اختاري «لم يرد ولي الأمر» في خانة التواصل، والسياسة تكمل طريقها.</li><li>إذا كان التكرار لا يطلب إحالة (مثل التكرار الأول للزي)، تكتمل الحالة عندكِ بعد التوثيق ولا ترسلين شيئًا.</li></ul></div>
+  </div>
+</section>
+
+<!-- 10 فاصل -->
+<section class="slide divider" data-title="ثانيًا: التوقيع والنماذج" data-sec="ثانيًا">
+  <div class="hero"><div>
+    <div class="logo-stage"><img src="img/logo.jpg" alt="" aria-hidden="true"></div>
+    <div class="num">٢</div>
+    <h2>التوقيع والنماذج والإرسال</h2>
+    <p class="muted" style="margin-top:8px">ورقة جاهزة، موقّعة، تصل لصاحبتها</p>
+  </div></div>
+</section>
+
+<!-- 11 التوقيع -->
+<section class="slide" data-title="توقيعكِ مرة واحدة">
+  <div class="wrap">
+    <div class="kicker">أول دخول للمنصة</div>
+    <h2>أضيفي توقيعكِ مرة واحدة فقط</h2>
+    <div class="grid2">
+      <figure class="shot" style="margin:0" data-zoom><img src="img/sig-ask.jpg" alt="نافذة إضافة التوقيع عند أول دخول"><figcaption>تظهر عند أول دخول</figcaption></figure>
+      <ol class="steps">
+        <li><div>عند أول دخول تظهر نافذة <b>«✍ توقيعي»</b> تلقائيًا.</div></li>
+        <li><div>وقّعي داخل المربع بالفأرة أو بإصبعكِ، أو ارفعي صورة توقيعكِ.</div></li>
+        <li><div>اضغطي <b>«حفظ توقيعي»</b>.</div></li>
+        <li><div>من الآن يظهر توقيعكِ <b>تلقائيًا</b> فوق اسمكِ في كل نموذج تفتحينه.</div></li>
+        <li><div>لتغييره لاحقًا: أيقونة <b>«✍ توقيعي»</b> أعلى الشاشة.</div></li>
+      </ol>
+    </div>
+    <figure class="shot" style="margin:0" data-zoom><img src="img/form1-sig.jpg" alt="التوقيع موضوع تلقائيًا في خانة المشرفة"><figcaption>التوقيع وُضع وحده فوق اسم المشرفة</figcaption></figure>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>التوقيع خاص بكِ: يُحفظ باسمكِ ولا يستطيع أحد غيركِ وضعه.</li><li>لإزالته من ورقة معينة اضغطي × الحمراء فوقه.</li></ul></div>
+  </div>
+</section>
+
+<!-- 12 توقيع الطالبة والتابلت -->
+<section class="slide" data-title="توقيع الطالبة ونصيحة التابلت">
+  <div class="wrap">
+    <div class="kicker">نصيحة تختصر وقتكِ</div>
+    <h2>دعي الطالبة توقّع على الشاشة</h2>
+    <div class="grid2">
+      <div class="panel" style="display:grid;gap:12px">
+        <h3>كيف توقّع الطالبة؟</h3>
+        <ol class="steps">
+          <li><div>بعد تنفيذ الإجراء افتحي النموذج الأصفر.</div></li>
+          <li><div>اقرئي الإجراء للطالبة واشرحيه لها.</div></li>
+          <li><div>في خانة «توقيع الطالب» اضغطي <b>«✍ أضيفي توقيعي»</b> ودعيها توقّع.</div></li>
+          <li><div>اطبعي أو أرسلي النموذج موقّعًا من الطرفين.</div></li>
+        </ol>
+      </div>
+      <div class="panel" style="display:grid;gap:12px">
+        <h3>💡 لماذا تابلت؟</h3>
+        <p>أي تابلت بسيط، مهما كان سعره (100 أو 200 أو 300 ريال)، يكفي. يكفي أن تُفتح عليه المنصة.</p>
+        <ul style="margin:0;padding-inline-start:1.2em">
+          <li>توقّع الطالبة بإصبعها على الشاشة.</li>
+          <li>تأخذين الغياب والتأخير وأنتِ تمرّين على الصفوف.</li>
+          <li>لا حاجة لإعطاء الطالبة هاتفكِ الشخصي.</li>
+        </ul>
+        <p class="muted">بديل متاح: توقّع الطالبة بالفأرة على كمبيوتر المكتب بعد قراءة الإجراء.</p>
+      </div>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>لفتح المنصة على التابلت: افتحي رابط المنصة في المتصفح، وسجّلي الدخول بصفتكِ ورقمكِ السري مرة واحدة، فتبقين مسجّلة.</li><li>من قائمة المتصفح اختاري «إضافة إلى الشاشة الرئيسية» لتظهر أيقونة نوماس كتطبيق.</li></ul></div>
+  </div>
+</section>
+
+<!-- 13 الأصفر والرمادي -->
+<section class="slide" data-title="النماذج: الأصفر والرمادي">
+  <div class="wrap">
+    <div class="kicker">النماذج في البطاقات</div>
+    <h2>الأصفر مطلوب الآن، والرمادي ليس بعد</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center"><span class="chip-y">🖨 تعهد طالب (نموذج رقم 1)</span><span class="muted">أصفر يومض = وصل دوركِ، والنموذج معبأ وجاهز.</span></div>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center"><span class="chip-g">استمارة تحويل حالة سلوكية</span><span class="muted">رمادي = غير مطلوب في هذه المرحلة.</span></div>
+    <p class="lead">اقلبي كل بطاقة لتعرفي متى يظهر النموذج وما دوركِ فيه:</p>
+    <div class="grid3">
+      <div class="flip" tabindex="0" role="button" aria-label="نموذج رقم 1 تعهد طالب"><div class="in">
+        <div class="f"><div class="ic">📝</div><h3>نموذج رقم 1<br>تعهد طالب (المشرف الإداري)</h3><p class="muted">من دليل فريق إدارة سلوك الطلبة 2026</p><span class="hint">اقلبي ↺</span></div>
+        <div class="b"><h3>متى يظهر؟</h3><ul><li>حين تنص السياسة على تعهد خطي أو تنبيه خطي للطالب.</li><li>في كل حالة تأخير صباحي.</li><li>في الغياب بدون عذر حين تنص السياسة على تعهد الطالب.</li></ul><h3>دوركِ</h3><p>تنفّذين، توقّعين، توقّع الطالبة، تطبعين.</p></div>
+      </div></div>
+      <div class="flip" tabindex="0" role="button" aria-label="استمارة تحويل حالة سلوكية"><div class="in">
+        <div class="f"><div class="ic">📨</div><h3>استمارة تحويل حالة سلوكية<br>(نموذج 10)</h3><p class="muted">من استمارات العمل الاجتماعي 2026</p><span class="hint">اقلبي ↺</span></div>
+        <div class="b"><h3>متى يظهر؟</h3><p>حين تطلب السياسة إحالة الطالبة إلى الأخصائية الاجتماعية (مثل التأخير الصباحي في المرة الثالثة).</p><h3>دوركِ</h3><p>تعبئين سبب التحويل، توقّعين، وترسلينها للأخصائية الاجتماعية.</p></div>
+      </div></div>
+      <div class="flip" tabindex="0" role="button" aria-label="استمارة تحويل حالة غياب"><div class="in">
+        <div class="f"><div class="ic">📅</div><h3>استمارة تحويل حالة غياب<br>(نموذج 9)</h3><p class="muted">من استمارات العمل الاجتماعي 2026</p><span class="hint">اقلبي ↺</span></div>
+        <div class="b"><h3>متى يظهر؟</h3><p>في الغياب بدون عذر حين تصل الحالة لمرحلة الإحالة إلى الأخصائية الاجتماعية.</p><h3>دوركِ</h3><p>تعبئة الأيام والإجراءات السابقة (معبأة تلقائيًا)، ثم التوقيع والإرسال.</p></div>
+      </div></div>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>نماذج المنسقة والفريق (إثبات واقعة، الفصل الداخلي والخارجي، محاضر الاجتماع) لا تظهر لكِ صفراء؛ تظهر لصاحبتها حين يصلها الدور.</li><li>النماذج مطابقة لملفات الدليل والاستمارات الرسمية نصًا وشكلًا، والمنصة تعبّئ البيانات فقط.</li></ul></div>
+  </div>
+</section>
+
+<!-- 14 نموذج 1 -->
+<section class="slide" data-title="نموذج رقم 1: تعهد طالب">
+  <div class="wrap">
+    <div class="kicker">النموذج الأكثر استخدامًا</div>
+    <h2>نموذج رقم 1: تعهد طالب</h2>
+    <div class="grid2">
+      <figure class="shot" style="margin:0" data-zoom><img src="img/form1.jpg" alt="نموذج تعهد طالب معبأ"><figcaption>معبأ تلقائيًا — اضغطي للتكبير</figcaption></figure>
+      <div style="display:grid;gap:12px">
+        <div class="panel"><h3>ما الذي يُعبّأ وحده؟</h3><ul style="margin:0;padding-inline-start:1.2em"><li>بيانات المخالفة: <b>للبند نفسه فقط</b>، آخر ثلاث مرات بالترتيب من الأقدم.</li><li>اليوم والتاريخ، اسم الطالبة، الصف والشعبة، الرقم الشخصي.</li><li>الإجراءات الوقائية الثلاثة المعتمدة.</li><li>رقم ولي الأمر، واسمكِ وتوقيعكِ، والمنسقة والنائبة الإدارية.</li></ul></div>
+        <div class="note">مثال: الطالبة خالفت الزي مرتين وتأخرت ثلاث مرات. تعهد الزي يعرض مرتي الزي فقط، وتعهد التأخير يعرض التأخير فقط.</div>
+      </div>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر: الإجراءات الوقائية</h4><ul><li>توعية أولياء الأمور بسياسة إدارة السلوك.</li><li>توعية وإرشاد بسياسة إدارة سلوك الطلبة ونشرها في الأقسام.</li><li>المتابعة المستمرة بالمرور على الصفوف وملاحظة الطلبة.</li><li>يمكنكِ تعديل أي سطر قبل الطباعة بالضغط عليه.</li></ul></div>
+  </div>
+</section>
+
+<!-- 15 الإرسال -->
+<section class="slide" data-title="الإرسال بالبريد">
+  <div class="wrap">
+    <div class="kicker">بدون كتابة</div>
+    <h2>«✉ إرسال بالبريد»: تختار المنصة الجهة حسب السياسة</h2>
+    <div class="grid2">
+      <figure class="shot" style="margin:0" data-zoom><img src="img/mail.jpg" alt="نافذة الإرسال بالبريد"><figcaption>اضغطي للتكبير</figcaption></figure>
+      <div style="display:grid;gap:12px">
+        <div class="panel" style="display:grid;gap:8px">
+          <div><span class="tag t-gold">إلى</span> الجهة التي تحيل إليها السياسة في هذا التكرار:</div>
+          <ul style="margin:0;padding-inline-start:1.2em"><li>«الإحالة إلى منسق شؤون الطلبة» ← أ. أحلام الخليفي</li><li>«الإحالة إلى الاختصاصي الاجتماعي» ← الأخصائية الاجتماعية للشعبة</li><li>«الإحالة إلى الاختصاصي النفسي» ← الأخصائية النفسية</li></ul>
+          <div><span class="tag t-gold">نسخة (CC)</span> تلقائيًا إلى <b>أ. وداد الكربي</b> النائبة الإدارية، و<b>مديرة المدرسة</b>.</div>
+          <div><span class="tag t-gold">النص</span> مكتوب تلقائيًا: التحية، اسم النموذج، الطالبة وشعبتها، والنموذج مرفق PDF.</div>
+        </div>
+        <ol class="steps"><li><div>افتحي النموذج الأصفر، وتأكدي من التوقيعات.</div></li><li><div>اضغطي «✉ إرسال بالبريد».</div></li><li><div>تأكدي من الاسم في «إلى» (يمكنكِ تغييره)، وأضيفي ملاحظة إن أردتِ.</div></li><li><div>اضغطي «إرسال».</div></li></ol>
+      </div>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>يصل البريد من عنوان المدرسة، ويصل الرد إليكِ مباشرة.</li><li>يصل للمستلمة أيضًا تنبيه داخل المنصة في «الرسائل».</li></ul></div>
+  </div>
+</section>
+
+<!-- 16 فاصل -->
+<section class="slide divider" data-title="ثالثًا: دوركِ في كل تكرار" data-sec="ثالثًا">
+  <div class="hero"><div>
+    <div class="logo-stage"><img src="img/logo.jpg" alt="" aria-hidden="true"></div>
+    <div class="num">٣</div>
+    <h2>دوركِ في كل تكرار</h2>
+    <p class="muted" style="margin-top:8px">كل بند في السياسة له ورقته وإجراءاته</p>
+  </div></div>
+</section>
+
+<!-- 17 مستكشف السياسة -->
+<section class="slide" data-title="مستكشف السياسة">
+  <div class="wrap">
+    <div class="kicker">تفاعلي</div>
+    <h2>اختاري البند، ثم التكرار</h2>
+    <p class="lead">النص كما ورد في سياسة إدارة سلوك الطلبة 2026 لدور المشرفة الإدارية، والنموذج الذي يظهر لكِ، وإلى من ترسلين.</p>
+    <div class="tabs" role="tablist" id="pxTabs"></div>
+    <div class="reps" role="tablist" id="pxReps"></div>
+    <div class="res" id="pxRes" aria-live="polite"></div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>الزي المدرسي: التكرار الرابع هو الحد في السياسة، وما بعده يُرفع لإدارة المدرسة.</li><li>التأخير الصباحي: يُعدّ من جديد مع بداية الفصل الدراسي الثاني، وفي المرة السابعة يُحتسب يوم غياب بدون عذر.</li><li>الغياب بدون عذر: لا يُصفَّر خلال العام، ويظهر رصيد الطالبة عند التسجيل.</li></ul></div>
+  </div>
+</section>
+
+<!-- 18 كل بند ورقة -->
+<section class="slide" data-title="كل بند ورقة منفصلة">
+  <div class="wrap">
+    <div class="kicker">تعديل مهم</div>
+    <h2>كل بند في السياسة ورقة منفصلة</h2>
+    <div class="grid2">
+      <div class="panel" style="border-color:var(--bad)"><h3 style="color:#F0B7B1">قبل التعديل</h3><p>كانت مخالفات الطالبة تظهر مختلطة في نموذج واحد: الزي مع الغياب مع التأخير، رغم أن إجراءات كل بند مختلفة.</p></div>
+      <div class="panel" style="border-color:var(--ok)"><h3 style="color:#BFE8CF">بعد التعديل</h3><p>كل نموذج يعرض مخالفات بنده فقط:</p><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"><span class="tag t-beh">الزي وحده</span><span class="tag t-tardy">التأخير الصباحي وحده</span><span class="tag t-abs">الغياب وحده</span></div></div>
+    </div>
+    <div class="note">التأخير الصباحي صار بندًا مستقلًا بجدول المادة 3.4.2.2 (سبعة تكرارات)، بعد أن كان يُسجَّل تحت «التأخر عن الطابور الصباحي». بند الطابور باقٍ في القائمة لكن لا نحتاجه.</div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>عدد التكرار يُحسب لكل بند على حدة: المرة الثانية للزي لا علاقة لها بعدد التأخير.</li><li>سجلات الطالبة في «ملف الطالبات» مرتبة من الأقدم للأحدث: سبتمبر، ثم أكتوبر، ثم نوفمبر.</li></ul></div>
+  </div>
+</section>
+
+<!-- 19 فاصل -->
+<section class="slide divider" data-title="رابعًا: أيقونات المنصة" data-sec="رابعًا">
+  <div class="hero"><div>
+    <div class="logo-stage"><img src="img/logo.jpg" alt="" aria-hidden="true"></div>
+    <div class="num">٤</div>
+    <h2>أيقونات المنصة وما الجديد</h2>
+    <p class="muted" style="margin-top:8px">أيقونة أيقونة</p>
+  </div></div>
+</section>
+
+<!-- 20 جولة الأيقونات -->
+<section class="slide" data-title="جولة الأيقونات">
+  <div class="wrap">
+    <div class="kicker">القائمة على يمين الشاشة</div>
+    <h2>جولة في الأيقونات</h2>
+    <div class="tabs" role="tablist" id="ntSec"></div>
+    <div class="navtour">
+      <div class="navlist" role="tablist" id="ntList"></div>
+      <div class="navinfo" id="ntInfo" aria-live="polite"></div>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر: أعلى الشاشة</h4><ul><li>«السلوك والانضباط» و«الحضور والغياب»: تبويبان يغيّران القائمة اليمنى، والرقم على كل تبويب عدد مهامه.</li><li>✍ توقيعي، 🔔 التنبيهات، وزر الخروج.</li><li>إذا ظهر أسفل الشاشة «يوجد تحديث جديد للمنصة» اضغطي «تحديث الآن».</li></ul></div>
+  </div>
+</section>
+
+<!-- 21 بأثر رجعي -->
+<section class="slide" data-title="التسجيل بأثر رجعي">
+  <div class="wrap">
+    <div class="kicker">بطلب من المشرفات</div>
+    <h2>سجّلي بأثر رجعي، وأيامًا كثيرة دفعة واحدة</h2>
+    <div class="grid2">
+      <figure class="shot" style="margin:0" data-zoom><img src="img/outside-multi.jpg" alt="تسجيل مخالفة بأثر رجعي لعدة أيام"><figcaption>«بأثر رجعي: عدة أيام»</figcaption></figure>
+      <div style="display:grid;gap:12px">
+        <p>كان النظام يمنع إدخال مخالفة مرّ عليها يومان، تنظيمًا للوقت. بناءً على طلب المشرفات <b>أُلغي هذا القفل</b>: تستطيعين إدخال مخالفة من يومين أو من أسبوع.</p>
+        <ol class="steps"><li><div>«مخالفة خارج الصف» ← اختاري الشعبة.</div></li><li><div>اضغطي <b>«بأثر رجعي: عدة أيام»</b>.</div></li><li><div>أشّري على كل الأيام، ثم الطالبة والمخالفة.</div></li><li><div>«تسجيل المخالفة في … أيام»: كل يوم حالة بتكرارها الصحيح.</div></li></ol>
+        <div class="note">مهلة الإجراء تبدأ من يوم الإدخال، فلا تظهر الحالة متأخرة لأنها قديمة.</div>
+      </div>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>التأخير الصباحي والغياب لهما خيار مماثل: «بأثر رجعي».</li><li>أي سجل يمكن تعديله أو حذفه من «✏️ تعديل» و«🗑 حذف».</li></ul></div>
+  </div>
+</section>
+
+<!-- 22 التأخير والرصيد -->
+<section class="slide" data-title="التأخير الصباحي ورصيد الطالبة">
+  <div class="wrap">
+    <div class="kicker">قبل أن تسجّلي</div>
+    <h2>رصيد الطالبة يظهر تحت اسمها</h2>
+    <div class="grid2">
+      <figure class="shot" style="margin:0" data-zoom><img src="img/tardy.jpg" alt="صفحة التأخير الصباحي"><figcaption>التأخير الصباحي</figcaption></figure>
+      <div style="display:grid;gap:12px">
+        <div class="panel"><h3 class="t-tardy">عند تسجيل التأخير</h3><p>«تأخير هذا الفصل 4 • متبقٍ 3 حتى السابع (يُحتسب يوم غياب)»</p></div>
+        <div class="panel"><h3 class="t-abs">عند تسجيل الغياب</h3><p>«بدون عذر 3 • متبقٍ للإنذار 2 • متبقٍ لعدم الأهلية 6 (نهاية الفصل الأول)»</p></div>
+        <p class="muted">البرتقالي: اقتربت من الحد. الأحمر: تجاوزته.</p>
+      </div>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>«الإنذار» هو اليوم الذي تنص فيه سياسة الغياب على تعهد ولي الأمر بالعلم بعدم الأهلية أو الإنذار النهائي.</li><li>حدود عدم الأهلية حسب الاختبار القادم، والغياب بدون عذر تراكمي طوال العام.</li></ul></div>
+  </div>
+</section>
+
+<!-- 23 الغياب -->
+<section class="slide" data-title="الغياب: بعذر أو بدون عذر">
+  <div class="wrap">
+    <div class="kicker">الحضور والغياب</div>
+    <h2>قرار الغياب بضغطة: بعذر أو بدون عذر</h2>
+    <div class="grid2">
+      <figure class="shot" style="margin:0" data-zoom><img src="img/abslog.jpg" alt="سجل الغياب مع أزرار القرار"><figcaption>سجل الغياب</figcaption></figure>
+      <div style="display:grid;gap:12px">
+        <ol class="steps"><li><div>«تسجيل الغياب» ← الشعبة ← التاريخ ← الطالبات.</div></li><li><div>تحت كل غياب: زر <b>«بدون عذر»</b> وزر <b>«بعذر»</b>.</div></li><li><div>عند «بعذر» اختاري نوع العذر من القائمة.</div></li><li><div>القرار يتغير في أي وقت إذا أحضرت الطالبة العذر لاحقًا.</div></li></ol>
+        <figure class="shot" style="margin:0" data-zoom><img src="img/absrec.jpg" alt="تسجيل الغياب"><figcaption>تسجيل الغياب</figcaption></figure>
+      </div>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>«عذر قيد الاستلام» يُمهل الطالبة يومين دراسيين (المادة 3.4.1.5)، وبعدها يُحتسب بدون عذر.</li><li>الغياب الذي لم يُحدَّد قراره يظهر في ملف الطالبة تحت «بانتظار القرار».</li></ul></div>
+  </div>
+</section>
+
+<!-- 24 ملف الطالبة -->
+<section class="slide" data-title="ملف الطالبة الكامل">
+  <div class="wrap">
+    <div class="kicker">بروفايل كل طالبة</div>
+    <h2>ملف الطالبة الكامل وتقريرها</h2>
+    <div class="grid2">
+      <figure class="shot" style="margin:0" data-zoom><img src="img/profile.jpg" alt="ملف الطالبة الكامل"><figcaption>اضغطي للتكبير</figcaption></figure>
+      <div style="display:grid;gap:12px">
+        <ol class="steps"><li><div>«ملف الطالبات» ← ابحثي باسم الطالبة ← افتحيها.</div></li><li><div>اضغطي <b>«👤 ملف الطالبة الكامل وطباعة التقرير»</b>.</div></li><li><div>ترين كل مخالفاتها وتأخيرها وغيابها بالتاريخ، والإجراءات التي تمت مع كل واحدة: من نفّذها ومتى وماذا كتبت.</div></li><li><div>عدّلي أو احذفي من عمود «تعديل»، أو أضيفي مخالفة جديدة.</div></li><li><div>اختاري «التقرير موجّه إلى» (ولي الأمر، الأخصائية، المديرة…) والفترة، ثم «🖨 طباعة التقرير».</div></li></ol>
+      </div>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>التقرير المطبوع لا تظهر فيه أزرار التعديل، ويحمل اسمكِ وتوقيعكِ والأسماء الثلاثة في أسفله.</li><li>«طباعة إجراءاتي» تطبع كل ما طُلب منكِ وما نفّذتِه في فترة تختارينها.</li></ul></div>
+  </div>
+</section>
+
+<!-- 25 ما الجديد -->
+<section class="slide" data-title="ما تغيّر بناءً على طلبات المشرفات">
+  <div class="wrap">
+    <div class="kicker">من أمس إلى اليوم</div>
+    <h2>ما الذي عدّلناه؟</h2>
+    <div class="chg">
+      <article><b>الإجراءات الوقائية في تعهد الطالب</b><div class="was">«تعهد خطي» و«إشعار ولي الأمر»، وهي ليست إجراءات وقائية.</div><div class="now">الإجراءات الثلاثة المعتمدة في المدرسة.</div></article>
+      <article><b>بنود السياسة</b><div class="was">الزي والغياب والتأخير في نموذج واحد.</div><div class="now">كل بند ورقة منفصلة بإجراءاته.</div></article>
+      <article><b>التأخير الصباحي</b><div class="was">يُسجَّل تحت «التأخر عن الطابور» بجدول الدرجة الأولى.</div><div class="now">بند مستقل بجدول المادة 3.4.2.2، ويُصفَّر كل فصل.</div></article>
+      <article><b>التعديل والحذف</b><div class="was">غير متاح لكل السجلات.</div><div class="now">متاح لكل سجل: مخالفة أو تأخير أو غياب.</div></article>
+      <article><b>الإدخال بأثر رجعي</b><div class="was">يُقفل بعد يومين من المخالفة.</div><div class="now">مفتوح، ومع تسجيل عدة أيام دفعة واحدة.</div></article>
+      <article><b>قرار الغياب</b><div class="was">مخفي داخل «تعديل».</div><div class="now">زرّان ظاهران: بعذر / بدون عذر.</div></article>
+      <article><b>«مطلوب منكِ»</b><div class="was">الحالات المنقولة من Excel تظهر مهامًا متأخرة.</div><div class="now">تُحسب في التكرار فقط.</div></article>
+      <article><b>النماذج</b><div class="was">رؤوس الجداول بلون عنابي، وسطر توقيع زائد.</div><div class="now">مطابقة لألوان الدليل ونصوصه، والتوقيع يوضع تلقائيًا.</div></article>
+      <article><b>الإرسال بالبريد</b><div class="was">«إلى» المنسقة دائمًا.</div><div class="now">«إلى» حسب السياسة، والنسخة للنائبة الإدارية ومديرة المدرسة.</div></article>
+      <article><b>ملف الطالبة</b><div class="was">قائمتان منفصلتان بلا إجراءات.</div><div class="now">ملف كامل بالإجراءات، وتقرير يُطبع لأي جهة.</div></article>
+    </div>
+    <div class="check" data-more></div>
+    <div class="more"><h4>تفصيل أكثر</h4><ul><li>أرقام التواصل: ستظهر كل أرقام ولي الأمر بمسمّياتها (الأم أولًا إن كانت مسجّلة، ثم الأب، ثم الأرقام الأخرى)، وتختار المشرفة.</li><li>أي ملاحظة جديدة على المنصة أرسليها لنا، فهذه التعديلات كلها جاءت من ملاحظاتكن.</li></ul></div>
+  </div>
+</section>
+
+<!-- 26 الاختبار -->
+<section class="slide" data-title="اختبري نفسكِ">
+  <div class="wrap">
+    <div class="kicker">دقيقتان</div>
+    <h2>اختبري نفسكِ</h2>
+    <div class="quiz" id="quiz"></div>
+    <p class="score" id="score" aria-live="polite"></p>
+  </div>
+</section>
+
+<!-- 27 الختام -->
+<section class="slide cover" data-title="شكرًا لكنّ">
+  <div class="hero"><div>
+    <div class="logo-stage"><div class="orbit" aria-hidden="true"></div><img src="img/logo.jpg" alt="شعار منصة نوماس"></div>
+    <h1>شكرًا لكنّ</h1>
+    <p class="lead" style="margin:10px auto 0;text-align:center">وثّقي أولًا بأول، فكل إجراء موثّق يحفظ حق الطالبة وحقكِ.</p>
+    <div class="by"><span class="nm">أ. مرام القديري</span>المشرفة الإدارية — مدرسة الشيماء الثانوية للبنات</div>
+    <div class="verse">﴿ وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ ﴾</div>
+  </div></div>
+</section>
+
+</main>
+
+<nav class="bot" aria-label="التنقل بين الشرائح">
+  <button class="nav" id="prev" type="button">→ السابق</button>
+  <div class="count" aria-live="polite"><b id="cur">1</b> / <span id="tot">1</span></div>
+  <button class="nav next" id="next" type="button">التالي ←</button>
+</nav>
+
+<div class="index" id="index" role="dialog" aria-label="محاور العرض"><ol id="idxList"></ol></div>
+<div class="lb" id="lb" role="dialog" aria-label="تكبير الصورة"><button class="ibtn x" type="button">✕ إغلاق</button><img id="lbImg" alt=""></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+  var S=[].slice.call(document.querySelectorAll('.slide')), i=0, got={};
+  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
+  try{got=JSON.parse(localStorage.getItem('nm_ws_got')||'{}')}catch(e){}
+  $('#tot').textContent=S.length;
+  function toast(t){var x=$('#toast');x.textContent=t;x.classList.add('on');clearTimeout(x._t);x._t=setTimeout(function(){x.classList.remove('on')},2200)}
+  function spark(el){
+    var r=el.getBoundingClientRect(),cs=['#C9A066','#EAD3A6','#5CBF8A','#3FA3A0'];
+    for(var k=0;k<18;k++){var s=document.createElement('i');s.className='spark';s.style.left=(r.left+r.width/2)+'px';s.style.top=(r.top+r.height/2)+'px';s.style.background=cs[k%4];s.style.setProperty('--dx',(Math.random()*220-110)+'px');s.style.setProperty('--dy',(-Math.random()*160-30)+'px');document.body.appendChild(s);setTimeout(function(n){return function(){n.remove()}}(s),1000)}
+  }
+  function show(n,dir){
+    n=Math.max(0,Math.min(S.length-1,n));
+    S.forEach(function(s,k){s.classList.remove('on','back');if(k===n){s.classList.add('on');if(dir<0)s.classList.add('back');s.scrollTop=0}});
+    i=n;$('#cur').textContent=n+1;$('#prog').style.width=((n+1)/S.length*100)+'%';
+    $('#curTitle').textContent=S[n].dataset.title||'';
+    $('#prev').disabled=n===0;$('#next').disabled=n===S.length-1;
+    try{history.replaceState(null,'','#s'+(n+1))}catch(e){}
+    var fp=S[n].querySelector('#flow');if(fp)playFlow();
+  }
+  $('#next').onclick=function(){show(i+1,1)};$('#prev').onclick=function(){show(i-1,-1)};
+  document.addEventListener('keydown',function(e){
+    if($('#lb').classList.contains('open')||$('#index').classList.contains('open')){if(e.key==='Escape'){$('#lb').classList.remove('open');$('#index').classList.remove('open')}return}
+    if(e.target.closest&&e.target.closest('input,textarea,select'))return;
+    if(e.key==='ArrowLeft'||e.key==='PageDown'||(e.key===' '&&!e.target.closest('button'))){e.preventDefault();show(i+1,1)}
+    if(e.key==='ArrowRight'||e.key==='PageUp'){e.preventDefault();show(i-1,-1)}
+  });
+  var tx=null;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
+  document.addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>70){dx>0?show(i+1,1):show(i-1,-1)}tx=null},{passive:true});
+
+  // الفهرس
+  function buildIdx(){$('#idxList').innerHTML=S.map(function(s,k){return '<li><button type="button" data-go="'+k+'" class="'+(k===i?'cur ':'')+(got[k]?'got':'')+'"><i>'+(k+1)+'</i>'+(s.dataset.title||'')+'</button></li>'}).join('');}
+  $('#idxBtn').onclick=function(){buildIdx();$('#index').classList.add('open')};
+  $('#index').onclick=function(e){var b=e.target.closest('[data-go]');if(b){show(+b.dataset.go,1)}$('#index').classList.remove('open')};
+  $$('[data-jump]').forEach(function(b){b.onclick=function(){var k=S.findIndex(function(s){return s.dataset.sec===b.dataset.jump});if(k>=0)show(k,1)}});
+
+  // التكبير
+  $$('[data-zoom]').forEach(function(f){f.onclick=function(){$('#lbImg').src=f.querySelector('img').src;$('#lbImg').alt=f.querySelector('img').alt;$('#lb').classList.add('open');$('#lb').scrollTop=0}});
+  $('#lb').onclick=function(){$('#lb').classList.remove('open')};
+
+  // وصلت المعلومة؟
+  $$('[data-more]').forEach(function(c){
+    var k=S.indexOf(c.closest('.slide')), more=c.nextElementSibling;
+    c.innerHTML='<span class="q">وصلت المعلومة؟</span><button class="cbtn ok" type="button" aria-pressed="'+(!!got[k])+'">✔ نعم، وصلت</button><button class="cbtn more" type="button" aria-pressed="false">🔍 نحتاج تفصيلًا أكثر</button>';
+    var ok=c.querySelector('.ok'),mb=c.querySelector('.more');
+    ok.onclick=function(){got[k]=1;ok.setAttribute('aria-pressed','true');try{localStorage.setItem('nm_ws_got',JSON.stringify(got))}catch(e){}spark(ok);toast('ممتاز! ننتقل للخطوة التالية')};
+    mb.onclick=function(){var o=!more.classList.contains('open');more.classList.toggle('open',o);mb.setAttribute('aria-pressed',String(o));if(o)setTimeout(function(){more.scrollIntoView({behavior:'smooth',block:'nearest'})},60)};
+  });
+
+  // رحلة الحالة
+  var ft=null;function playFlow(){var st=$$('#flow .stage');clearInterval(ft);st.forEach(function(s){s.classList.remove('lit')});var k=0;st[0].classList.add('lit');ft=setInterval(function(){k++;if(k>=st.length){clearInterval(ft);return}st[k].classList.add('lit')},900)}
+  $('#flowPlay').onclick=playFlow;
+
+  // الخطوات واحدة واحدة
+  $$('[data-play]').forEach(function(b){b.onclick=function(){var li=$$('#'+b.dataset.play+' li');li.forEach(function(x){x.classList.remove('lit')});li.forEach(function(x,k){setTimeout(function(){li.forEach(function(y){y.classList.remove('lit')});x.classList.add('lit')},k*1300)})}});
+
+  // المحاكاة
+  var sim=[],cnt={t:0,a:0,b:0},nEl=$('#simN');
+  var LBL={t:['⏰ تأخير صباحي','t'],a:['📅 غياب بدون عذر','a'],b:['⚠ عدم الالتزام بالزي','b']};
+  function render(){var open=sim.filter(function(x){return !x.done}).length;nEl.textContent=open;nEl.classList.add('bump');setTimeout(function(){nEl.classList.remove('bump')},250);
+    $('#simFeed').innerHTML=sim.slice().reverse().map(function(x){return '<div class="task '+x.k+(x.done?' done':'')+'"><div><b>'+LBL[x.k][0]+' — المرة '+x.n+'</b><div class="why">'+x.why+'</div></div><span class="tag '+(x.done?'t-ok':'t-bad')+'">'+(x.done?'موثّقة':'مطلوبة منكِ')+'</span></div>'}).join('')||'<p class="muted">لا مهام بعد.</p>'}
+  $$('[data-add]').forEach(function(b){b.onclick=function(){var k=b.dataset.add;cnt[k]++;var n=cnt[k],why='حالة جديدة = مهمة جديدة عليكِ';
+    if(k==='t'&&n===3)why='التكرار 3: السياسة تضيف الإحالة إلى الأخصائية الاجتماعية';
+    if(k==='t'&&n===7)why='التكرار 7: يُحتسب يوم غياب بدون عذر';
+    if(k==='b'&&n===2)why='التكرار 2: تعهد خطي (2) + إحالة للمنسقة';
+    if(k==='a'&&n>=2)why='اليوم '+n+': تعهد الطالبة + إحالة للمنسقة';
+    sim.push({k:k,n:n,why:why,done:false});render();
+    var open=sim.filter(function(x){return !x.done}).length;
+    $('#simMsg').textContent=open>=3?'لاحظي: '+open+' مهام مفتوحة، لأن كل تسجيل حالة مستقلة. اضغطي «وثّقي أقدم إجراء» وراقبي الرقم ينزل.':'الرقم زاد لأن التسجيل فتح حالة لها إجراء عليكِ.';}});
+  $('#simDoc').onclick=function(){var x=sim.filter(function(y){return !y.done})[0];if(!x){toast('لا توجد مهام مفتوحة');return}x.done=true;render();spark($('#simDoc'));$('#simMsg').textContent='وثّقتِ الإجراء فنزل الرقم. هكذا فقط تنقص المهام.'};
+  $('#simReset').onclick=function(){sim=[];cnt={t:0,a:0,b:0};render();$('#simMsg').textContent='ابدئي بتسجيل تأخير للطالبة نفسها ثلاث مرات، وراقبي الرقم.'};
+  render();
+
+  // البطاقات المقلوبة
+  $$('.flip').forEach(function(f){var t=function(){f.classList.toggle('on')};f.onclick=t;f.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}}});
+
+  // مستكشف السياسة — نص دور المشرفة الإدارية كما ورد في السياسة
+  var N='إشعار ولي الأمر (هاتفيا وبرسالة نصية)',W='تنبيه خطي للطالب (من الصف الرابع إلى الصف الثاني عشر)',CO='أ. أحلام الخليفي — منسقة شؤون الطالبات',SO='الأخصائية الاجتماعية للشعبة',NONE='لا إحالة: تكتمل الحالة عندكِ بعد التوثيق';
+  var PX={
+    'الزي المدرسي':{cls:'t-beh',r:[
+      {a:['تعهد خطي (1) للطالب بعدم تكرار المخالفة','إشعار ولي الأمر هاتفيا وحثه على تعديل سلوك الطالب'],f:'نموذج 1: تعهد طالب',s:NONE},
+      {a:['تعهد خطي (2) للطالب بعدم تكرار المخالفة','إشعار ولي الأمر هاتفيا وحثه على تعديل سلوك الطالب','إحالة الطالب إلى منسق شؤون الطلبة'],f:'نموذج 1: تعهد طالب',s:CO},
+      {a:['إشعار ولي الأمر هاتفيا وحثه على تعديل سلوك الطالب','تعهد خطي (3) للطالب بعدم تكرار المخالفة','إحالة الطالب إلى منسق شؤون الطلبة'],f:'نموذج 1: تعهد طالب',s:CO+' (ثم فريق إدارة السلوك)'},
+      {a:['إشعار ولي الأمر هاتفيا وحثه على تعديل سلوك الطالب','إحالة الطالب إلى منسق شؤون الطلبة'],f:'—',s:CO+' (ثم فريق إدارة السلوك)'}]},
+    'التأخير الصباحي':{cls:'t-tardy',r:[
+      {a:[N,'تنبيه شفهي للطالب'],f:'نموذج 1: تعهد طالب',s:NONE},
+      {a:[N,W],f:'نموذج 1: تعهد طالب',s:NONE},
+      {a:[N,W,'الإحالة إلى الاختصاصي الاجتماعي'],f:'نموذج 1 + استمارة تحويل حالة سلوكية',s:SO},
+      {a:[N,'الإحالة إلى منسق شؤون الطلبة'],f:'نموذج 1: تعهد طالب',s:CO},
+      {a:[N,W,'الإحالة إلى الاختصاصي الاجتماعي أو النفسي لمتابعة دراسة الحالة'],f:'نموذج 1: تعهد طالب',s:'الأخصائية الاجتماعية أو النفسية'},
+      {a:['الإحالة إلى منسق شؤون الطلبة'],f:'نموذج 1: تعهد طالب',s:CO+' (استدعاء ولي الأمر لاجتماع الفريق)'},
+      {a:['يتم احتساب الطالب غيابا يوما كاملا بدون عذر رسمي مع إبلاغ ولي الأمر'],f:'نموذج 1: تعهد طالب',s:NONE}]},
+    'الدرجة الأولى':{cls:'t-beh',r:[
+      {a:['لا إجراء على المشرفة: المعلمة تنبّه الطالبة شفهيًا'],f:'—',s:NONE},
+      {a:['تعهد خطي (1) للطالب بعدم تكرار المخالفة'],f:'نموذج 1: تعهد طالب',s:NONE},
+      {a:['إشعار ولي الأمر بالمخالفة هاتفيا','تعهد خطي (2) للطالب بعدم تكرار المخالفة','إحالة الطالب إلى منسق شؤون الطلبة'],f:'نموذج 1: تعهد طالب',s:CO},
+      {a:['إشعار ولي الأمر بالمخالفة هاتفيا','تعهد خطي (3) للطالب بعدم تكرار المخالفة','إحالة الطالب إلى منسق شؤون الطلبة'],f:'نموذج 1: تعهد طالب',s:CO},
+      {a:['إشعار ولي الأمر هاتفيا وحثه على تعديل سلوك الطالب','إحالة الطالب إلى منسق شؤون الطلبة'],f:'—',s:CO},
+      {a:['إشعار ولي الأمر هاتفيا وحثه على تعديل سلوك الطالب','إحالة الطالب إلى منسق شؤون الطلبة'],f:'—',s:CO+' (ثم فريق إدارة السلوك)'}]},
+    'الغياب بدون عذر':{cls:'t-abs',r:[
+      {a:['إخطار ولي الأمر (هاتفيا وبرسالة نصية)','تنبيه شفهي للطالب'],f:'—',s:NONE},
+      {a:['إخطار ولي الأمر (هاتفيا وبرسالة نصية)','تعهد الطالب خطيا بالالتزام بالدوام المدرسي','الإحالة إلى منسق شؤون الطلبة'],f:'نموذج 1: تعهد طالب',s:CO},
+      {a:['إخطار ولي الأمر (هاتفيا وبرسالة نصية)','تعهد الطالب خطيا بالالتزام بالدوام المدرسي','الإحالة إلى منسق شؤون الطلبة'],f:'نموذج 1: تعهد طالب',s:CO},
+      {a:['من اليوم الثاني فما بعد: الإجراء نفسه في كل يوم غياب، والمنسقة والأخصائية والفريق يتدرّجون حسب عدد الأيام'],f:'نموذج 1 (واستمارة تحويل حالة غياب عند الإحالة للأخصائية)',s:CO}]}
+  };
+  var cur='الزي المدرسي',rep=0;
+  function px(){
+    $('#pxTabs').innerHTML=Object.keys(PX).map(function(k){return '<button class="tab" role="tab" type="button" aria-selected="'+(k===cur)+'" data-k="'+k+'">'+k+'</button>'}).join('');
+    var R=PX[cur].r;if(rep>=R.length)rep=0;
+    var lbl=cur==='الغياب بدون عذر'?['اليوم 1','اليوم 2','اليوم 3','4+']:null;
+    $('#pxReps').innerHTML='<span class="muted" style="align-self:center;margin-inline-end:6px">'+(lbl?'يوم الغياب:':'التكرار:')+'</span>'+R.map(function(_,k){return '<button class="rep" role="tab" type="button" aria-selected="'+(k===rep)+'" data-r="'+k+'" title="'+(lbl?lbl[k]:'المرة '+(k+1))+'">'+(lbl?(k===3?'+4':k+1):k+1)+'</button>'}).join('');
+    var x=R[rep];
+    $('#pxRes').innerHTML='<div class="cell"><h4>المطلوب منكِ حسب السياسة</h4><ul>'+x.a.map(function(t){return '<li>'+t+'</li>'}).join('')+'</ul></div><div class="cell"><h4>النموذج الأصفر</h4><p>'+x.f+'</p></div><div class="cell send"><h4>بعد التوثيق أرسليها إلى</h4><p><b>'+x.s+'</b></p><p class="muted" style="font-size:.85em;margin-top:6px">نسخة تلقائية: أ. وداد الكربي ومديرة المدرسة</p></div>';
+    $$('#pxTabs [data-k]').forEach(function(b){b.onclick=function(){cur=b.dataset.k;rep=0;px()}});
+    $$('#pxReps [data-r]').forEach(function(b){b.onclick=function(){rep=+b.dataset.r;px()}});
+  }
+  px();
+
+  // جولة الأيقونات
+  var NT={'السلوك والانضباط':[
+    ['تنظيم مهامي','مهامكِ مرتبة بالموعد وملونة بالنوع، مع «اشرحي لي».','board'],
+    ['الوارد','كل حالة مطلوبة منكِ ببطاقتها الكاملة، وفيها التوثيق والنماذج.','tasks'],
+    ['مخالفة خارج الصف','تسجيل مخالفة رصدتِها بنفسكِ، ليوم واحد أو بأثر رجعي لعدة أيام.','outside'],
+    ['التأخير الصباحي','تسجيل المتأخرات عن الحضور الصباحي، مع رصيد كل طالبة.','tardy'],
+    ['ملف الطالبات','كل طالبة بغيابها وتأخيرها ومخالفاتها، والملف الكامل والتقرير.','studfile-open'],
+    ['كل الحالات','كل حالات شعبكِ مع البحث والتصفية: مكتملة، متأخرة، بانتظار.','cases'],
+    ['لوحة شعبي','أرقام شعبكِ: أكثر المخالفات والطالبات تكرارًا.',null],
+    ['طباعة إجراءاتي','تقرير بكل ما طُلب منكِ وما نفّذتِه في فترة تختارينها.','mylog'],
+    ['الرسائل','التنبيهات والنماذج التي أُرسلت إليكِ داخل المنصة.',null]],
+   'الحضور والغياب':[
+    ['تنظيم مهامي','المهام نفسها، مجموع السلوك والغياب.','board'],
+    ['وارد الغياب','قرارات الغياب المطلوبة منكِ والإجراءات حسب سياسة الغياب.','abstasks'],
+    ['تسجيل الغياب','الشعبة ← التاريخ ← الطالبات، مع رصيد كل طالبة.','absrec'],
+    ['ملف الطالبات','الملف نفسه في تبويب «الحضور والغياب».','studfile'],
+    ['سجل الغياب','كل الغياب، وزرّا «بعذر / بدون عذر» تحت كل سجل.','abslog'],
+    ['متابعة الطالبات','الطالبات القريبات من حد عدم الأهلية.',null],
+    ['لوحة الغياب','أرقام الغياب في شعبكِ.',null],
+    ['طباعة إجراءاتي','تقرير إجراءاتكِ في الغياب.','mylog'],
+    ['الرسائل','التنبيهات والنماذج الواردة.',null]]};
+  var ns='السلوك والانضباط',nk=0;
+  function nt(){
+    $('#ntSec').innerHTML=Object.keys(NT).map(function(k){return '<button class="tab" role="tab" type="button" aria-selected="'+(k===ns)+'" data-s="'+k+'">'+k+'</button>'}).join('');
+    var L=NT[ns];$('#ntList').innerHTML=L.map(function(x,k){return '<button role="tab" type="button" aria-selected="'+(k===nk)+'" data-n="'+k+'"><b>'+x[0]+'</b><span>'+(k+1)+'</span></button>'}).join('');
+    var x=L[nk];$('#ntInfo').innerHTML='<div class="panel"><h3>'+x[0]+'</h3><p style="margin-top:6px">'+x[1]+'</p></div>'+(x[2]?'<figure class="shot" style="margin:0" data-z><img src="img/'+x[2]+'.jpg" alt="'+x[0]+'"><figcaption>اضغطي للتكبير</figcaption></figure>':'<p class="muted">افتحيها في المنصة أثناء الورشة.</p>');
+    $$('#ntSec [data-s]').forEach(function(b){b.onclick=function(){ns=b.dataset.s;nk=0;nt()}});
+    $$('#ntList [data-n]').forEach(function(b){b.onclick=function(){nk=+b.dataset.n;nt()}});
+    var z=$('#ntInfo [data-z]');if(z)z.onclick=function(){$('#lbImg').src=z.querySelector('img').src;$('#lb').classList.add('open')};
+  }
+  nt();
+
+  // الاختبار
+  var Q=[
+    ['سجّلتِ تأخير الطالبة نفسها ثلاث مرات ولم توثّقي شيئًا. كم مهمة عليكِ؟',['مهمة واحدة','ثلاث مهام','لا شيء'],1,'كل تسجيل حالة مستقلة، ولا تختفي المهمة إلا بالتوثيق.'],
+    ['متى ينقص رقم «مطلوب منكِ»؟',['عند إغلاق المنصة','بعد «حفظ وتوثيق التنفيذ»','بعد يومين وحده'],1,'التوثيق وحده يغلق المهمة وينقل الحالة للجهة التالية.'],
+    ['الطالبة خالفت الزي للمرة الثانية. إلى من ترسلين النموذج بعد التوثيق؟',['لا أرسله','الأخصائية النفسية','منسقة شؤون الطالبات'],2,'التكرار الثاني للزي: تعهد خطي (2) وإحالة إلى منسق شؤون الطلبة.'],
+    ['الزر الأصفر الذي يومض في البطاقة يعني:',['نموذج غير مطلوب','نموذج مطلوب منكِ الآن ومعبأ','خطأ في المنصة'],1,'الأصفر = وصل دوركِ، والرمادي = ليس بعد.'],
+    ['من يصله نسخة (CC) من كل نموذج تُرسلينه؟',['أ. وداد الكربي ومديرة المدرسة','المعلمات','لا أحد'],0,'النسخة تلقائية للنائبة الإدارية ومديرة المدرسة.']];
+  var right=0,answered=0;
+  $('#quiz').innerHTML=Q.map(function(q,k){return '<div class="qq" data-q="'+k+'"><b>'+(k+1)+'. '+q[0]+'</b><div class="opts">'+q[1].map(function(o,j){return '<button type="button" data-j="'+j+'">'+o+'</button>'}).join('')+'</div><div class="ex" hidden></div></div>'}).join('');
+  $$('#quiz .qq').forEach(function(box){var k=+box.dataset.q;$$('button',box).forEach(function(b){b.onclick=function(){if(box.dataset.done)return;box.dataset.done=1;answered++;var j=+b.dataset.j,ok=j===Q[k][2];if(ok){right++;spark(b)}b.classList.add(ok?'right':'wrong');$$('button',box)[Q[k][2]].classList.add('right');var ex=box.querySelector('.ex');ex.hidden=false;ex.textContent=(ok?'✔ صحيح. ':'الإجابة الصحيحة مظللة بالأخضر. ')+Q[k][3];if(answered===Q.length)$('#score').textContent='نتيجتكِ: '+right+' من '+Q.length+(right===Q.length?' — ممتاز! 🌟':' — راجعي الشرائح التي فيها خطأ.')}})});
+
+  var h=(location.hash.match(/^#s(\d+)$/)||[])[1];show(h?(+h-1):0,1);
+  window.addEventListener('hashchange',function(){var m=(location.hash.match(/^#s(\d+)$/)||[])[1];if(m&&+m-1!==i)show(+m-1,1)});
+})();
+</script>
+
+</body>
+</html>

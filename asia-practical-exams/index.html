@@ -421,6 +421,17 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 .cal-e .ce-t{font-size:10.5px;font-weight:700;line-height:1.25;text-align:center}
 .cal-e .ce-c{font-size:9.5px;background:rgba(255,255,255,.22);border-radius:8px;padding:0 5px;line-height:1.5;direction:ltr;unicode-bidi:isolate}
 .cal-note{font-size:12px;color:var(--mute);text-align:center;margin:10px 4px 0;line-height:1.7}
+
+.pend{text-align:center;padding:26px 16px;border-radius:18px;background:linear-gradient(180deg,#fff,#FBF5EC);border:1.5px dashed #D9BE84;box-shadow:0 10px 20px rgba(0,0,0,.06)}
+.pend .pi{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 10px;border-radius:50%;color:#fff;background:linear-gradient(145deg,var(--c1,#C99A4C),var(--c2,#8A6224));
+  box-shadow:0 10px 18px rgba(0,0,0,.18);animation:pulse 2s ease-in-out infinite}
+.pend .pi svg{width:32px;height:32px}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.pend b{display:block;font-size:18px;color:var(--accent);margin-bottom:6px}
+.pend small{display:block;font-size:13px;color:var(--mute);line-height:1.8}
+.cal-pend{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin-top:10px;padding:10px;border-radius:14px;background:#FBF5EC;border:1px dashed #D9BE84}
+.cal-pend b{width:100%;text-align:center;font-size:12.5px;color:#7A4A12}
+.cal-pend .cal-e{flex-direction:row;gap:5px;padding:5px 10px}
 </style>
 </head>
 <body>
@@ -560,6 +571,8 @@ const ICON = {
   atom: SVG('<circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8" transform="rotate(120 12 12)"/>'),
   micro: SVG('<path d="M6 21h12M9 21v-3a5 5 0 0 1 5-5"/><path d="M10 4l3 1-2 6-3-1z"/><path d="M13 8l3 1"/><circle cx="15.5" cy="14.5" r="2.5"/>'),
   cal: SVG('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="8" cy="14.5" r="1"/><circle cx="12" cy="14.5" r="1"/><circle cx="16" cy="14.5" r="1"/><circle cx="8" cy="18" r="1"/>'),
+  earAr: SVG('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>'),
+  earEn: SVG('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>'),
   book: SVG('<path d="M4 19.5V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6M8 11h6"/>')
 };
 document.getElementById('icDay').innerHTML = ICON.sun;
@@ -601,6 +614,10 @@ const ART = rows => ({icon:'art', title:'الفنون', sub:'تقييم المش
   info:[['نوع التقييم','عرض المشروع'],TIME_DAY,['الحضور','إلزامي']], rows, extra:ART_RULES});
 const SCI = (icon,title,rows) => ({icon, title, sub:'الاختبار العملي – المختبر',
   info:[['المكان','المختبر'],TIME_DAY,['المادة',title]], rows, heads:['اليوم والتاريخ','المستوى'], pre:SCI_ALERT});
+const LISTEN = (icon,title) => ({icon, title, sub:'الموعد يُحدَّد لاحقًا', rows:null, pending:true,
+  info:[['نوع الاختبار','استماع'],['الموعد','يُحدَّد لاحقًا'],['المتابعة','عبر هذا الدليل']]});
+const AR_L = () => LISTEN('earAr','استماع اللغة العربية (الورقة الأولى)');
+const EN_L = () => LISTEN('earEn','استماع اللغة الإنجليزية');
 const TECH_REF = `<div class="note" style="margin-bottom:12px"><b>المرجع:</b> وفق الجدول الرسمي لاختبارات نهاية الفصل الدراسي الأول – الصف الثاني عشر، المسار التكنولوجي (وزارة التربية والتعليم والتعليم العالي).</div>`;
 
 /* rows: [day, date, class, when, place] — النهاري: خلال الحصص الدراسية، المنازل: بالوقت */
@@ -610,7 +627,7 @@ const DATA = {
       PC([['الخميس','26-11-2026','العاشر 1'],['الأحد','29-11-2026','العاشر 6'],['الاثنين','30-11-2026','العاشر 7'],
           ['الثلاثاء','01-12-2026','العاشر 5'],['الثلاثاء','01-12-2026','العاشر 2'],
           ['الأربعاء','02-12-2026','العاشر 3'],['الأربعاء','02-12-2026','العاشر 4']]),
-      SCI('micro','العلوم',[['الأحد','29-11-2026','الصف العاشر']]) ]},
+      SCI('micro','العلوم',[['الأحد','29-11-2026','الصف العاشر']]), AR_L(), EN_L() ]},
     '11': {tracks:{
       sci:{name:'المسار العلمي', subjects:[
         SCI('bio','الأحياء',[['الأربعاء','25-11-2026','الحادي عشر – علمي']]),
@@ -618,9 +635,9 @@ const DATA = {
         SCI('atom','الفيزياء',[['الخميس','26-11-2026','الحادي عشر – علمي وتكنولوجي']]),
         PC([['الأحد','29-11-2026','الحادي عشر 5'],['الاثنين','30-11-2026','الحادي عشر 2'],
             ['الثلاثاء','01-12-2026','الحادي عشر 4'],['الأربعاء','02-12-2026','الحادي عشر 3']]),
-        ART([['الثلاثاء','01-12-2026','الحادي عشر 1']]) ]},
+        ART([['الثلاثاء','01-12-2026','الحادي عشر 1']]), AR_L(), EN_L() ]},
       lit:{name:'المسار الأدبي', subjects:[
-        ART([['الأربعاء','02-12-2026','الحادي عشر 6 + الحادي عشر 7']]) ]}
+        ART([['الأربعاء','02-12-2026','الحادي عشر 6 + الحادي عشر 7']]), AR_L(), EN_L() ]}
     }},
     '12': {tracks:{
       sci:{name:'المسار العلمي', subjects:[
@@ -644,7 +661,7 @@ const COL = {
   g10:['#C08A2E','#7A5216'], g11:['#2F8A63','#14523A'], g12:['#9A2B40','#5A0F1D'],
   h10:['#3E8E9A','#1A5560'], h11:['#2C7A86','#134650'], h12:['#1F6470','#0B2E35'],
   sci:['#9A2B40','#5A0F1D'], lit:['#2A7E8F','#16485A'], tech:['#4A57A6','#232C63'],
-  pc:['#2F6DB5','#173B6E'], bio:['#3E8E4F','#1E5A2C'], flask:['#C26A1E','#7A3E0C'], atom:['#6A4BB0','#3A2470'], micro:['#2A8C8C','#125656'], art:['#A0457A','#5E1F48'], chip:['#4A57A6','#232C63'], it:['#1F8A8A','#0F4F55']
+  pc:['#2F6DB5','#173B6E'], bio:['#3E8E4F','#1E5A2C'], flask:['#C26A1E','#7A3E0C'], atom:['#6A4BB0','#3A2470'], micro:['#2A8C8C','#125656'], earAr:['#8C6A1E','#5A420E'], earEn:['#A8385B','#651B35'], art:['#A0457A','#5E1F48'], chip:['#4A57A6','#232C63'], it:['#1F8A8A','#0F4F55']
 };
 const cv = k => { const c = COL[k]; return `--c1:${c[0]};--c2:${c[1]};--cl:${c[0]}2e`; };
 const GNAME = {'10':'الصف العاشر','11':'الصف الحادي عشر','12':'الصف الثاني عشر'};
@@ -699,7 +716,8 @@ function calendarHTML(list){
     }
     h += '</div>';
   }
-  h += `</div><p class="cal-note">اضغطي على أي اختبار في التقويم لعرض تفاصيله وتعليماته${list.some(s=>(s.rows||[]).some(r=>shortCls(r[2])))?' • الرقم الصغير تحت المادة هو صفّكِ؛ ابحثي عن صفّكِ':''}</p>`;
+  const pend = list.map((x,i)=>[x,i]).filter(([x])=>x.pending);
+  h += `</div>${pend.length?`<div class="cal-pend"><b>مواعيد تُحدَّد لاحقًا:</b>${pend.map(([x,i])=>`<button class="cal-e" style="${cv(x.icon)}" onclick="calPick(${i})"><span class="ce-i">${ICON[x.icon]}</span><span class="ce-t">${x.title}</span></button>`).join('')}</div>`:''}<p class="cal-note">اضغطي على أي اختبار في التقويم لعرض تفاصيله وتعليماته${list.some(s=>(s.rows||[]).some(r=>shortCls(r[2])))?' • الرقم الصغير تحت المادة هو صفّكِ؛ ابحثي عن صفّكِ':''}</p>`;
   return h;
 }
 
@@ -740,6 +758,12 @@ function render(){
   }
   else if(top.v==='detail'){
     const s = top.s; title = s.title; sub = GNAME[top.g] + (trName?' – '+trName:'');
+    if(s.pending){
+      h = `<div class="info">${s.info.map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
+      <div class="pend"><span class="pi">${ICON[s.icon]}</span><b>سيتم تحديد الموعد لاحقًا</b><small>سيُضاف موعد ${s.title} إلى هذا الدليل فور اعتماده،<br>فتابعيه باستمرار.</small></div>`;
+      document.getElementById('xt').innerHTML = `${title}<small>${sub}</small>`;
+      const xb0 = document.getElementById('xb'); xb0.innerHTML = h; xb0.scrollTop = 0; return;
+    }
     h += s.pre || '';
     h += `<div class="info">${s.info.map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>`;
     const hasWhen = s.rows.some(r=>r[3]);

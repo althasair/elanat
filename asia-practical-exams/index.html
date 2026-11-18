@@ -109,6 +109,10 @@ ul.ins li b{color:var(--maroon)}
 .seg button{flex:1;border:0;background:transparent;font-family:var(--font);font-weight:800;font-size:14.5px;color:var(--maroon);
   padding:9px 6px;border-radius:40px;cursor:pointer;transition:.25s}
 .seg button.on{background:linear-gradient(180deg,#8C2235,#6E1423);color:#fff;box-shadow:0 6px 12px rgba(110,20,35,.35)}
+.tracks{display:flex;justify-content:center;gap:6px;margin:-2px 0 12px;flex-wrap:wrap}
+.tracks button{font-family:var(--font);font-weight:800;font-size:13px;border:1.5px solid var(--c);color:var(--c);background:#fff;
+  padding:7px 12px;border-radius:30px;cursor:pointer;transition:.2s;white-space:nowrap;box-shadow:0 3px 8px rgba(0,0,0,.06)}
+.tracks button.on{background:var(--c);color:#fff;box-shadow:0 8px 14px rgba(0,0,0,.18)}
 .hint{text-align:center;font-size:12.5px;color:var(--mute);margin-bottom:10px}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .tile{position:relative;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#fff,#FBF5F1);
@@ -237,7 +241,7 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
       </div>
 
       <div class="sigs">
-        <div><b>نائبة المديرة للشؤون الأكاديمية</b><span>أ. آسيا الذبياني</span></div>
+        <div><b>النائبة الأكاديمية</b><span>أ. آسيا الذبياني</span></div>
         <div><b>مديرة المدرسة</b><span>أ. شيخة الرميحي</span></div>
       </div>
     </div>
@@ -253,6 +257,7 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
         <button data-g="11" onclick="grade('11')">الحادي عشر</button>
         <button data-g="12" class="on" onclick="grade('12')">الثاني عشر</button>
       </div>
+      <div class="tracks" id="tracks"></div>
       <p class="hint">اختاري المادة لعرض موعد الاختبار وتعليماته</p>
       <div class="tiles" id="tiles"></div>
     </div>
@@ -303,65 +308,69 @@ const LAB_EXTRA = `
     <li>عند انتهاء الوقت: حفظ العمل والتأكد من حفظه، ثم إغلاق الجهاز، وتسليم المهمة الإلكترونية كاملة.</li>
     <li><b>تنبيه:</b> أي محاولة للإخلال بأنظمة المعمل أو العبث بالأجهزة تُتّخذ بشأنها الإجراءات المتّبعة.</li></ul></div>`;
 
-const DATA = {
-  '12': [
-    {key:'art', icon:'art', title:'الفنون البصرية', sub:'تقييم المشروع', info:ARTS_INFO,
-     rows:[['الأحد','29-11-2026',[['الثاني عشر 4 + الثاني عشر 5','sci']]],
-           ['الاثنين','30-11-2026',[['الثاني عشر 6 + الثاني عشر 7','lit']]]],
-     extra:ARTS_EXTRA},
-    {key:'pc', icon:'pc', title:'الحوسبة وتكنولوجيا المعلومات', sub:'الاختبار العملي',
-     info:[['المكان','معمل الحاسب'],['المدة','حصة واحدة (45 دقيقة)'],['اليوم','يوم دراسي عادي']],
-     rows:[['الثلاثاء','24-11-2026',[['الثاني عشر 4 + الثاني عشر 5','sci']]],
-           ['الأربعاء','25-11-2026',[['الثاني عشر 1','sci'],['الثاني عشر 2','sci'],['الثاني عشر 3','sci']]],
-           ['الخميس','26-11-2026',[['الثاني عشر – منازل','home','lit']]]],
-     extra:LAB_EXTRA},
-    {key:'tech', icon:'chip', wide:true, tech:true, title:'المسار التكنولوجي', sub:'علوم الحاسب • تكنولوجيا المعلومات',
-     info:[['المسار','التكنولوجي (نهاري)'],['المكان','معمل الحاسب'],['عدد الفترات','فترتان لكل مادة']],
-     heads:['اليوم والتاريخ','المادة','الفترات'],
-     techRows:[['الثلاثاء','24-11-2026','علوم الحاسب'],['الأحد','29-11-2026','تكنولوجيا المعلومات']],
-     extra:`<div class="note"><b>المرجع:</b> المواعيد وفق الجدول الرسمي لاختبارات نهاية الفصل الدراسي الأول (الصف الثاني عشر – المسار التكنولوجي) الصادر عن وزارة التربية والتعليم والتعليم العالي.</div>${LAB_EXTRA}`}
-  ],
-  '11': [
-    {key:'art', icon:'art', title:'الفنون البصرية', sub:'تقييم المشروع', info:ARTS_INFO,
-     rows:[['الثلاثاء','01-12-2026',[['الحادي عشر 1','sci']]],
-           ['الأربعاء','02-12-2026',[['الحادي عشر 6 + الحادي عشر 7',null]]]],
-     extra:ARTS_EXTRA},
-    {key:'pc', icon:'pc', title:'الحوسبة وتكنولوجيا المعلومات', sub:'الاختبار العملي', rows:null}
-  ]
+const COMP = {key:'pc', icon:'pc', title:'الحوسبة وتكنولوجيا المعلومات', sub:'الاختبار العملي',
+  info:[['المكان','معمل الحاسب'],['المدة','حصة واحدة (45 دقيقة)'],['اليوم','يوم دراسي عادي']], extra:LAB_EXTRA};
+const ART = {key:'art', icon:'art', title:'الفنون البصرية', sub:'تقييم المشروع', info:ARTS_INFO, extra:ARTS_EXTRA};
+const TECH_INFO = [['المسار','التكنولوجي (نهاري)'],['المكان','معمل الحاسب'],['الفترات','فترتان لكل مادة']];
+const TECH_NOTE = `<div class="note" style="margin-bottom:12px"><b>المرجع:</b> المواعيد وفق الجدول الرسمي لاختبارات نهاية الفصل الدراسي الأول (الصف الثاني عشر – المسار التكنولوجي) الصادر عن وزارة التربية والتعليم والتعليم العالي.</div>`;
+const TRACKS = {
+  '12': {
+    sci: [ {...ART, rows:[['الأحد','29-11-2026',[['الثاني عشر 4 + الثاني عشر 5']]]]},
+           {...COMP, rows:[['الثلاثاء','24-11-2026',[['الثاني عشر 4 + الثاني عشر 5']]],
+                           ['الأربعاء','25-11-2026',[['الثاني عشر 1'],['الثاني عشر 2'],['الثاني عشر 3']]],
+                           ['الخميس','26-11-2026',[['الثاني عشر – منازل','home']]]]} ],
+    lit: [ {...ART, rows:[['الاثنين','30-11-2026',[['الثاني عشر 6 + الثاني عشر 7']]]]},
+           {...COMP, rows:[['الخميس','26-11-2026',[['الثاني عشر – منازل','home']]]]} ],
+    tech:[ {key:'cs', icon:'chip', tech:true, title:'علوم الحاسب', sub:'الاختبار العملي', info:TECH_INFO,
+            rows:[['الثلاثاء','24-11-2026',[['الفترة الأولى: 9:00 – 10:00 ص'],['الفترة الثانية: 11:00 ص – 12:00 م']]]],
+            heads:['اليوم والتاريخ','الفترتان'], extra:TECH_NOTE+LAB_EXTRA},
+           {key:'it', icon:'pc', tech:true, title:'تكنولوجيا المعلومات', sub:'الاختبار العملي', info:TECH_INFO,
+            rows:[['الأحد','29-11-2026',[['الفترة الأولى: 9:00 – 10:00 ص'],['الفترة الثانية: 11:00 ص – 12:00 م']]]],
+            heads:['اليوم والتاريخ','الفترتان'], extra:TECH_NOTE+LAB_EXTRA} ]
+  },
+  '11': {
+    sci: [ {...ART, rows:[['الثلاثاء','01-12-2026',[['الحادي عشر 1']]]]}, {...COMP, rows:null} ],
+    lit: [ {...ART, rows:[['الأربعاء','02-12-2026',[['الحادي عشر 6 + الحادي عشر 7']]]]}, {...COMP, rows:null} ]
+  }
 };
+const TRACK_NAME = {sci:'المسار العلمي', lit:'المسار الأدبي', tech:'المسار التكنولوجي'};
+const TRACK_COLOR = {sci:'var(--t-sci)', lit:'var(--t-lit)', tech:'var(--t-tech)'};
 
 function chk(t){return `<label><input type="checkbox"><span>${t}</span></label>`}
 
-/* ---------------- tiles & sheet ---------------- */
-let g = '12';
+/* ---------------- grade -> track -> subject ---------------- */
+let g = '12', tr = 'sci';
 function grade(x){
   g = x;
   document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on', b.dataset.g===x));
-  document.getElementById('tiles').innerHTML = DATA[x].map((s,i)=>`
-    <button class="tile ${s.wide?'wide':''} ${s.tech?'tech':''}" onclick="openSheet(${i})">
+  const ks = Object.keys(TRACKS[x]);
+  if(!ks.includes(tr)) tr = ks[0];
+  document.getElementById('tracks').innerHTML = ks.map(k=>
+    `<button style="--c:${TRACK_COLOR[k]}" class="${k===tr?'on':''}" onclick="track('${k}')">${TRACK_NAME[k]}</button>`).join('');
+  track(tr);
+}
+function track(k){
+  tr = k;
+  document.querySelectorAll('#tracks button').forEach(b=>b.classList.toggle('on', b.getAttribute('onclick')===`track('${k}')`));
+  document.getElementById('tiles').innerHTML = TRACKS[g][k].map((s,i)=>`
+    <button class="tile ${s.tech?'tech':''}" onclick="openSheet(${i})">
       <span class="go">عرض ←</span>
       <span class="ico">${ICON[s.icon]}</span>
       <span class="t">${s.title}</span><span class="s">${s.sub}</span>
     </button>`).join('');
 }
 function openSheet(i){
-  const s = DATA[g][i], gname = g==='12'?'الصف الثاني عشر':'الصف الحادي عشر';
+  const s = TRACKS[g][tr][i], gname = g==='12'?'الصف الثاني عشر':'الصف الحادي عشر';
   document.getElementById('sheetBar').classList.toggle('tech', !!s.tech);
-  document.getElementById('sheetTitle').innerHTML = `${s.title}<small>${gname} – ${s.sub}</small>`;
+  document.getElementById('sheetTitle').innerHTML = `${s.title}<small>${gname} – ${TRACK_NAME[tr]}</small>`;
   let h = '';
   if(s.info) h += `<div class="info">${s.info.map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>`;
   if(s.rows){
-    h += `<table class="sch"><thead><tr><th>اليوم والتاريخ</th><th>الصفوف</th></tr></thead><tbody>${
+    const hd = s.heads || ['اليوم والتاريخ','الصفوف'];
+    h += `<table class="sch ${s.tech?'tech':''}"><thead><tr><th>${hd[0]}</th><th>${hd[1]}</th></tr></thead><tbody>${
       s.rows.map(([d,dt,cls])=>`<tr><td class="day">${d}<small>${dt}</small></td><td class="cls">${
-        cls.map(([c,...t])=>`<span class="ln">${c} ${t.filter(Boolean).map(tag).join('')}</span>`).join('')}</td></tr>`).join('')
+        cls.map(([c,t])=>`<span class="ln">${c} ${t?tag(t):''}</span>`).join('')}</td></tr>`).join('')
     }</tbody></table>`;
-    const used = [...new Set(s.rows.flatMap(r=>r[2].flatMap(c=>c.slice(1)).filter(Boolean)))];
-    if(used.length) h += `<div class="legend">${used.map(tag).join('')}</div>`;
-  } else if(s.techRows){
-    h += `<table class="sch tech"><thead><tr><th>اليوم والتاريخ</th><th>المادة</th></tr></thead><tbody>${
-      s.techRows.map(([d,dt,sub])=>`<tr><td class="day">${d}<small>${dt}</small></td><td class="cls">${sub}</td></tr>`).join('')
-    }</tbody></table>
-    <div class="note" style="margin:-2px 0 12px"><b>الفترتان لكل مادة:</b> الأولى من 9:00 إلى 10:00 صباحًا، والثانية من 11:00 صباحًا إلى 12:00 ظهرًا.</div>`;
   } else {
     h += `<div class="empty"><b>لم يُعلَن الموعد بعد</b>لم يصدر جدول الاختبار العملي لهذه المادة للصف الحادي عشر حتى الآن،<br>وسيُضاف إلى الدليل فور اعتماده.</div>`;
   }

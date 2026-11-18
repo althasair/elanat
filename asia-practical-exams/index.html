@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>دليل الاختبارات العملية – مدرسة الشيماء الثانوية للبنات</title>
-<meta name="description" content="دليل الاختبارات العملية لنهاية الفصل الدراسي الأول 2026-2027 – مدرسة الشيماء الثانوية للبنات">
+<meta name="description" content="دليل الاختبارات العملية لنهاية الفصل الدراسي الأول 2026-2027 – طالبات النهاري والمنازل">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -188,6 +188,76 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 .d{direction:ltr;unicode-bidi:isolate;white-space:nowrap;display:inline-block}
 .dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.3);transition:.3s;cursor:pointer}
 .dots i.on{background:#E8C99A;width:24px;border-radius:6px}
+
+/* ---------- mode chooser ---------- */
+.modes{display:grid;gap:14px;margin-top:4px}
+.mode{position:relative;display:flex;align-items:center;gap:14px;text-align:right;border:0;cursor:pointer;font-family:var(--font);
+  border-radius:20px;padding:18px 16px;color:#fff;overflow:hidden;
+  box-shadow:0 16px 28px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.25);transition:transform .2s}
+.mode:active{transform:scale(.985)}
+.mode.day{background:linear-gradient(135deg,#8C2235 0%,#6E1423 55%,#4A0C17 100%)}
+.mode.home{background:linear-gradient(135deg,#2C6E7A 0%,#134650 55%,#0B2E35 100%)}
+.mode::after{content:"";position:absolute;inset:auto -40px -60px auto;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.07)}
+.mode .mi{flex:none;width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:rgba(255,255,255,.14);
+  box-shadow:inset 0 2px 4px rgba(255,255,255,.25), 0 8px 14px rgba(0,0,0,.25)}
+.mode.day .mi{color:#F6D28B} .mode.home .mi{color:#BFE6E8}
+.mode .mi svg{width:36px;height:36px}
+.mode .mt{font-size:21px;font-weight:800;line-height:1.3}
+.mode .ms{font-size:13px;opacity:.85;margin-top:2px}
+.mode .arr{margin-right:auto;font-size:22px;opacity:.8}
+
+/* ---------- explorer (full page overlay) ---------- */
+.ex{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;border-radius:6px 16px 16px 6px;overflow:hidden;
+  transform:translateX(-100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);background:var(--paper)}
+.ex.open{transform:none}
+.ex .xbar{flex:none;display:flex;align-items:center;gap:10px;padding:12px 14px;color:#fff}
+.ex .xbar button{border:0;background:rgba(255,255,255,.16);color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;flex:none}
+.ex .xbar .xt{font-weight:800;font-size:17px;line-height:1.25}
+.ex .xbar .xt small{display:block;font-weight:500;font-size:12px;opacity:.85}
+.ex .xbar .xi{margin-right:auto;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.14)}
+.ex .xbar .xi svg{width:24px;height:24px}
+.ex .ribbon{flex:none;text-align:center;font-weight:800;font-size:15px;letter-spacing:.3px;padding:7px 8px}
+.ex .crumbs{flex:none;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;padding:8px 10px 0;font-size:12px;color:var(--mute)}
+.ex .crumbs span{background:var(--chip);padding:3px 10px;border-radius:20px;color:var(--accent);font-weight:700}
+.ex .body{padding-top:12px}
+/* theme: day */
+.ex.day{--accent:var(--maroon);--chip:var(--soft);--headg:linear-gradient(180deg,#8C2235,#6E1423);--rowday:var(--soft)}
+.ex.day .xbar{background:var(--headg)}
+.ex.day .ribbon{background:#F7E7D3;color:#7A4A12;border-bottom:1px solid #EAD3B4}
+/* theme: home (completely different look) */
+.ex.home{--accent:#134650;--chip:#DCEEF0;--headg:linear-gradient(180deg,#2C6E7A,#134650);--rowday:#E4F1F2;
+  background:#F4FAFA url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M13 0v26M0 13h26' stroke='%23134650' stroke-opacity='.05'/%3E%3C/svg%3E")}
+.ex.home .xbar{background:var(--headg)}
+.ex.home .ribbon{background:repeating-linear-gradient(135deg,#F2C14E 0 14px,#E9B43B 14px 28px);color:#3A2A05;font-size:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,.12)}
+
+.ex .big{display:grid;gap:12px}
+.ex .gbtn{display:flex;align-items:center;gap:14px;border:1.5px solid var(--chip);background:#fff;border-radius:18px;padding:14px 16px;
+  font-family:var(--font);cursor:pointer;text-align:right;box-shadow:0 10px 18px rgba(0,0,0,.07);transition:transform .2s}
+.ex .gbtn:hover{transform:translateY(-2px)}
+.ex .gbtn .num{flex:none;width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:24px;font-weight:800;color:#fff;
+  background:var(--headg);box-shadow:0 8px 14px rgba(0,0,0,.2), inset 0 2px 3px rgba(255,255,255,.25)}
+.ex .gbtn .num svg{width:30px;height:30px}
+.ex .gbtn b{display:block;font-size:18px;color:var(--accent);font-weight:800}
+.ex .gbtn small{display:block;font-size:12.5px;color:var(--mute);margin-top:2px}
+.ex .gbtn .arr{margin-right:auto;color:var(--accent);font-size:20px;opacity:.6}
+.ex .gbtn.tech .num{background:linear-gradient(180deg,#3B4785,#2E3A6E)} .ex .gbtn.tech b{color:var(--t-tech)}
+.ex .gbtn.lit .num{background:linear-gradient(180deg,#2A6676,#1F4E5A)} .ex .gbtn.lit b{color:var(--t-lit)}
+.ex .q{text-align:center;font-size:14px;font-weight:700;color:var(--accent);margin:2px 0 12px}
+
+.ex table.sch th{background:var(--headg)}
+.ex table.sch td.day{background:var(--rowday);color:var(--accent)}
+.ex table.sch td.when{font-size:12.5px;font-weight:700;line-height:1.6;white-space:nowrap}
+.ex table.sch td.when small{display:block;color:var(--mute);font-weight:600}
+.ex .info div{background:var(--chip);border-right-color:var(--accent)}
+.ex .info div b{color:var(--accent)}
+.ex .card h4{color:var(--accent)}
+.ex ul.ins li::before{background:var(--accent)}
+.ex ul.ins li b{color:var(--accent)}
+.ex .checks input{border-color:var(--accent)} .ex .checks input:checked{background:var(--accent)}
+.alert{display:flex;gap:9px;align-items:flex-start;background:#FDF1EE;border:1px solid #F0CFC6;border-radius:12px;padding:10px 12px;margin-bottom:12px;
+  font-size:13.5px;line-height:1.7;font-weight:700;color:#7A1F12}
+.ex.home .alert{background:#FFF7E3;border-color:#F0D9A0;color:#6B4A00}
 </style>
 </head>
 <body>
@@ -200,7 +270,7 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 <div class="book" id="book">
   <div class="stack"></div>
 
-  <!-- ===== Page 0: Cover ===== -->
+  <!-- ===== Cover ===== -->
   <section class="page cover" data-name="الغلاف">
     <div class="head"><img src="header.png" alt="ترويسة مدرسة الشيماء الثانوية للبنات"></div>
     <div class="body">
@@ -209,7 +279,8 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
       </div>
       <div class="kicker">نهاية الفصل الدراسي الأول</div>
       <h1>دليل الاختبارات العملية</h1>
-      <h2>الصفّان الحادي عشر والثاني عشر</h2>
+      <h2>العاشر • الحادي عشر • الثاني عشر</h2>
+      <h2 style="font-size:14px;color:var(--mute);font-weight:700;margin-top:-6px">طالبات النهاري وطالبات المنازل</h2>
       <div class="rule"></div>
       <div class="window">فترة الاختبارات الشفهية والعملية<b>من الثلاثاء <span class="d">24-11-2026</span><br>إلى الخميس <span class="d">03-12-2026</span></b></div>
       <button class="cta" onclick="go(1)">افتحي الدليل</button>
@@ -217,30 +288,27 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
     <div class="foot">متعلم ريادي .. <b>لتنمية مستدامة</b></div>
   </section>
 
-  <!-- ===== Page 1: Instructions ===== -->
+  <!-- ===== Instructions ===== -->
   <section class="page" data-name="التعليمات">
     <div class="head"><img src="header.png" alt=""></div>
     <div class="body">
       <div class="ptitle"><span class="n">الصفحة الأولى</span><h3>تعليمات الاختبارات العملية</h3></div>
       <p class="lead">خالص أمنياتنا لطالباتنا الغاليات بالتوفيق والنجاح، ونأمل من أولياء الأمور الكرام متابعة بناتهنّ في الالتزام بالتعليمات الآتية؛ لضمان سير الاختبارات بكل سلاسة وطمأنينة.</p>
-
       <div class="card">
         <h4><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>الحضور والانضباط</h4>
         <ul class="ins">
           <li>يوم الاختبار العملي <b>يوم دراسي عادي</b>، وتلتزم جميع الطالبات بالحضور من بداية اليوم الدراسي حتى نهايته.</li>
-          <li><b>يُمنع التأخر</b> عن الدخول إلى الفصول أو قاعات الاختبار أو موعد لجنة التقييم.</li>
+          <li><b>يُمنع التأخر</b> عن الدخول إلى الفصول أو قاعات الاختبار أو موعد لجنة التقييم، و<b>الطالبة المتأخرة ليس لها وقت إضافي</b>.</li>
           <li>الالتزام بالزي المدرسي الكامل وبلائحة السلوك طوال اليوم.</li>
         </ul>
       </div>
-
       <div class="card">
         <h4><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>الاستعداد للاختبار</h4>
         <ul class="ins">
           <li>تُحضر الطالبة جميع الأدوات والمستلزمات اللازمة وفق ما تطلبه المعلمة.</li>
-          <li>الاطلاع على موعد اختبار الطالبة وتعليماته الخاصة من <b>الصفحة الثانية</b> بحسب الصف والمادة.</li>
+          <li>تختار الطالبة من <b>الصفحة الثانية</b>: <b>النهاري</b> أو <b>المنازل</b>، ثم صفّها ومادتها؛ لتطّلع على موعد اختبارها وتعليماته.</li>
         </ul>
       </div>
-
       <div class="sigs">
         <div><b>النائبة الأكاديمية</b><span>أ. آسيا الذبياني</span></div>
         <div><b>مديرة المدرسة</b><span>أ. شيخة الرميحي</span></div>
@@ -249,24 +317,32 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
     <div class="foot">متعلم ريادي .. <b>لتنمية مستدامة</b></div>
   </section>
 
-  <!-- ===== Page 2: Schedules ===== -->
+  <!-- ===== Schedules ===== -->
   <section class="page" data-name="المواعيد" id="p2">
     <div class="head"><img src="header.png" alt=""></div>
     <div class="body">
       <div class="ptitle"><span class="n">الصفحة الثانية</span><h3>مواعيد الاختبارات العملية</h3></div>
-      <div class="seg" role="tablist">
-        <button data-g="11" onclick="grade('11')">الحادي عشر</button>
-        <button data-g="12" class="on" onclick="grade('12')">الثاني عشر</button>
+      <p class="hint" style="font-size:14px;font-weight:700;color:var(--ink)">اختاري فئتكِ أولًا</p>
+      <div class="modes">
+        <button class="mode day" onclick="openMode('day')">
+          <span class="mi" id="icDay"></span>
+          <span><span class="mt">طالبات النهاري</span><span class="ms" style="display:block">العاشر • الحادي عشر • الثاني عشر</span></span>
+          <span class="arr">←</span>
+        </button>
+        <button class="mode home" onclick="openMode('home')">
+          <span class="mi" id="icHome"></span>
+          <span><span class="mt">طالبات المنازل</span><span class="ms" style="display:block">اختبارات المنازل</span></span>
+          <span class="arr">←</span>
+        </button>
       </div>
-      <div class="tracks" id="tracks"></div>
-      <p class="hint">اختاري المادة لعرض موعد الاختبار وتعليماته</p>
-      <div class="tiles" id="tiles"></div>
     </div>
     <div class="foot">متعلم ريادي .. <b>لتنمية مستدامة</b></div>
 
-    <div class="sheet" id="sheet">
-      <div class="bar" id="sheetBar"><button onclick="closeSheet()" aria-label="رجوع">&#8594;</button><div class="tt" id="sheetTitle"></div></div>
-      <div class="body" id="sheetBody"></div>
+    <div class="ex" id="ex">
+      <div class="xbar"><button onclick="back()" aria-label="رجوع">&#8594;</button><div class="xt" id="xt"></div><span class="xi" id="xi"></span></div>
+      <div class="ribbon" id="ribbon"></div>
+      <div class="crumbs" id="crumbs"></div>
+      <div class="body" id="xb"></div>
     </div>
   </section>
 </div>
@@ -278,17 +354,31 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 </div>
 
 <script>
+const SVG = (p,w=1.7)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 const ICON = {
-  art:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0 0 18c1.1 0 1.7-.9 1.4-1.8-.3-.9.3-1.7 1.2-1.7H17a4 4 0 0 0 4-4c0-5-4-8.5-9-8.5z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10" cy="7" r="1.2"/><circle cx="14.5" cy="7" r="1.2"/><circle cx="17" cy="11" r="1.2"/></svg>',
-  pc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M9 9l-2 1.5L9 12M15 9l2 1.5-2 1.5"/></svg>',
-  chip:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg>'
+  sun: SVG('<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/>'),
+  home: SVG('<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>'),
+  art: SVG('<path d="M12 3a9 9 0 0 0 0 18c1.1 0 1.7-.9 1.4-1.8-.3-.9.3-1.7 1.2-1.7H17a4 4 0 0 0 4-4c0-5-4-8.5-9-8.5z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10" cy="7" r="1.2"/><circle cx="14.5" cy="7" r="1.2"/><circle cx="17" cy="11" r="1.2"/>'),
+  pc: SVG('<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M9 9l-2 1.5L9 12M15 9l2 1.5-2 1.5"/>'),
+  chip: SVG('<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>'),
+  flask: SVG('<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/><path d="M7.5 15h9"/>'),
+  book: SVG('<path d="M4 19.5V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6M8 11h6"/>')
 };
-const TAG = {sci:'علمي',lit:'أدبي',home:'منازل',tech:'تكنولوجي'};
-const tag = k => `<span class="tag ${k}">${TAG[k]}</span>`;
+document.getElementById('icDay').innerHTML = ICON.sun;
+document.getElementById('icHome').innerHTML = ICON.home;
+function chk(t){return `<label><input type="checkbox"><span>${t}</span></label>`}
 
-/* ---------------- data (from the school's official schedules) ---------------- */
-const ARTS_INFO = [['نوع التقييم','عرض المشروع أمام اللجنة'],['الحضور','إلزامي لاعتماد المشروع'],['رفع العرض التقديمي','قبل يوم التقييم']];
-const ARTS_EXTRA = `
+/* ---------------- subject templates ---------------- */
+const LAB_RULES = `
+  <div class="card"><h4>تعليمات الاختبار داخل معمل الحاسب</h4><ul class="ins">
+    <li>الالتزام بدخول معمل الحاسب في الوقت المحدد، واتباع تنظيم الدخول.</li>
+    <li>يُمنع استخدام أجهزة الحاسب قبل الحصول على إذن المعلمة.</li>
+    <li>يُمنع تنزيل الملفات أو استخدام الإنترنت إلا بما تسمح به المعلمة.</li>
+    <li>حفظ العمل بالطريقة الصحيحة في المجلد أو المسار المحدد.</li>
+    <li>عند انتهاء الوقت: حفظ العمل والتأكد من حفظه، ثم إغلاق الجهاز، وتسليم المهمة الإلكترونية كاملة.</li>
+    <li><b>تنبيه:</b> أي محاولة للإخلال بأنظمة المعمل أو العبث بالأجهزة تُتّخذ بشأنها الإجراءات المتّبعة.</li></ul></div>`;
+const LAB_ALERT = `<div class="alert">⏱ مدة الاختبار حصة دراسية واحدة (45 دقيقة) فقط، والطالبة المتأخرة ليس لها وقت إضافي.</div>`;
+const ART_RULES = `
   <div class="card"><h4>يوم التقييم</h4><ul class="ins">
     <li><b>يُمنع الغياب تمامًا</b> في يوم المقابلة مع لجنة التقييم؛ إذ يُعدّ الحضور شرطًا أساسيًا لاعتماد المشروع.</li>
     <li>يُمنع التأخر عن موعد اللجنة أو الحضور المتأخر إليها.</li></ul></div>
@@ -298,121 +388,154 @@ const ARTS_EXTRA = `
   <div class="card"><h4>قبل يوم التقييم: رفع العرض على منصة تعليم قطر</h4>
     <p class="lead" style="margin-bottom:6px">ترفع الطالبة العرض التقديمي (PowerPoint) لمشروعها على المنصة قبل يوم التقييم، متضمنًا:</p>
     <div class="checks">${['فكرة المشروع','مصادر الإلهام','خطوات التنفيذ','الأدوات والخامات','صورة المخرج النهائي','الصور التوثيقية'].map(chk).join('')}</div>
-    <div class="note"><b>تنبيه:</b> التأكد من أن الملف يفتح دون أخطاء، ويمكن تشغيله بسهولة أمام اللجنة.</div>
-  </div>`;
-const LAB_EXTRA = `
-  <div class="card"><h4>تعليمات الاختبار داخل معمل الحاسب</h4><ul class="ins">
-    <li>الالتزام بدخول معمل الحاسب في الوقت المحدد، واتباع تنظيم الدخول.</li>
-    <li>يُمنع استخدام أجهزة الحاسب قبل الحصول على إذن المعلمة.</li>
-    <li>يُمنع تنزيل الملفات أو استخدام الإنترنت إلا بما تسمح به المعلمة.</li>
-    <li>حفظ العمل بالطريقة الصحيحة في المجلد أو المسار المحدد.</li>
-    <li>عند انتهاء الوقت: حفظ العمل والتأكد من حفظه، ثم إغلاق الجهاز، وتسليم المهمة الإلكترونية كاملة.</li>
-    <li><b>تنبيه:</b> أي محاولة للإخلال بأنظمة المعمل أو العبث بالأجهزة تُتّخذ بشأنها الإجراءات المتّبعة.</li></ul></div>`;
+    <div class="note"><b>تنبيه:</b> التأكد من أن الملف يفتح دون أخطاء، ويمكن تشغيله بسهولة أمام اللجنة.</div></div>`;
 
-const COMP = {key:'pc', icon:'pc', title:'الحوسبة وتكنولوجيا المعلومات', sub:'الاختبار العملي',
-  info:[['المكان','معمل الحاسب'],['المدة','حصة واحدة (45 دقيقة)'],['اليوم','يوم دراسي عادي']], extra:LAB_EXTRA};
-const ART = {key:'art', icon:'art', title:'الفنون البصرية', sub:'تقييم المشروع', info:ARTS_INFO, extra:ARTS_EXTRA};
-const TECH_INFO = [['المسار','التكنولوجي (نهاري)'],['المكان','معمل الحاسب'],['الفترات','فترتان لكل مادة']];
-const TECH_NOTE = `<div class="note" style="margin-bottom:12px"><b>المرجع:</b> المواعيد وفق الجدول الرسمي لاختبارات نهاية الفصل الدراسي الأول (الصف الثاني عشر – المسار التكنولوجي) الصادر عن وزارة التربية والتعليم والتعليم العالي.</div>`;
-const TRACKS = {
-  '12': {
-    sci: [ {...ART, rows:[['الأحد','29-11-2026',[['الثاني عشر 4 + الثاني عشر 5']]]]},
-           {...COMP, rows:[['الثلاثاء','24-11-2026',[['الثاني عشر 4 + الثاني عشر 5']]],
-                           ['الأربعاء','25-11-2026',[['الثاني عشر 1'],['الثاني عشر 2'],['الثاني عشر 3']]],
-                           ['الخميس','26-11-2026',[['الثاني عشر – منازل','home']]]]} ],
-    lit: [ {...ART, rows:[['الاثنين','30-11-2026',[['الثاني عشر 6 + الثاني عشر 7']]]]},
-           {...COMP, rows:[['الخميس','26-11-2026',[['الثاني عشر – منازل','home']]]]} ],
-    tech:[ {key:'cs', icon:'chip', tech:true, title:'علوم الحاسب', sub:'الاختبار العملي', info:TECH_INFO,
-            rows:[['الثلاثاء','24-11-2026',[['الفترة الأولى: 9:00 – 10:00 ص'],['الفترة الثانية: 11:00 ص – 12:00 م']]]],
-            heads:['اليوم والتاريخ','الفترتان'], extra:TECH_NOTE+LAB_EXTRA},
-           {key:'it', icon:'pc', tech:true, title:'تكنولوجيا المعلومات', sub:'الاختبار العملي', info:TECH_INFO,
-            rows:[['الأحد','29-11-2026',[['الفترة الأولى: 9:00 – 10:00 ص'],['الفترة الثانية: 11:00 ص – 12:00 م']]]],
-            heads:['اليوم والتاريخ','الفترتان'], extra:TECH_NOTE+LAB_EXTRA} ]
+const PC  = (rows,label='الحوسبة وتكنولوجيا المعلومات') => ({icon:'pc', title:label, sub:'الاختبار العملي – معمل الحاسب',
+  info:[['المكان','معمل الحاسب'],['المدة','45 دقيقة'],['التأخر','لا وقت إضافي']], rows, pre:LAB_ALERT, extra:LAB_RULES});
+const ART = rows => ({icon:'art', title:'الفنون البصرية', sub:'تقييم المشروع أمام اللجنة',
+  info:[['نوع التقييم','عرض المشروع'],['الحضور','إلزامي'],['العرض التقديمي','يُرفع قبل اليوم']], rows, extra:ART_RULES});
+const TECH_REF = `<div class="note" style="margin-bottom:12px"><b>المرجع:</b> وفق الجدول الرسمي لاختبارات نهاية الفصل الدراسي الأول – الصف الثاني عشر، المسار التكنولوجي (وزارة التربية والتعليم والتعليم العالي).</div>`;
+
+/* rows: [day, date, class, when, place] */
+const DATA = {
+  day: {
+    '10': {subjects:[ PC([
+      ['الخميس','26-11-2026','العاشر 1','الحصة السادسة','معمل 2'],
+      ['الأحد','29-11-2026','العاشر 6','الحصة الخامسة','معمل 1'],
+      ['الاثنين','30-11-2026','العاشر 7','الحصة الخامسة','معمل 2'],
+      ['الثلاثاء','01-12-2026','العاشر 5','الحصة الأولى','معمل 2'],
+      ['الثلاثاء','01-12-2026','العاشر 2','الحصة الخامسة','معمل 1'],
+      ['الأربعاء','02-12-2026','العاشر 3','الحصة الثانية','معمل 1'],
+      ['الأربعاء','02-12-2026','العاشر 4','الحصة الرابعة','معمل 2']]) ]},
+    '11': {subjects:[
+      PC([['الأحد','29-11-2026','الحادي عشر 5','الحصة الأولى','معمل 2'],
+          ['الاثنين','30-11-2026','الحادي عشر 2','الحصة الثانية','معمل 2'],
+          ['الثلاثاء','01-12-2026','الحادي عشر 4','الحصة الأولى','معمل 1'],
+          ['الأربعاء','02-12-2026','الحادي عشر 3','الحصة الرابعة','معمل 1']]),
+      ART([['الثلاثاء','01-12-2026','الحادي عشر 1','',''],
+           ['الأربعاء','02-12-2026','الحادي عشر 6 + الحادي عشر 7','','']]) ]},
+    '12': {tracks:{
+      sci:{name:'المسار العلمي', subjects:[
+        PC([['الثلاثاء','24-11-2026','الثاني عشر 4 + الثاني عشر 5','11:00 – 12:00',''],
+            ['الأربعاء','25-11-2026','الثاني عشر 1','8:00 – 9:00',''],
+            ['الأربعاء','25-11-2026','الثاني عشر 2','10:00 – 11:00',''],
+            ['الأربعاء','25-11-2026','الثاني عشر 3','12:00 – 1:00','']]),
+        ART([['الأحد','29-11-2026','الثاني عشر 4 + الثاني عشر 5','','']]) ]},
+      lit:{name:'المسار الأدبي', subjects:[
+        ART([['الاثنين','30-11-2026','الثاني عشر 6 + الثاني عشر 7','','']]) ]},
+      tech:{name:'المسار التكنولوجي', subjects:[
+        {...PC([['الثلاثاء','24-11-2026','الثاني عشر 8','9:00 – 10:00','']],'علوم الحاسب'), icon:'chip', tech:true, pre:LAB_ALERT+TECH_REF},
+        {...PC([['الأحد','29-11-2026','الثاني عشر 8','9:00 – 10:00','']],'تكنولوجيا المعلومات'), icon:'pc', tech:true, pre:LAB_ALERT+TECH_REF} ]}
+    }}
   },
-  '11': {
-    sci: [ {...ART, rows:[['الثلاثاء','01-12-2026',[['الحادي عشر 1']]]]}, {...COMP, rows:null} ],
-    lit: [ {...ART, rows:[['الأربعاء','02-12-2026',[['الحادي عشر 6 + الحادي عشر 7']]]]}, {...COMP, rows:null} ]
+  home: {
+    '10': {subjects:[]},
+    '11': {subjects:[ {...PC([['الاثنين','30-11-2026','منازل الحادي عشر (المنهج كاملًا)','9:00 – 10:00','معمل 1']])} ]},
+    '12': {subjects:[ {...PC([['الخميس','26-11-2026','منازل الثاني عشر (علمي – أدبي)','9:00 – 10:00','']])} ]}
   }
 };
-const TRACK_NAME = {sci:'المسار العلمي', lit:'المسار الأدبي', tech:'المسار التكنولوجي'};
-const TRACK_SHORT = {sci:'علمي', lit:'أدبي', tech:'تكنولوجي'};
-const TRACK_COLOR = {sci:'var(--t-sci)', lit:'var(--t-lit)', tech:'var(--t-tech)'};
+const GNAME = {'10':'الصف العاشر','11':'الصف الحادي عشر','12':'الصف الثاني عشر'};
+const GNUM = {'10':'10','11':'11','12':'12'};
+const MODE = {day:{t:'طالبات النهاري', r:'☀ اختبارات طالبات النهاري', icon:'sun'},
+              home:{t:'طالبات المنازل', r:'⌂ اختبارات المنازل ⌂', icon:'home'}};
 
-function chk(t){return `<label><input type="checkbox"><span>${t}</span></label>`}
+/* ---------------- explorer navigation ---------------- */
+let st = []; // stack of views
+const ex = document.getElementById('ex');
+function openMode(m){ st=[{v:'grades', m}]; ex.className='ex '+m; render(); requestAnimationFrame(()=>ex.classList.add('open')); }
+function push(v){ st.push(v); render(); }
+function back(){ st.pop(); if(!st.length){ ex.classList.remove('open'); return; } render(); }
+function closeEx(){ st=[]; ex.classList.remove('open'); }
 
-/* ---------------- grade -> track -> subject ---------------- */
-let g = '12', tr = 'sci';
-function grade(x){
-  g = x;
-  document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on', b.dataset.g===x));
-  const ks = Object.keys(TRACKS[x]);
-  if(!ks.includes(tr)) tr = ks[0];
-  document.getElementById('tracks').innerHTML = '<span class="tl">المسار:</span>' + ks.map(k=>
-    `<button style="--c:${TRACK_COLOR[k]}" class="${k===tr?'on':''}" onclick="track('${k}')">${TRACK_SHORT[k]}</button>`).join('');
-  track(tr);
+function gradeNode(m,g){ return DATA[m][g]; }
+function pickGrade(g){
+  const m = st[0].m, node = gradeNode(m,g);
+  if(node.tracks) return push({v:'tracks', m, g});
+  if(node.subjects.length===1) return push({v:'detail', m, g, s:node.subjects[0]});
+  push({v:'subjects', m, g, list:node.subjects});
 }
-function track(k){
-  tr = k;
-  document.querySelectorAll('#tracks button').forEach(b=>b.classList.toggle('on', b.getAttribute('onclick')===`track('${k}')`));
-  document.getElementById('tiles').innerHTML = TRACKS[g][k].map((s,i)=>`
-    <button class="tile ${s.tech?'tech':''}" onclick="openSheet(${i})">
-      <span class="go">عرض ←</span>
-      <span class="ico">${ICON[s.icon]}</span>
-      <span class="t">${s.title}</span><span class="s">${s.sub}</span>
-    </button>`).join('');
+function pickTrack(k){
+  const {m,g} = st[st.length-1], tr = DATA[m][g].tracks[k];
+  if(tr.subjects.length===1) return push({v:'detail', m, g, k, s:tr.subjects[0]});
+  push({v:'subjects', m, g, k, list:tr.subjects});
 }
-function openSheet(i){
-  const s = TRACKS[g][tr][i], gname = g==='12'?'الصف الثاني عشر':'الصف الحادي عشر';
-  document.getElementById('sheetBar').classList.toggle('tech', !!s.tech);
-  document.getElementById('sheetTitle').innerHTML = `${s.title}<small>${gname} – ${TRACK_NAME[tr]}</small>`;
-  let h = '';
-  if(s.info) h += `<div class="info">${s.info.map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>`;
-  if(s.rows){
-    const hd = s.heads || ['اليوم والتاريخ','الصفوف'];
-    h += `<table class="sch ${s.tech?'tech':''}"><thead><tr><th>${hd[0]}</th><th>${hd[1]}</th></tr></thead><tbody>${
-      s.rows.map(([d,dt,cls])=>`<tr><td class="day">${d}<small>${dt}</small></td><td class="cls">${
-        cls.map(([c,t])=>`<span class="ln">${c} ${t?tag(t):''}</span>`).join('')}</td></tr>`).join('')
-    }</tbody></table>`;
-  } else {
-    h += `<div class="empty"><b>لم يُعلَن الموعد بعد</b>لم يصدر جدول الاختبار العملي لهذه المادة للصف الحادي عشر حتى الآن،<br>وسيُضاف إلى الدليل فور اعتماده.</div>`;
+function pickSubject(i){ const top=st[st.length-1]; push({v:'detail', m:top.m, g:top.g, k:top.k, s:top.list[i]}); }
+
+function render(){
+  const top = st[st.length-1], m = top.m;
+  document.getElementById('ribbon').textContent = MODE[m].r;
+  document.getElementById('xi').innerHTML = ICON[MODE[m].icon];
+  const trName = top.k ? DATA[m][top.g].tracks[top.k].name : '';
+  const crumbs = [MODE[m].t, top.g?GNAME[top.g]:'', trName, top.v==='detail'?top.s.title:''].filter(Boolean);
+  document.getElementById('crumbs').innerHTML = crumbs.map(c=>`<span>${c}</span>`).join('');
+  let title = MODE[m].t, sub = 'اختاري الصف', h = '';
+
+  if(top.v==='grades'){
+    h = `<p class="q">اختاري صفّكِ</p><div class="big">${['10','11','12'].map(g=>{
+      const n = gradeNode(m,g);
+      const cnt = n.tracks ? 'المسار العلمي • الأدبي • التكنولوجي' : (n.subjects.length? n.subjects.map(s=>s.title).join(' • ') : 'لم يُعلَن اختبار عملي');
+      return `<button class="gbtn" onclick="pickGrade('${g}')"><span class="num">${GNUM[g]}</span><span><b>${GNAME[g]}</b><small>${cnt}</small></span><span class="arr">←</span></button>`;}).join('')}</div>`;
   }
-  if(s.extra) h += s.extra;
-  document.getElementById('sheetBody').innerHTML = h;
-  document.getElementById('sheetBody').scrollTop = 0;
-  document.getElementById('sheet').classList.add('open');
+  else if(top.v==='tracks'){
+    title = GNAME[top.g]; sub = 'اختاري المسار';
+    const T = DATA[m][top.g].tracks, ic = {sci:ICON.flask, lit:ICON.book, tech:ICON.chip};
+    h = `<p class="q">اختاري مساركِ</p><div class="big">${Object.entries(T).map(([k,t])=>
+      `<button class="gbtn ${k}" onclick="pickTrack('${k}')"><span class="num">${ic[k]}</span><span><b>${t.name}</b><small>${t.subjects.map(s=>s.title).join(' • ')}</small></span><span class="arr">←</span></button>`).join('')}</div>`;
+  }
+  else if(top.v==='subjects'){
+    title = GNAME[top.g]; sub = trName || 'اختاري المادة';
+    if(!top.list.length){
+      h = `<div class="empty"><b>لا يوجد اختبار عملي معلن</b>لم يصدر جدول اختبار عملي لهذا الصف حتى الآن،<br>وسيُضاف إلى الدليل فور اعتماده.</div>`;
+    } else {
+      h = `<p class="q">اختاري المادة</p><div class="big">${top.list.map((s,i)=>
+        `<button class="gbtn ${s.tech?'tech':''}" onclick="pickSubject(${i})"><span class="num">${ICON[s.icon]}</span><span><b>${s.title}</b><small>${s.sub}</small></span><span class="arr">←</span></button>`).join('')}</div>`;
+    }
+  }
+  else if(top.v==='detail'){
+    const s = top.s; title = s.title; sub = GNAME[top.g] + (trName?' – '+trName:'');
+    h += s.pre || '';
+    h += `<div class="info">${s.info.map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>`;
+    const hasWhen = s.rows.some(r=>r[3]);
+    h += `<table class="sch"><thead><tr><th>اليوم والتاريخ</th><th>الصف</th>${hasWhen?'<th>الموعد</th>':''}</tr></thead><tbody>${
+      s.rows.map(r=>`<tr><td class="day">${r[0]}<small>${r[1]}</small></td><td class="cls">${r[2]}</td>${
+        hasWhen?`<td class="when">${/\d/.test(r[3])?`<span class="d">${r[3]}</span>`:r[3]}${r[4]?`<small>${r[4]}</small>`:''}</td>`:''}</tr>`).join('')}</tbody></table>`;
+    h += s.extra || '';
+  }
+  // grade with no subjects at all (e.g. home 10)
+  if(top.v==='grades'){}
+  document.getElementById('xt').innerHTML = `${title}<small>${sub}</small>`;
+  const xb = document.getElementById('xb'); xb.innerHTML = h; xb.scrollTop = 0;
 }
-function closeSheet(){document.getElementById('sheet').classList.remove('open')}
+/* handle empty grade directly */
+const _pick = pickGrade;
+pickGrade = function(g){ const n=gradeNode(st[0].m,g); if(!n.tracks && !n.subjects.length) return push({v:'subjects', m:st[0].m, g, list:[]}); _pick(g); };
 
 /* ---------------- book ---------------- */
 const pages = [...document.querySelectorAll('.page')];
 let cur = 0;
-pages.forEach((p,i)=>p.style.zIndex = pages.length - i);
 document.getElementById('dots').innerHTML = pages.map((_,i)=>`<i onclick="go(${i})"></i>`).join('');
 function go(n){
   if(n<0 || n>=pages.length) return;
-  closeSheet();
-  cur = n;
-  pages.forEach((p,i)=>{
-    p.classList.toggle('turned', i < n);
-    p.style.zIndex = i < n ? (i+1) : (pages.length - i + 10);
-  });
+  closeEx(); cur = n;
+  pages.forEach((p,i)=>{ p.classList.toggle('turned', i < n); p.style.zIndex = i < n ? (i+1) : (pages.length - i + 10); });
   document.querySelectorAll('.dots i').forEach((d,i)=>d.classList.toggle('on', i===n));
   document.getElementById('prev').disabled = n===0;
   document.getElementById('next').disabled = n===pages.length-1;
   document.getElementById('pager').textContent = `${pages[n].dataset.name} • ${n+1} من ${pages.length}`;
 }
-/* swipe (RTL book: swipe right = next) */
 let sx=null, sy=null;
 const book = document.getElementById('book');
 book.addEventListener('touchstart',e=>{sx=e.touches[0].clientX; sy=e.touches[0].clientY},{passive:true});
 book.addEventListener('touchend',e=>{
   if(sx===null) return;
   const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
-  if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5 && !document.getElementById('sheet').classList.contains('open')) go(cur + (dx>0?1:-1));
+  if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5 && !ex.classList.contains('open')) go(cur + (dx>0?1:-1));
   sx=null;
 });
-document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')go(cur+1); if(e.key==='ArrowRight')go(cur-1); if(e.key==='Escape')closeSheet()});
-grade('12'); go(0);
+document.addEventListener('keydown',e=>{ if(ex.classList.contains('open')){ if(e.key==='Escape') back(); return; }
+  if(e.key==='ArrowLeft')go(cur+1); if(e.key==='ArrowRight')go(cur-1); });
+go(0);
 </script>
+
 </body>
 </html>

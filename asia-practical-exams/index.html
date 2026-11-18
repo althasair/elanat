@@ -339,6 +339,7 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
   50%{box-shadow:0 10px 22px rgba(0,0,0,.4),0 0 0 8px rgba(233,196,126,.18),inset 0 2px 0 rgba(255,255,255,.7)}}
 .cv-foot{text-align:center;font-size:12px;font-weight:700;color:#E9CF9C;letter-spacing:.3px;padding-top:4px;opacity:.9}
 @media (max-height:700px){.cv-title{font-size:27px}.cv-seal{width:58px;height:58px}.cv-seal svg{width:30px;height:30px}.cv-mid{gap:7px}.cv-date{padding:7px 12px}.cv-cta{padding:10px 26px;font-size:15px}.cv-frame{padding:9px 12px}}
+.tip{font-size:12.5px;line-height:1.7;color:#7A4A12;background:#FBF3E4;border:1px dashed #E3C894;border-radius:9px;padding:6px 10px;margin:0 0 8px;text-align:justify}
 </style>
 </head>
 <body>
@@ -472,11 +473,12 @@ const ART_RULES = `
   <div class="card"><h4>يوم التقييم</h4><ul class="ins">
     <li><b>يُمنع الغياب تمامًا</b> في يوم المقابلة مع لجنة التقييم؛ إذ يُعدّ الحضور شرطًا أساسيًا لاعتماد المشروع.</li>
     <li>يُمنع التأخر عن موعد اللجنة أو الحضور المتأخر إليها.</li></ul></div>
-  <div class="card"><h4>ما تُحضره الطالبة (كاملًا ومنظّمًا)</h4><div class="checks one">
-    ${['لوحة خطوات تنفيذ المشروع (Process Board)','لوحة المخرج النهائي (Final Artwork Board)','دفاتر التجارب التشكيلية (Sketchbooks / Visual Journal)','الاسكتشات الأولية والتجارب اليدوية','جميع الأدوات والمستلزمات الخاصة بالمشروع'].map(chk).join('')}
+  <div class="card"><h4>ما تُحضره الطالبة (كاملًا ومنظّمًا)</h4><p class="tip">✓ قائمة تجهيز خاصة بكِ: ضعي علامة أمام كل ما جهّزتِه؛ لتنظّمي استعدادكِ وتعرفي ما تبقّى قبل يوم التقييم.</p><div class="checks one">
+    ${['لوحة خطوات تنفيذ المشروع (<bdi dir="ltr">Process Board</bdi>)','لوحة المخرج النهائي (<bdi dir="ltr">Final Artwork Board</bdi>)','دفاتر التجارب التشكيلية (<bdi dir="ltr">Sketchbooks / Visual Journal</bdi>)','الاسكتشات الأولية والتجارب اليدوية','جميع الأدوات والمستلزمات الخاصة بالمشروع'].map(chk).join('')}
   </div></div>
   <div class="card"><h4>قبل يوم التقييم: رفع العرض على منصة تعليم قطر</h4>
     <p class="lead" style="margin-bottom:6px">ترفع الطالبة العرض التقديمي (PowerPoint) لمشروعها على المنصة قبل يوم التقييم، متضمنًا:</p>
+    <p class="tip">✓ ضعي علامة أمام كل عنصر بعد التأكد من وجوده في عرضكِ.</p>
     <div class="checks">${['فكرة المشروع','مصادر الإلهام','خطوات التنفيذ','الأدوات والخامات','صورة المخرج النهائي','الصور التوثيقية'].map(chk).join('')}</div>
     <div class="note"><b>تنبيه:</b> التأكد من أن الملف يفتح دون أخطاء، ويمكن تشغيله بسهولة أمام اللجنة.</div></div>`;
 

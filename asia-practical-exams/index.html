@@ -391,6 +391,36 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
   background:linear-gradient(180deg,#8C2235,#6E1423);box-shadow:0 8px 16px rgba(110,20,35,.3)}
 .zgo span{display:inline-block;transition:transform .3s}.zgo:hover span{transform:translateX(-5px)}
 @media (prefers-reduced-motion:reduce){.zc{opacity:1!important;animation:none!important}.wish .wi{animation:none}}
+
+/* ---------- calendar ---------- */
+.caltile{width:100%;display:flex;align-items:center;gap:14px;border:0;cursor:pointer;font-family:var(--font);text-align:right;color:#fff;
+  border-radius:18px;padding:14px 16px;margin-bottom:6px;background:linear-gradient(135deg,#C99A4C 0%,#9A6F2A 100%);
+  box-shadow:0 12px 22px rgba(154,111,42,.35),inset 0 1px 0 rgba(255,255,255,.35);position:relative;overflow:hidden;animation:popIn .5s both}
+.caltile::after{content:"";position:absolute;top:-40%;left:-60%;width:40%;height:180%;transform:rotate(25deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);animation:shine 3.5s ease-in-out infinite}
+@keyframes shine{0%,60%{left:-60%}100%{left:130%}}
+.caltile .ct-i{flex:none;width:52px;height:52px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.18);box-shadow:inset 0 2px 3px rgba(255,255,255,.3)}
+.caltile .ct-i svg{width:28px;height:28px}
+.caltile b{display:block;font-size:17px;font-weight:700}
+.caltile small{display:block;font-size:12.5px;opacity:.92;margin-top:2px}
+.caltile .arr{margin-right:auto;font-size:20px}
+.ex.home .caltile{background:linear-gradient(135deg,#2C7A86,#134650);box-shadow:0 12px 22px rgba(19,70,80,.35)}
+.cal{border-radius:16px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:0 10px 20px rgba(0,0,0,.07)}
+.cal-h,.cal-w{display:grid;grid-template-columns:repeat(5,1fr)}
+.cal-h span{text-align:center;font-size:11.5px;font-weight:700;color:#fff;padding:7px 2px;background:var(--headg)}
+.cal-d{min-height:86px;border-top:1px solid var(--line);border-left:1px solid var(--line);padding:4px 3px 5px;display:flex;flex-direction:column;gap:4px;background:#FCFAF8}
+.cal-w .cal-d:last-child{border-left:0}
+.cal-d.has{background:#fff}
+.cal-d.today{box-shadow:inset 0 0 0 2px #C99A4C;background:#FFF9EC}
+.cal-n{font-size:15px;font-weight:700;color:var(--accent);line-height:1.1;text-align:center}
+.cal-n small{display:block;font-size:9.5px;color:var(--mute);font-weight:600}
+.cal-d:not(.has) .cal-n{opacity:.5}
+.cal-e{display:flex;flex-direction:column;align-items:center;gap:1px;border:0;cursor:pointer;font-family:var(--font);color:#fff;border-radius:10px;padding:5px 2px 4px;
+  background:linear-gradient(160deg,var(--c1),var(--c2));box-shadow:0 5px 10px var(--cl);transition:transform .25s cubic-bezier(.2,.9,.3,1.4);animation:popIn .45s both}
+.cal-e:hover{transform:translateY(-2px) scale(1.04)}
+.cal-e .ce-i svg{width:18px;height:18px}
+.cal-e .ce-t{font-size:10.5px;font-weight:700;line-height:1.25;text-align:center}
+.cal-e .ce-c{font-size:9.5px;background:rgba(255,255,255,.22);border-radius:8px;padding:0 5px;line-height:1.5;direction:ltr;unicode-bidi:isolate}
+.cal-note{font-size:12px;color:var(--mute);text-align:center;margin:10px 4px 0;line-height:1.7}
 </style>
 </head>
 <body>
@@ -529,6 +559,7 @@ const ICON = {
   bio: SVG('<path d="M12 21c-4.5-2-7-5.5-7-10 4 0 7 2 7 6"/><path d="M12 21c4.5-2 7-5.5 7-10-4 0-7 2-7 6"/><path d="M12 21V9"/><path d="M9 5c1-1.5 2-2 3-2s2 .5 3 2"/>'),
   atom: SVG('<circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8" transform="rotate(120 12 12)"/>'),
   micro: SVG('<path d="M6 21h12M9 21v-3a5 5 0 0 1 5-5"/><path d="M10 4l3 1-2 6-3-1z"/><path d="M13 8l3 1"/><circle cx="15.5" cy="14.5" r="2.5"/>'),
+  cal: SVG('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="8" cy="14.5" r="1"/><circle cx="12" cy="14.5" r="1"/><circle cx="16" cy="14.5" r="1"/><circle cx="8" cy="18" r="1"/>'),
   book: SVG('<path d="M4 19.5V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6M8 11h6"/>')
 };
 document.getElementById('icDay').innerHTML = ICON.sun;
@@ -633,22 +664,51 @@ function gradeNode(m,g){ return DATA[m][g]; }
 function pickGrade(g){
   const m = st[0].m, node = gradeNode(m,g);
   if(node.tracks) return push({v:'tracks', m, g});
-  if(node.subjects.length===1) return push({v:'detail', m, g, s:node.subjects[0]});
   push({v:'subjects', m, g, list:node.subjects});
 }
 function pickTrack(k){
   const {m,g} = st[st.length-1], tr = DATA[m][g].tracks[k];
-  if(tr.subjects.length===1) return push({v:'detail', m, g, k, s:tr.subjects[0]});
   push({v:'subjects', m, g, k, list:tr.subjects});
 }
 function pickSubject(i){ const top=st[st.length-1]; push({v:'detail', m:top.m, g:top.g, k:top.k, s:top.list[i]}); }
+function openCal(){ const top=st[st.length-1]; push({v:'cal', m:top.m, g:top.g, k:top.k, list:top.list}); }
+function calPick(i){ const top=st[st.length-1]; push({v:'detail', m:top.m, g:top.g, k:top.k, s:top.list[i]}); }
+const WD = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس'];
+const toD = t => { const [d,mo,y]=t.split('-').map(Number); return new Date(y,mo-1,d); };
+const shortCls = c => { if(!/\d/.test(c)) return ''; return c.replace(/الحادي عشر\s*/g,'11-').replace(/الثاني عشر\s*/g,'12-').replace(/العاشر\s*/g,'10-').replace(/منازل\s*/,'').trim(); };
+function calendarHTML(list){
+  const ev = {}; let min=null, max=null;
+  list.forEach((s,i)=> (s.rows||[]).forEach(r=>{ const d=toD(r[1]), key=r[1];
+    (ev[key]=ev[key]||[]).push({i, s, cls:shortCls(r[2]), when:r[3]||''});
+    if(!min||d<min)min=d; if(!max||d>max)max=d; }));
+  if(!min) return `<div class="empty"><b>لا توجد مواعيد</b>لم تُعلَن مواعيد لهذا الاختيار بعد.</div>`;
+  const start = new Date(min); start.setDate(start.getDate()-start.getDay());
+  const months=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  const today = new Date(); today.setHours(0,0,0,0);
+  let h = `<div class="cal"><div class="cal-h">${WD.map(w=>`<span>${w}</span>`).join('')}</div>`;
+  for(let w=new Date(start); w<=max; w.setDate(w.getDate()+7)){
+    h += '<div class="cal-w">';
+    for(let k=0;k<5;k++){
+      const d=new Date(w); d.setDate(w.getDate()+k);
+      const key=[String(d.getDate()).padStart(2,'0'),String(d.getMonth()+1).padStart(2,'0'),d.getFullYear()].join('-');
+      const list2 = ev[key]||[];
+      const isToday = d.getTime()===today.getTime();
+      h += `<div class="cal-d ${list2.length?'has':''} ${isToday?'today':''}"><div class="cal-n">${d.getDate()}<small>${months[d.getMonth()]}</small></div>${
+        list2.map(e=>`<button class="cal-e" style="${cv(e.s.title==='تكنولوجيا المعلومات'?'it':e.s.icon)}" onclick="calPick(${e.i})" title="${e.s.title}"><span class="ce-i">${ICON[e.s.icon]}</span><span class="ce-t">${e.s.title.replace('الحوسبة وتكنولوجيا المعلومات','الحوسبة')}</span>${e.cls?`<span class="ce-c">${e.cls}</span>`:''}${e.when?`<span class="ce-c d">${e.when}</span>`:''}</button>`).join('')
+      }</div>`;
+    }
+    h += '</div>';
+  }
+  h += `</div><p class="cal-note">اضغطي على أي اختبار في التقويم لعرض تفاصيله وتعليماته${list.some(s=>(s.rows||[]).some(r=>shortCls(r[2])))?' • الرقم الصغير تحت المادة هو صفّكِ؛ ابحثي عن صفّكِ':''}</p>`;
+  return h;
+}
 
 function render(){
   const top = st[st.length-1], m = top.m;
   document.getElementById('ribbon').textContent = MODE[m].r;
   document.getElementById('xi').innerHTML = ICON[MODE[m].icon];
   const trName = top.k ? DATA[m][top.g].tracks[top.k].name : '';
-  const crumbs = [MODE[m].t, top.g?GNAME[top.g]:'', trName, top.v==='detail'?top.s.title:''].filter(Boolean);
+  const crumbs = [MODE[m].t, top.g?GNAME[top.g]:'', trName, top.v==='detail'?top.s.title:(top.v==='cal'?'التقويم':'')].filter(Boolean);
   document.getElementById('crumbs').innerHTML = crumbs.map(c=>`<span>${c}</span>`).join('');
   let title = MODE[m].t, sub = 'اختاري الصف', h = '';
 
@@ -669,9 +729,14 @@ function render(){
     if(!top.list.length){
       h = `<div class="empty"><b>لا يوجد اختبار عملي معلن</b>لم يصدر جدول اختبار عملي لهذا الصف حتى الآن،<br>وسيُضاف إلى الدليل فور اعتماده.</div>`;
     } else {
-      h = `<p class="q">اختاري المادة</p><div class="big">${top.list.map((s,i)=>
+      h = `<button class="caltile" onclick="openCal()"><span class="ct-i">${ICON.cal}</span><span><b>تقويم اختباراتي</b><small>كل اختباراتكِ العملية على أيام التقويم</small></span><span class="arr">←</span></button>
+      <p class="q">أو اختاري المادة</p><div class="big">${top.list.map((s,i)=>
         `<button class="gbtn ${s.tech?'tech':''}" style="${cv(s.title==='تكنولوجيا المعلومات'?'it':s.icon)}" onclick="pickSubject(${i})"><span class="num">${ICON[s.icon]}</span><span><b>${s.title}</b><small>${s.sub}</small></span><span class="arr">←</span></button>`).join('')}</div>`;
     }
+  }
+  else if(top.v==='cal'){
+    title = 'تقويم اختباراتي'; sub = GNAME[top.g] + (trName?' – '+trName:'');
+    h = calendarHTML(top.list);
   }
   else if(top.v==='detail'){
     const s = top.s; title = s.title; sub = GNAME[top.g] + (trName?' – '+trName:'');

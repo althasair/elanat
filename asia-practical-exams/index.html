@@ -285,11 +285,13 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 @media (prefers-reduced-motion:reduce){.ex .gbtn{animation:none;opacity:1}.ex .gbtn *{transition:none!important}}
 
 /* ---------- luxurious cover ---------- */
-.page.cv2{background:linear-gradient(180deg,#FFFFFF 0%,#FFFFFF 13%,#EEEAEA 28%,#CFC6C7 46%,#93404E 62%,#6E1423 74%,#3C0A15 100%);padding:14px}
+.page.cv2{background:linear-gradient(180deg,#FFFFFF 0%,#FFFFFF 13%,#EEEAEA 28%,#CFC6C7 46%,#93404E 62%,#6E1423 74%,#3C0A15 100%);padding:0 14px 14px;display:flex;flex-direction:column}
 .page.cv2::before{content:"";position:absolute;inset:0;opacity:.14;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,transparent 45%,#000 75%);mask-image:linear-gradient(180deg,transparent 45%,#000 75%);
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
 .page.cv2::after{width:34px;background:linear-gradient(to left,rgba(0,0,0,.22),rgba(0,0,0,0))}
-.cv-frame{position:relative;height:100%;display:flex;flex-direction:column;border-radius:10px;padding:12px 14px;
+.cv-head{flex:none;margin:0 -14px 4px}
+.cv-head img{display:block;width:100%;height:auto}
+.cv-frame{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;border-radius:10px;padding:12px 14px;
   border:1.5px solid #C99A4C;box-shadow:inset 0 0 0 5px rgba(110,20,35,.05),inset 0 0 0 6.5px rgba(201,154,76,.5)}
 .cv-frame::before,.cv-frame::after{content:"";position:absolute;width:26px;height:26px;border:2px solid #E6C27E;}
 .cv-frame::before{top:-5px;right:-5px;border-left:0;border-bottom:0;border-radius:0 8px 0 0}
@@ -351,8 +353,8 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 
   <!-- ===== Cover ===== -->
   <section class="page cv2" data-name="الغلاف">
+    <div class="cv-head"><img src="header.png" alt="ترويسة مدرسة الشيماء الثانوية للبنات"></div>
     <div class="cv-frame">
-      <div class="cv-plate"><img src="header.png" alt="ترويسة مدرسة الشيماء الثانوية للبنات"></div>
       <div class="cv-mid">
         <div class="cv-seal" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6M8 11h6"/><path d="M18 19v2H6"/></svg>

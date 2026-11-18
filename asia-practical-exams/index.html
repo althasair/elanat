@@ -285,15 +285,12 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 @media (prefers-reduced-motion:reduce){.ex .gbtn{animation:none;opacity:1}.ex .gbtn *{transition:none!important}}
 
 /* ---------- luxurious cover ---------- */
-.page.cv2{background:
-  radial-gradient(120% 70% at 50% 0%,#8E2438 0%,transparent 60%),
-  radial-gradient(90% 60% at 50% 110%,#2E0710 0%,transparent 70%),
-  linear-gradient(160deg,#6E1423 0%,#561020 50%,#3C0A15 100%);padding:14px}
-.page.cv2::before{content:"";position:absolute;inset:0;opacity:.18;pointer-events:none;
+.page.cv2{background:linear-gradient(180deg,#FFFFFF 0%,#FFFFFF 13%,#EEEAEA 28%,#CFC6C7 46%,#93404E 62%,#6E1423 74%,#3C0A15 100%);padding:14px}
+.page.cv2::before{content:"";position:absolute;inset:0;opacity:.14;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,transparent 45%,#000 75%);mask-image:linear-gradient(180deg,transparent 45%,#000 75%);
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
-.page.cv2::after{width:34px;background:linear-gradient(to left,rgba(0,0,0,.45),rgba(0,0,0,0))}
+.page.cv2::after{width:34px;background:linear-gradient(to left,rgba(0,0,0,.22),rgba(0,0,0,0))}
 .cv-frame{position:relative;height:100%;display:flex;flex-direction:column;border-radius:10px;padding:12px 14px;
-  border:1.5px solid #D8B26A;box-shadow:inset 0 0 0 5px rgba(0,0,0,.12),inset 0 0 0 6.5px rgba(216,178,106,.55),0 0 0 1px rgba(0,0,0,.25)}
+  border:1.5px solid #C99A4C;box-shadow:inset 0 0 0 5px rgba(110,20,35,.05),inset 0 0 0 6.5px rgba(201,154,76,.5)}
 .cv-frame::before,.cv-frame::after{content:"";position:absolute;width:26px;height:26px;border:2px solid #E6C27E;}
 .cv-frame::before{top:-5px;right:-5px;border-left:0;border-bottom:0;border-radius:0 8px 0 0}
 .cv-frame::after{bottom:-5px;left:-5px;border-right:0;border-top:0;border-radius:0 0 0 8px}
@@ -306,17 +303,17 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
   animation:sealIn 1s cubic-bezier(.2,.9,.3,1.3) both}
 .cv-seal svg{width:42px;height:42px}
 @keyframes sealIn{from{transform:scale(.6) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
-.cv-kicker{font-size:12.5px;font-weight:700;color:#F2D9A8;letter-spacing:.4px;opacity:.95}
+.cv-kicker{font-size:12.5px;font-weight:700;color:#8A6224;letter-spacing:.4px;opacity:.95}
 .cv-title{font-size:36px;line-height:1.25;font-weight:700;
-  background:linear-gradient(180deg,#FFF3D2 0%,#F0CE8A 45%,#C9984A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 3px 2px rgba(0,0,0,.45))}
+  background:linear-gradient(180deg,#A02A40 0%,#6E1423 55%,#4A0C17 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 0 rgba(255,255,255,.8)) drop-shadow(0 4px 6px rgba(74,12,23,.25))}
 .cv-orn{display:flex;align-items:center;gap:8px;margin-top:-4px}
 .cv-orn i{width:60px;height:1.5px;background:linear-gradient(90deg,transparent,#D8B26A)}
 .cv-orn i:last-child{background:linear-gradient(90deg,#D8B26A,transparent)}
 .cv-orn b{width:9px;height:9px;transform:rotate(45deg);background:#E6C27E;box-shadow:0 0 8px rgba(230,194,126,.8)}
 .cv-grades{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
-.cv-grades span{font-size:13px;font-weight:700;color:#FFF3D9;padding:5px 13px;border-radius:30px;border:1px solid rgba(230,194,126,.7);
-  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.03));box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.cv-grades span{font-size:13px;font-weight:700;color:#6E1423;padding:5px 13px;border-radius:30px;border:1px solid #C99A4C;
+  background:linear-gradient(180deg,#FFFFFF,#F4EDE6);box-shadow:0 5px 12px rgba(74,12,23,.18),inset 0 1px 0 #fff}
 .cv-modes{display:flex;gap:8px;justify-content:center}
 .cv-modes span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:7px 13px;border-radius:12px;color:#fff;
   box-shadow:0 8px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25)}

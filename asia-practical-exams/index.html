@@ -258,6 +258,29 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 .alert{display:flex;gap:9px;align-items:flex-start;background:#FDF1EE;border:1px solid #F0CFC6;border-radius:12px;padding:10px 12px;margin-bottom:12px;
   font-size:13.5px;line-height:1.7;font-weight:700;color:#7A1F12}
 .ex.home .alert{background:#FFF7E3;border-color:#F0D9A0;color:#6B4A00}
+
+/* ---------- colored interactive icons ---------- */
+.ex .gbtn{--c1:#8C2235;--c2:#4A0C17;--cl:rgba(110,20,35,.12);position:relative;overflow:hidden;
+  border:1.5px solid var(--cl);opacity:0;animation:popIn .5s cubic-bezier(.2,.9,.3,1.2) forwards}
+.ex .gbtn:nth-child(2){animation-delay:.07s}.ex .gbtn:nth-child(3){animation-delay:.14s}
+@keyframes popIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.ex .gbtn::before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:linear-gradient(180deg,var(--c1),var(--c2));border-radius:0 4px 4px 0}
+.ex .gbtn:hover,.ex .gbtn:focus-visible{border-color:var(--c1);box-shadow:0 14px 26px var(--cl),0 0 0 3px var(--cl);transform:translateY(-3px)}
+.ex .gbtn:active{transform:scale(.98)}
+.ex .gbtn .num,.ex .gbtn.tech .num,.ex .gbtn.lit .num{position:relative;overflow:hidden;
+  background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.28),transparent 45%),linear-gradient(145deg,var(--c1),var(--c2));
+  box-shadow:0 10px 18px var(--cl),0 4px 8px rgba(0,0,0,.18),inset 0 2px 3px rgba(255,255,255,.3),inset 0 -5px 10px rgba(0,0,0,.25);
+  transition:transform .35s cubic-bezier(.2,.9,.3,1.3)}
+.ex .gbtn .num::after{content:"";position:absolute;top:-30%;left:-80%;width:45%;height:160%;transform:rotate(25deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transition:left .6s ease}
+.ex .gbtn:hover .num,.ex .gbtn:focus-visible .num{transform:translateY(-2px) rotate(-6deg) scale(1.06)}
+.ex .gbtn:hover .num::after,.ex .gbtn:focus-visible .num::after{left:130%}
+.ex .gbtn .num svg{transition:transform .35s}
+.ex .gbtn:hover .num svg{transform:scale(1.1)}
+.ex .gbtn b,.ex .gbtn.tech b,.ex .gbtn.lit b{color:var(--c2)}
+.ex .gbtn .arr{color:var(--c1);transition:transform .3s}
+.ex .gbtn:hover .arr{transform:translateX(-5px);opacity:1}
+@media (prefers-reduced-motion:reduce){.ex .gbtn{animation:none;opacity:1}.ex .gbtn *{transition:none!important}}
 </style>
 </head>
 <body>
@@ -434,6 +457,13 @@ const DATA = {
     '12': {subjects:[ {...PC([['الخميس','26-11-2026','منازل الثاني عشر (علمي – أدبي)','9:00 – 10:00','']])} ]}
   }
 };
+const COL = {
+  g10:['#C08A2E','#7A5216'], g11:['#2F8A63','#14523A'], g12:['#9A2B40','#5A0F1D'],
+  h10:['#3E8E9A','#1A5560'], h11:['#2C7A86','#134650'], h12:['#1F6470','#0B2E35'],
+  sci:['#9A2B40','#5A0F1D'], lit:['#2A7E8F','#16485A'], tech:['#4A57A6','#232C63'],
+  pc:['#2F6DB5','#173B6E'], art:['#A0457A','#5E1F48'], chip:['#4A57A6','#232C63'], it:['#1F8A8A','#0F4F55']
+};
+const cv = k => { const c = COL[k]; return `--c1:${c[0]};--c2:${c[1]};--cl:${c[0]}2e`; };
 const GNAME = {'10':'الصف العاشر','11':'الصف الحادي عشر','12':'الصف الثاني عشر'};
 const GNUM = {'10':'10','11':'11','12':'12'};
 const MODE = {day:{t:'طالبات النهاري', r:'☀ اختبارات طالبات النهاري', icon:'sun'},
@@ -474,13 +504,13 @@ function render(){
     h = `<p class="q">اختاري صفّكِ</p><div class="big">${['10','11','12'].map(g=>{
       const n = gradeNode(m,g);
       const cnt = n.tracks ? 'المسار العلمي • الأدبي • التكنولوجي' : (n.subjects.length? n.subjects.map(s=>s.title).join(' • ') : 'لم يُعلَن اختبار عملي');
-      return `<button class="gbtn" onclick="pickGrade('${g}')"><span class="num">${GNUM[g]}</span><span><b>${GNAME[g]}</b><small>${cnt}</small></span><span class="arr">←</span></button>`;}).join('')}</div>`;
+      return `<button class="gbtn" style="${cv((m==='home'?'h':'g')+g)}" onclick="pickGrade('${g}')"><span class="num">${GNUM[g]}</span><span><b>${GNAME[g]}</b><small>${cnt}</small></span><span class="arr">←</span></button>`;}).join('')}</div>`;
   }
   else if(top.v==='tracks'){
     title = GNAME[top.g]; sub = 'اختاري المسار';
     const T = DATA[m][top.g].tracks, ic = {sci:ICON.flask, lit:ICON.book, tech:ICON.chip};
     h = `<p class="q">اختاري مساركِ</p><div class="big">${Object.entries(T).map(([k,t])=>
-      `<button class="gbtn ${k}" onclick="pickTrack('${k}')"><span class="num">${ic[k]}</span><span><b>${t.name}</b><small>${t.subjects.map(s=>s.title).join(' • ')}</small></span><span class="arr">←</span></button>`).join('')}</div>`;
+      `<button class="gbtn ${k}" style="${cv(k)}" onclick="pickTrack('${k}')"><span class="num">${ic[k]}</span><span><b>${t.name}</b><small>${t.subjects.map(s=>s.title).join(' • ')}</small></span><span class="arr">←</span></button>`).join('')}</div>`;
   }
   else if(top.v==='subjects'){
     title = GNAME[top.g]; sub = trName || 'اختاري المادة';
@@ -488,7 +518,7 @@ function render(){
       h = `<div class="empty"><b>لا يوجد اختبار عملي معلن</b>لم يصدر جدول اختبار عملي لهذا الصف حتى الآن،<br>وسيُضاف إلى الدليل فور اعتماده.</div>`;
     } else {
       h = `<p class="q">اختاري المادة</p><div class="big">${top.list.map((s,i)=>
-        `<button class="gbtn ${s.tech?'tech':''}" onclick="pickSubject(${i})"><span class="num">${ICON[s.icon]}</span><span><b>${s.title}</b><small>${s.sub}</small></span><span class="arr">←</span></button>`).join('')}</div>`;
+        `<button class="gbtn ${s.tech?'tech':''}" style="${cv(s.title==='تكنولوجيا المعلومات'?'it':s.icon)}" onclick="pickSubject(${i})"><span class="num">${ICON[s.icon]}</span><span><b>${s.title}</b><small>${s.sub}</small></span><span class="arr">←</span></button>`).join('')}</div>`;
     }
   }
   else if(top.v==='detail'){

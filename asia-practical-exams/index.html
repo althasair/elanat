@@ -285,7 +285,7 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 @media (prefers-reduced-motion:reduce){.ex .gbtn{animation:none;opacity:1}.ex .gbtn *{transition:none!important}}
 
 /* ---------- luxurious cover ---------- */
-.page.cv2{background:linear-gradient(180deg,#FFFFFF 0%,#FFFFFF 13%,#EEEAEA 28%,#CFC6C7 46%,#93404E 62%,#6E1423 74%,#3C0A15 100%);padding:0 14px 14px;display:flex;flex-direction:column}
+.page.cv2{background:linear-gradient(180deg,#FFFFFF 0%,#FFFFFF 13%,#EEEAEA 28%,#CFC6C7 46%,#93404E 62%,#6E1423 74%,#3C0A15 100%);padding:14px;display:flex;flex-direction:column}
 .page.cv2::before{content:"";position:absolute;inset:0;opacity:.14;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,transparent 45%,#000 75%);mask-image:linear-gradient(180deg,transparent 45%,#000 75%);
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
 .page.cv2::after{width:34px;background:linear-gradient(to left,rgba(0,0,0,.22),rgba(0,0,0,0))}
@@ -341,6 +341,10 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 @media (max-height:700px){.cv-title{font-size:27px}.cv-seal{width:58px;height:58px}.cv-seal svg{width:30px;height:30px}.cv-mid{gap:7px}.cv-date{padding:7px 12px}.cv-cta{padding:10px 26px;font-size:15px}.cv-frame{padding:9px 12px}}
 .tip{font-size:12.5px;line-height:1.7;color:#7A4A12;background:#FBF3E4;border:1px dashed #E3C894;border-radius:9px;padding:6px 10px;margin:0 0 8px;text-align:justify}
 .alert{display:block}
+.cv-brand{display:flex;flex-direction:column;align-items:center;gap:8px;animation:sealIn 1s cubic-bezier(.2,.9,.3,1.3) both}
+.cv-brand img{width:min(250px,72%);height:auto;filter:drop-shadow(0 2px 2px rgba(74,12,23,.12))}
+.cv-school{font-size:17px;font-weight:700;color:#4A0C17;padding:4px 16px;border-top:1.5px solid #C99A4C;border-bottom:1.5px solid #C99A4C}
+@media (max-height:700px){.cv-brand img{width:min(200px,62%)}.cv-school{font-size:15px}}
 </style>
 </head>
 <body>
@@ -355,11 +359,11 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 
   <!-- ===== Cover ===== -->
   <section class="page cv2" data-name="الغلاف">
-    <div class="cv-head"><img src="header.png" alt="ترويسة مدرسة الشيماء الثانوية للبنات"></div>
     <div class="cv-frame">
       <div class="cv-mid">
-        <div class="cv-seal" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6M8 11h6"/><path d="M18 19v2H6"/></svg>
+        <div class="cv-brand">
+          <img src="ministry-logo.png" alt="وزارة التربية والتعليم والتعليم العالي – دولة قطر">
+          <div class="cv-school">مدرسة الشيماء الثانوية للبنات</div>
         </div>
         <div class="cv-kicker">نهاية الفصل الدراسي الأول • 2026 – 2027</div>
         <h1 class="cv-title">دليل الاختبارات<br>العملية</h1>

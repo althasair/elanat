@@ -606,18 +606,18 @@ const TIME_DAY = ['الموعد','خلال الحصص الدراسية'];
 const DAY_ALERT = `<div class="alert">🕘 تُعقد الاختبارات العملية <b>خلال الحصص الدراسية</b>؛ ومدة اختبار الحوسبة حصة دراسية واحدة (45 دقيقة)، والطالبة المتأخرة ليس لها وقت إضافي.</div>`;
 const HOME_ALERT = `<div class="alert">⏱ يُرجى الحضور قبل الوقت المحدد، والطالبة المتأخرة ليس لها وقت إضافي.</div>`;
 const SCI_ALERT = `<div class="alert">🕘 يُعقد الاختبار العملي <b>خلال الحصص الدراسية</b> في المختبر، وتُحضر الطالبة ما تطلبه المعلمة من أدوات.</div>`;
-const PC  = (rows,label='الحوسبة وتكنولوجيا المعلومات') => ({icon:'pc', title:label, sub:'الاختبار العملي – معمل الحاسب',
+const PC  = (rows,label='الحوسبة وتكنولوجيا المعلومات (العملي)') => ({icon:'pc', title:label, sub:'الاختبار العملي – معمل الحاسب',
   info:[['المكان','معمل الحاسب'],TIME_DAY,['المدة','45 دقيقة']], rows, pre:DAY_ALERT, extra:LAB_RULES});
-const PCH = rows => ({icon:'pc', title:'الحوسبة وتكنولوجيا المعلومات', sub:'الاختبار العملي – معمل الحاسب',
+const PCH = rows => ({icon:'pc', title:'الحوسبة وتكنولوجيا المعلومات (العملي)', sub:'الاختبار العملي – معمل الحاسب',
   info:[['المكان','معمل الحاسب'],['الموعد','حسب الوقت المحدد'],['التأخر','لا وقت إضافي']], rows, pre:HOME_ALERT, extra:LAB_RULES});
 const ART = rows => ({icon:'art', title:'الفنون', sub:'تقييم المشروع أمام اللجنة',
   info:[['نوع التقييم','عرض المشروع'],TIME_DAY,['الحضور','إلزامي']], rows, extra:ART_RULES});
-const SCI = (icon,title,rows) => ({icon, title, sub:'الاختبار العملي – المختبر',
-  info:[['المكان','المختبر'],TIME_DAY,['المادة',title]], rows, heads:['اليوم والتاريخ','المستوى'], pre:SCI_ALERT});
+const SCI = (icon,title0,rows) => { const title = title0+' (العملي)'; return {icon, title, sub:'الاختبار العملي – المختبر',
+  info:[['المكان','المختبر'],TIME_DAY,['المادة',title0]], rows, heads:['اليوم والتاريخ','المستوى'], pre:SCI_ALERT}; };
 const LISTEN = (icon,title) => ({icon, title, sub:'الموعد يُحدَّد لاحقًا', rows:null, pending:true,
   info:[['نوع الاختبار','استماع'],['الموعد','يُحدَّد لاحقًا'],['المتابعة','عبر هذا الدليل']]});
-const AR_L = () => LISTEN('earAr','استماع اللغة العربية (الورقة الأولى)');
-const EN_L = () => LISTEN('earEn','استماع اللغة الإنجليزية');
+const AR_L = () => LISTEN('earAr','اللغة العربية – الورقة الأولى (استماع)');
+const EN_L = () => LISTEN('earEn','اللغة الإنجليزية – الورقة الأولى (استماع)');
 const TECH_REF = `<div class="note" style="margin-bottom:12px"><b>المرجع:</b> وفق الجدول الرسمي لاختبارات نهاية الفصل الدراسي الأول – الصف الثاني عشر، المسار التكنولوجي (وزارة التربية والتعليم والتعليم العالي).</div>`;
 
 /* rows: [day, date, class, when, place] — النهاري: خلال الحصص الدراسية، المنازل: بالوقت */
@@ -647,8 +647,8 @@ const DATA = {
       lit:{name:'المسار الأدبي', subjects:[
         ART([['الاثنين','30-11-2026','الثاني عشر 6 + الثاني عشر 7']]) ]},
       tech:{name:'المسار التكنولوجي', subjects:[
-        {...PC([['الثلاثاء','24-11-2026','الثاني عشر 8']],'علوم الحاسب'), icon:'chip', tech:true, pre:DAY_ALERT+TECH_REF},
-        {...PC([['الأحد','29-11-2026','الثاني عشر 8']],'تكنولوجيا المعلومات'), icon:'pc', tech:true, pre:DAY_ALERT+TECH_REF} ]}
+        {...PC([['الثلاثاء','24-11-2026','الثاني عشر 8']],'علوم الحاسب (العملي)'), icon:'chip', tech:true, pre:DAY_ALERT+TECH_REF},
+        {...PC([['الأحد','29-11-2026','الثاني عشر 8']],'تكنولوجيا المعلومات (العملي)'), icon:'pc', tech:true, pre:DAY_ALERT+TECH_REF} ]}
     }}
   },
   home: {
@@ -711,7 +711,7 @@ function calendarHTML(list){
       const list2 = ev[key]||[];
       const isToday = d.getTime()===today.getTime();
       h += `<div class="cal-d ${list2.length?'has':''} ${isToday?'today':''}"><div class="cal-n">${d.getDate()}<small>${months[d.getMonth()]}</small></div>${
-        list2.map(e=>`<button class="cal-e" style="${cv(e.s.title==='تكنولوجيا المعلومات'?'it':e.s.icon)}" onclick="calPick(${e.i})" title="${e.s.title}"><span class="ce-i">${ICON[e.s.icon]}</span><span class="ce-t">${e.s.title.replace('الحوسبة وتكنولوجيا المعلومات','الحوسبة')}</span>${e.cls?`<span class="ce-c">${e.cls}</span>`:''}${e.when?`<span class="ce-c d">${e.when}</span>`:''}</button>`).join('')
+        list2.map(e=>`<button class="cal-e" style="${cv(e.s.title.startsWith('تكنولوجيا المعلومات')?'it':e.s.icon)}" onclick="calPick(${e.i})" title="${e.s.title}"><span class="ce-i">${ICON[e.s.icon]}</span><span class="ce-t">${e.s.title.replace('الحوسبة وتكنولوجيا المعلومات','الحوسبة').replace(' (العملي)','')}</span>${e.cls?`<span class="ce-c">${e.cls}</span>`:''}${e.when?`<span class="ce-c d">${e.when}</span>`:''}</button>`).join('')
       }</div>`;
     }
     h += '</div>';
@@ -749,7 +749,7 @@ function render(){
     } else {
       h = `<button class="caltile" onclick="openCal()"><span class="ct-i">${ICON.cal}</span><span><b>تقويم اختباراتي</b><small>كل اختباراتكِ العملية على أيام التقويم</small></span><span class="arr">←</span></button>
       <p class="q">أو اختاري المادة</p><div class="big">${top.list.map((s,i)=>
-        `<button class="gbtn ${s.tech?'tech':''}" style="${cv(s.title==='تكنولوجيا المعلومات'?'it':s.icon)}" onclick="pickSubject(${i})"><span class="num">${ICON[s.icon]}</span><span><b>${s.title}</b><small>${s.sub}</small></span><span class="arr">←</span></button>`).join('')}</div>`;
+        `<button class="gbtn ${s.tech?'tech':''}" style="${cv(s.title.startsWith('تكنولوجيا المعلومات')?'it':s.icon)}" onclick="pickSubject(${i})"><span class="num">${ICON[s.icon]}</span><span><b>${s.title}</b><small>${s.sub}</small></span><span class="arr">←</span></button>`).join('')}</div>`;
     }
   }
   else if(top.v==='cal'){
@@ -760,7 +760,7 @@ function render(){
     const s = top.s; title = s.title; sub = GNAME[top.g] + (trName?' – '+trName:'');
     if(s.pending){
       h = `<div class="info">${s.info.map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
-      <div class="pend"><span class="pi">${ICON[s.icon]}</span><b>سيتم تحديد الموعد لاحقًا</b><small>سيُضاف موعد ${s.title} إلى هذا الدليل فور اعتماده،<br>فتابعيه باستمرار.</small></div>`;
+      <div class="pend"><span class="pi">${ICON[s.icon]}</span><b>يُحدَّد الموعد لاحقًا</b><small>سيُضاف موعد ${s.title} إلى هذا الدليل فور اعتماده،<br>فتابعيه باستمرار.</small></div>`;
       document.getElementById('xt').innerHTML = `${title}<small>${sub}</small>`;
       const xb0 = document.getElementById('xb'); xb0.innerHTML = h; xb0.scrollTop = 0; return;
     }

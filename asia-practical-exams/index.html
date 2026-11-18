@@ -345,6 +345,52 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
 .cv-brand img{width:min(250px,72%);height:auto;filter:drop-shadow(0 2px 2px rgba(74,12,23,.12))}
 .cv-school{font-size:17px;font-weight:700;color:#4A0C17;padding:4px 16px;border-top:1.5px solid #C99A4C;border-bottom:1.5px solid #C99A4C}
 @media (max-height:700px){.cv-brand img{width:min(200px,62%)}.cv-school{font-size:15px}}
+
+/* ---------- playful instructions ---------- */
+.wish{position:relative;display:flex;gap:10px;align-items:flex-start;border-radius:16px;padding:12px 14px;margin:2px 0 8px;color:#fff;
+  background:linear-gradient(135deg,#8C2235,#5A0F1D);box-shadow:0 12px 22px rgba(110,20,35,.28),inset 0 1px 0 rgba(255,255,255,.2);overflow:hidden}
+.wish::after{content:"";position:absolute;left:-30px;bottom:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.07)}
+.wish .wi{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,#F2D49A,#C99A4C);color:#5A0F1D;font-size:15px;
+  box-shadow:0 4px 8px rgba(0,0,0,.25);animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.wish p{font-size:13.5px;line-height:1.8;text-align:justify}
+.tapnote{text-align:center;font-size:12px;color:var(--mute);margin:2px 0 8px}
+.zz{position:relative;display:flex;flex-direction:column;gap:10px;padding:4px 0 6px}
+.zz::before{content:"";position:absolute;top:10px;bottom:10px;right:50%;width:2px;transform:translateX(50%);
+  background:repeating-linear-gradient(180deg,#D9C2BC 0 6px,transparent 6px 12px);z-index:0}
+.zc{--a:#6E1423;--b:#F7ECE9;position:relative;z-index:1;width:84%;display:flex;align-items:center;gap:10px;text-align:right;cursor:pointer;
+  font-family:var(--font);border:1.5px solid color-mix(in srgb,var(--a) 22%,transparent);border-radius:18px;padding:12px 12px 12px 14px;
+  background:linear-gradient(135deg,#fff 0%,var(--b) 100%);box-shadow:0 10px 20px color-mix(in srgb,var(--a) 16%,transparent),0 2px 4px rgba(0,0,0,.05);
+  transition:transform .3s cubic-bezier(.2,.9,.3,1.3),box-shadow .3s;opacity:0}
+.zc.r{align-self:flex-start;border-top-right-radius:6px}
+.zc.l{align-self:flex-end;border-top-left-radius:6px}
+.page.current .zc{animation:zin .6s cubic-bezier(.2,.9,.3,1.2) var(--d) forwards}
+.page.current .zc.l{animation-name:zinl}
+@keyframes zin{from{opacity:0;transform:translateX(40px) rotate(2deg)}to{opacity:1;transform:none}}
+@keyframes zinl{from{opacity:0;transform:translateX(-40px) rotate(-2deg)}to{opacity:1;transform:none}}
+.zc:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 16px 28px color-mix(in srgb,var(--a) 24%,transparent)}
+.zc:active{transform:scale(.98)}
+.zc .zn{position:absolute;top:-10px;right:-8px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;
+  background:var(--a);box-shadow:0 4px 8px rgba(0,0,0,.2);border:2px solid #fff}
+.zc.l .zn{right:auto;left:-8px}
+.zc .zi{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:#fff;
+  background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.3),transparent 50%),var(--a);
+  box-shadow:0 8px 14px color-mix(in srgb,var(--a) 35%,transparent),inset 0 -4px 8px rgba(0,0,0,.2);transition:transform .4s}
+.zc:hover .zi{transform:rotate(-8deg) scale(1.06)}
+.zc .zi svg{width:24px;height:24px}
+.zc .zt b{display:block;font-size:15px;color:var(--a);font-weight:700}
+.zc .zt small{display:block;font-size:12.8px;line-height:1.65;color:#3A3033;margin-top:2px;text-align:justify}
+.zc .zt small b{display:inline;font-size:inherit}
+.zc .zs{position:absolute;left:10px;bottom:8px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:700;
+  color:#fff;background:#2F8A63;transform:scale(0) rotate(-90deg);transition:transform .35s cubic-bezier(.2,.9,.3,1.5)}
+.zc.l .zs{left:auto;right:10px}
+.zc.done{background:linear-gradient(135deg,#fff,#EAF5EF);border-color:#9CCFB4}
+.zc.done .zs{transform:scale(1) rotate(0)}
+.zc.c1{--a:#6E1423;--b:#F7ECE9}.zc.c2{--a:#B5541C;--b:#FBEFE4}.zc.c3{--a:#1F5E6B;--b:#E6F2F3}.zc.c4{--a:#6A3D8F;--b:#F1EAF7}.zc.c5{--a:#2E5C9A;--b:#E8EFF8}
+.zgo{display:block;margin:8px auto 0;border:0;cursor:pointer;font-family:var(--font);font-weight:700;font-size:14px;color:#fff;padding:10px 22px;border-radius:30px;
+  background:linear-gradient(180deg,#8C2235,#6E1423);box-shadow:0 8px 16px rgba(110,20,35,.3)}
+.zgo span{display:inline-block;transition:transform .3s}.zgo:hover span{transform:translateX(-5px)}
+@media (prefers-reduced-motion:reduce){.zc{opacity:1!important;animation:none!important}.wish .wi{animation:none}}
 </style>
 </head>
 <body>
@@ -389,22 +435,44 @@ table.sch td.cls .ln+.ln{border-top:1px dashed var(--line)}
     <div class="head"><img src="header.png" alt=""></div>
     <div class="body">
       <div class="ptitle"><span class="n">الصفحة الأولى</span><h3>تعليمات الاختبارات العملية</h3></div>
-      <p class="lead">خالص أمنياتنا لطالباتنا الغاليات بالتوفيق والنجاح، ونأمل من أولياء الأمور الكرام متابعة بناتهنّ في الالتزام بالتعليمات الآتية؛ لضمان سير الاختبارات بكل سلاسة وطمأنينة.</p>
-      <div class="card">
-        <h4><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>الحضور والانضباط</h4>
-        <ul class="ins">
-          <li>يوم الاختبار العملي <b>يوم دراسي عادي</b>، وتلتزم جميع الطالبات بالحضور من بداية اليوم الدراسي حتى نهايته.</li>
-          <li><b>يُمنع التأخر</b> عن الدخول إلى الفصول أو قاعات الاختبار أو موعد لجنة التقييم، و<b>الطالبة المتأخرة ليس لها وقت إضافي</b>.</li>
-          <li>الالتزام بالزي المدرسي الكامل وبلائحة السلوك طوال اليوم.</li>
-        </ul>
+      <div class="wish">
+        <span class="wi">✦</span>
+        <p>خالص أمنياتنا لطالباتنا الغاليات بالتوفيق والنجاح، ونأمل من أولياء الأمور الكرام متابعة بناتهنّ في الالتزام بهذه التعليمات.</p>
       </div>
-      <div class="card">
-        <h4><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>الاستعداد للاختبار</h4>
-        <ul class="ins">
-          <li>تُحضر الطالبة جميع الأدوات والمستلزمات اللازمة وفق ما تطلبه المعلمة.</li>
-          <li>تختار الطالبة من <b>الصفحة الثانية</b>: <b>النهاري</b> أو <b>المنازل</b>، ثم صفّها ومادتها؛ لتطّلع على موعد اختبارها وتعليماته.</li>
-        </ul>
+      <p class="tapnote">اضغطي على كل بطاقة بعد قراءتها ✓</p>
+      <div class="zz">
+        <button class="zc c1 r" style="--d:0.12s" onclick="this.classList.toggle('done')">
+          <span class="zn">1</span>
+          <span class="zi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/></svg></span>
+          <span class="zt"><b>يوم دراسي عادي</b><small>الحضور من بداية اليوم الدراسي حتى نهايته.</small></span>
+          <span class="zs">✓</span>
+        </button>
+        <button class="zc c2 l" style="--d:0.24s" onclick="this.classList.toggle('done')">
+          <span class="zn">2</span>
+          <span class="zi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5"/><path d="M9 2h6"/></svg></span>
+          <span class="zt"><b>لا مجال للتأخر</b><small>لا تأخر عن الفصول أو قاعات الاختبار أو لجنة التقييم، والمتأخرة <b>ليس لها وقت إضافي</b>.</small></span>
+          <span class="zs">✓</span>
+        </button>
+        <button class="zc c3 r" style="--d:0.36s" onclick="this.classList.toggle('done')">
+          <span class="zn">3</span>
+          <span class="zi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l4 3 4-3 4 3-3 5v10H7V11L4 6z"/></svg></span>
+          <span class="zt"><b>الزي والسلوك</b><small>الالتزام بالزي المدرسي الكامل ولائحة السلوك طوال اليوم.</small></span>
+          <span class="zs">✓</span>
+        </button>
+        <button class="zc c4 l" style="--d:0.48s" onclick="this.classList.toggle('done')">
+          <span class="zn">4</span>
+          <span class="zi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+          <span class="zt"><b>أدواتكِ معكِ</b><small>أحضري جميع الأدوات والمستلزمات وفق ما تطلبه معلمتكِ.</small></span>
+          <span class="zs">✓</span>
+        </button>
+        <button class="zc c5 r" style="--d:0.60s" onclick="this.classList.toggle('done')">
+          <span class="zn">5</span>
+          <span class="zi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8.5 11h5M11 8.5v5"/></svg></span>
+          <span class="zt"><b>اعرفي موعدكِ</b><small>من صفحة المواعيد: النهاري أو المنازل، ثم صفّكِ، ثم مادتكِ.</small></span>
+          <span class="zs">✓</span>
+        </button>
       </div>
+      <button class="zgo" onclick="go(2)">إلى صفحة المواعيد <span>←</span></button>
       <div class="sigs">
         <div><b>النائبة الأكاديمية</b><span>أ. آسيا الذبياني</span></div>
         <div><b>مديرة المدرسة</b><span>أ. شيخة الرميحي</span></div>
@@ -631,7 +699,7 @@ document.getElementById('dots').innerHTML = pages.map((_,i)=>`<i onclick="go(${i
 function go(n){
   if(n<0 || n>=pages.length) return;
   closeEx(); cur = n;
-  pages.forEach((p,i)=>{ p.classList.toggle('turned', i < n); p.style.zIndex = i < n ? (i+1) : (pages.length - i + 10); });
+  pages.forEach((p,i)=>{ p.classList.toggle('turned', i < n); p.classList.toggle('current', i===n); p.style.zIndex = i < n ? (i+1) : (pages.length - i + 10); });
   document.querySelectorAll('.dots i').forEach((d,i)=>d.classList.toggle('on', i===n));
   document.getElementById('prev').disabled = n===0;
   document.getElementById('next').disabled = n===pages.length-1;

@@ -109,9 +109,10 @@ ul.ins li b{color:var(--maroon)}
 .seg button{flex:1;border:0;background:transparent;font-family:var(--font);font-weight:800;font-size:14.5px;color:var(--maroon);
   padding:9px 6px;border-radius:40px;cursor:pointer;transition:.25s}
 .seg button.on{background:linear-gradient(180deg,#8C2235,#6E1423);color:#fff;box-shadow:0 6px 12px rgba(110,20,35,.35)}
-.tracks{display:flex;justify-content:center;gap:6px;margin:-2px 0 12px;flex-wrap:wrap}
+.tracks .tl{align-self:center;font-size:13px;font-weight:700;color:var(--mute);margin-left:2px}
+.tracks{display:flex;justify-content:center;align-items:center;gap:7px;margin:-2px 0 12px;flex-wrap:wrap}
 .tracks button{font-family:var(--font);font-weight:800;font-size:13px;border:1.5px solid var(--c);color:var(--c);background:#fff;
-  padding:7px 12px;border-radius:30px;cursor:pointer;transition:.2s;white-space:nowrap;box-shadow:0 3px 8px rgba(0,0,0,.06)}
+  padding:7px 16px;border-radius:30px;cursor:pointer;transition:.2s;white-space:nowrap;box-shadow:0 3px 8px rgba(0,0,0,.06)}
 .tracks button.on{background:var(--c);color:#fff;box-shadow:0 8px 14px rgba(0,0,0,.18)}
 .hint{text-align:center;font-size:12.5px;color:var(--mute);margin-bottom:10px}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -334,6 +335,7 @@ const TRACKS = {
   }
 };
 const TRACK_NAME = {sci:'المسار العلمي', lit:'المسار الأدبي', tech:'المسار التكنولوجي'};
+const TRACK_SHORT = {sci:'علمي', lit:'أدبي', tech:'تكنولوجي'};
 const TRACK_COLOR = {sci:'var(--t-sci)', lit:'var(--t-lit)', tech:'var(--t-tech)'};
 
 function chk(t){return `<label><input type="checkbox"><span>${t}</span></label>`}
@@ -345,8 +347,8 @@ function grade(x){
   document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on', b.dataset.g===x));
   const ks = Object.keys(TRACKS[x]);
   if(!ks.includes(tr)) tr = ks[0];
-  document.getElementById('tracks').innerHTML = ks.map(k=>
-    `<button style="--c:${TRACK_COLOR[k]}" class="${k===tr?'on':''}" onclick="track('${k}')">${TRACK_NAME[k]}</button>`).join('');
+  document.getElementById('tracks').innerHTML = '<span class="tl">المسار:</span>' + ks.map(k=>
+    `<button style="--c:${TRACK_COLOR[k]}" class="${k===tr?'on':''}" onclick="track('${k}')">${TRACK_SHORT[k]}</button>`).join('');
   track(tr);
 }
 function track(k){

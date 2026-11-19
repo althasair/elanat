@@ -619,6 +619,8 @@ const LISTEN = (icon,title) => ({icon, title, sub:'الموعد يُحدَّد �
   info:[['نوع الاختبار','استماع'],['الموعد','يُحدَّد لاحقًا'],['المتابعة','عبر هذا الدليل']]});
 const AR_L = () => LISTEN('earAr','اللغة العربية – الورقة الأولى (استماع)');
 const EN_L = () => LISTEN('earEn','اللغة الإنجليزية – الورقة الأولى (استماع)');
+const TECH_INFO = [['المكان','معمل الحاسب'],['الموعد','من 9:00 إلى 10:00 صباحًا'],['التأخر','لا وقت إضافي']];
+const TECH_ALERT = `<div class="alert">⏰ يبدأ الاختبار العملي <b>الساعة 9:00 صباحًا</b> وينتهي الساعة 10:00؛ يُرجى الحضور قبل الموعد، والطالبة المتأخرة ليس لها وقت إضافي.</div>`;
 const TECH_REF = `<div class="note" style="margin-bottom:12px"><b>المرجع:</b> وفق الجدول الرسمي لاختبارات نهاية الفصل الدراسي الأول – الصف الثاني عشر، المسار التكنولوجي (وزارة التربية والتعليم والتعليم العالي).</div>`;
 
 /* rows: [day, date, class, when, place] — النهاري: خلال الحصص الدراسية، المنازل: بالوقت */
@@ -648,14 +650,14 @@ const DATA = {
       lit:{name:'المسار الأدبي', subjects:[
         ART([['الاثنين','30-11-2026','الثاني عشر 6 + الثاني عشر 7']]) ]},
       tech:{name:'المسار التكنولوجي', subjects:[
-        {...PC([['الثلاثاء','24-11-2026','الثاني عشر 8']],'علوم الحاسب (العملي)'), icon:'chip', tech:true, pre:DAY_ALERT+TECH_REF},
-        {...PC([['الأحد','29-11-2026','الثاني عشر 8']],'تكنولوجيا المعلومات (العملي)'), icon:'pc', tech:true, pre:DAY_ALERT+TECH_REF} ]}
+        {...PC([['الثلاثاء','24-11-2026','الثاني عشر 8','9:00 إلى 10:00','']],'علوم الحاسب (العملي)'), icon:'chip', tech:true, info:TECH_INFO, pre:TECH_ALERT+TECH_REF},
+        {...PC([['الأحد','29-11-2026','الثاني عشر 8','9:00 إلى 10:00','']],'تكنولوجيا المعلومات (العملي)'), icon:'pc', tech:true, info:TECH_INFO, pre:TECH_ALERT+TECH_REF} ]}
     }}
   },
   home: {
     '10': {subjects:[]},
-    '11': {subjects:[ PCH([['الاثنين','30-11-2026','منازل الحادي عشر (المنهج كاملًا)','9:00 – 10:00','معمل 1']]) ]},
-    '12': {subjects:[ PCH([['الخميس','26-11-2026','منازل الثاني عشر (علمي – أدبي)','9:00 – 10:00','']]) ]}
+    '11': {subjects:[ PCH([['الاثنين','30-11-2026','منازل الحادي عشر (المنهج كاملًا)','9:00 إلى 10:00','معمل 1']]) ]},
+    '12': {subjects:[ PCH([['الخميس','26-11-2026','منازل الثاني عشر (علمي – أدبي)','9:00 إلى 10:00','']]) ]}
   }
 };
 const COL = {
@@ -712,7 +714,7 @@ function calendarHTML(list){
       const list2 = ev[key]||[];
       const isToday = d.getTime()===today.getTime();
       h += `<div class="cal-d ${list2.length?'has':''} ${isToday?'today':''}"><div class="cal-n">${d.getDate()}<small>${months[d.getMonth()]}</small></div>${
-        list2.map(e=>`<button class="cal-e" style="${cv(e.s.title.startsWith('تكنولوجيا المعلومات')?'it':e.s.icon)}" onclick="calPick(${e.i})" title="${e.s.title}"><span class="ce-i">${ICON[e.s.icon]}</span><span class="ce-t">${e.s.title.replace('الحوسبة وتكنولوجيا المعلومات','الحوسبة').replace(' (العملي)','')}</span>${e.cls?`<span class="ce-c">${e.cls}</span>`:''}${e.when?`<span class="ce-c d">${e.when}</span>`:''}</button>`).join('')
+        list2.map(e=>`<button class="cal-e" style="${cv(e.s.title.startsWith('تكنولوجيا المعلومات')?'it':e.s.icon)}" onclick="calPick(${e.i})" title="${e.s.title}"><span class="ce-i">${ICON[e.s.icon]}</span><span class="ce-t">${e.s.title.replace('الحوسبة وتكنولوجيا المعلومات','الحوسبة').replace(' (العملي)','')}</span>${e.cls?`<span class="ce-c">${e.cls}</span>`:''}${e.when?`<span class="ce-c" style="direction:rtl">${e.when}</span>`:''}</button>`).join('')
       }</div>`;
     }
     h += '</div>';
@@ -770,7 +772,7 @@ function render(){
     const hasWhen = s.rows.some(r=>r[3]);
     h += `<table class="sch"><thead><tr><th>اليوم والتاريخ</th><th>${(s.heads||[])[1]||'الصف'}</th>${hasWhen?'<th>الموعد</th>':''}</tr></thead><tbody>${
       s.rows.map(r=>`<tr><td class="day">${r[0]}<small>${r[1]}</small></td><td class="cls">${r[2]}</td>${
-        hasWhen?`<td class="when">${/\d/.test(r[3])?`<span class="d">${r[3]}</span>`:r[3]}${r[4]?`<small>${r[4]}</small>`:''}</td>`:''}</tr>`).join('')}</tbody></table>`;
+        hasWhen?`<td class="when">${(/\d/.test(r[3])&&!/[\u0600-\u06FF]/.test(r[3]))?`<span class="d">${r[3]}</span>`:r[3]}${r[4]?`<small>${r[4]}</small>`:''}</td>`:''}</tr>`).join('')}</tbody></table>`;
     h += s.extra || '';
   }
   // grade with no subjects at all (e.g. home 10)

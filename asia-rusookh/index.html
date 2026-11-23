@@ -1,0 +1,24 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>رسوخ — متابعة مشروع العلوم | مدرسة الشيماء الثانوية للبنات</title><meta name="description" content="رسوخ — متابعة مشروع العلوم — مدرسة الشيماء الثانوية للبنات، العام الأكاديمي 2026–2027">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Reem+Kufi:wght@600&display=swap" rel="stylesheet">
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:linear-gradient(160deg,#F7F1E6,#EFE3CF);font-family:Tajawal,Tahoma,sans-serif;color:#2A1A20;padding:16px;box-sizing:border-box}
+.box{background:#fff;border-radius:22px;box-shadow:0 18px 50px -20px rgba(98,16,42,.45);padding:26px 22px;max-width:360px;width:100%;text-align:center;border-top:6px solid #62102A}
+h1{font-family:"Reem Kufi",Tajawal,serif;color:#62102A;font-size:21px;margin:4px 0}p{color:#6E5C62;margin:0 0 14px;font-size:14px;line-height:1.8}
+.dots{display:flex;gap:10px;justify-content:center;margin:6px 0 14px;direction:ltr}.dots i{width:14px;height:14px;border-radius:50%;border:2px solid #B08A3E}.dots i.on{background:#62102A;border-color:#62102A}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;direction:ltr}.pad span{font-size:20px;font-weight:800;padding:11px 0;border-radius:14px;background:#F7F1E6;color:#4A0B20;cursor:pointer;user-select:none}.pad span:active{background:#EBDDC2}.pad .x{font-size:15px}
+.err{color:#B3261E;font-weight:700;min-height:22px;margin-top:10px;font-size:14px}small{display:block;margin-top:10px;color:#9A8C90}</style></head><body>
+<div class="box"><h1>رسوخ — متابعة مشروع العلوم</h1><p>مدرسة الشيماء الثانوية للبنات<br>أدخلي الرمز لعرض النسخة التفاعلية</p>
+<div class="dots" id="d"><i></i><i></i><i></i><i></i></div>
+<div class="pad" id="k"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span class="x" data-c>مسح</span><span>0</span><span class="x" data-b>⌫</span></div>
+<div class="err" id="e" role="alert"></div><small>العام الأكاديمي 2026–2027</small></div>
+<script>let v='',B=null;const E=document.getElementById('e'),Dt=[...document.querySelectorAll('#d i')];
+const show=()=>Dt.forEach((x,i)=>x.classList.toggle('on',i<v.length));
+async function bin(){if(!B){const r=await fetch('c.bin?v=8532a9a7');B=new Uint8Array(await r.arrayBuffer())}return B}
+async function open_(c,keep){try{const b=await bin();const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(c),'PBKDF2',false,['deriveKey']);
+const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b.slice(0,16),iterations:200000,hash:'SHA-256'},k,{name:'AES-GCM',length:256},false,['decrypt']);
+const h=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b.slice(16,28)},key,b.slice(28)));
+if(keep)try{sessionStorage.setItem('k_'+location.pathname,c)}catch(_){}document.open();document.write(h);document.close()}catch(_){E.textContent='الرمز غير صحيح';v='';show()}}
+document.getElementById('k').addEventListener('click',ev=>{const s=ev.target.closest('span');if(!s)return;E.textContent='';
+if(s.hasAttribute('data-c'))v='';else if(s.hasAttribute('data-b'))v=v.slice(0,-1);else if(v.length<4)v+=s.textContent;show();if(v.length===4)open_(v,true)});
+document.addEventListener('keydown',ev=>{if(/^[0-9]$/.test(ev.key)&&v.length<4){v+=ev.key;show();if(v.length===4)open_(v,true)}else if(ev.key==='Backspace'){v=v.slice(0,-1);show()}});
+try{const s=sessionStorage.getItem('k_'+location.pathname);if(s)open_(s,false)}catch(_){}</script></body></html>

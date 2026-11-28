@@ -662,7 +662,7 @@ const DATA = {
   },
   home: {
     '10': {subjects:[ AR_L('منازل العاشر'), EN_L('منازل العاشر') ]},
-    '11': {subjects:[ AR_L('منازل الحادي عشر'), EN_L('منازل الحادي عشر'), PCH([['الاثنين','30-11-2026','منازل الحادي عشر (المنهج كاملًا)','9:00 إلى 10:00','معمل 1']]) ]},
+    '11': {subjects:[ AR_L('منازل الحادي عشر'), EN_L('منازل الحادي عشر'), PCH([['الاثنين','30-11-2026','منازل الحادي عشر (المنهج كاملًا)','9:30 إلى 10:30','معمل 1']]) ]},
     '12': {subjects:[ PCH([['الخميس','26-11-2026','منازل الثاني عشر (علمي – أدبي)','9:00 إلى 10:00','']]) ]}
   }
 };
@@ -817,7 +817,7 @@ document.addEventListener('keydown',e=>{ if(ex.classList.contains('open')){ if(e
 go(0);
 
 /* ---------- update notice ---------- */
-const APP_VER = '19';
+const APP_VER = '20';
 function checkUpdate(){
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
     if(j && j.v && j.v!==APP_VER && !document.getElementById('upd')){

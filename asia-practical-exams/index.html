@@ -818,13 +818,12 @@ document.addEventListener('keydown',e=>{ if(ex.classList.contains('open')){ if(e
 go(0);
 
 /* ---------- update notice ---------- */
-const APP_VER = '23';
+const APP_VER = '24';
 function checkUpdate(){
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
-    if(j && j.v && j.v!==APP_VER && !document.getElementById('upd')){
-      const d=document.createElement('div'); d.id='upd';
-      d.innerHTML='<span>✨ يوجد تحديث جديد للدليل، يرجى التحديث</span><button onclick="location.replace(location.pathname+\'?v=\'+Date.now())">تحديث</button>';
-      document.body.appendChild(d);
+    if(j && j.v && j.v!==APP_VER && !sessionStorage.getItem('reloaded-'+j.v)){
+      try{ sessionStorage.setItem('reloaded-'+j.v,'1'); }catch(e){}
+      location.replace(location.pathname+'?v='+j.v+location.hash);
     }
   }).catch(()=>{});
 }

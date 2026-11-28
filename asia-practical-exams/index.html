@@ -619,12 +619,13 @@ const ART = rows => ({icon:'art', title:'الفنون', sub:'تقييم المش
   info:[['نوع التقييم','عرض المشروع'],TIME_DAY,['الحضور','إلزامي']], rows, extra:ART_RULES});
 const SCI = (icon,title0,rows) => { const title = title0+' (العملي)'; return {icon, title, sub:'الاختبار العملي – المختبر',
   info:[['المكان','المختبر'],TIME_DAY,['المادة',title0]], rows, heads:['اليوم والتاريخ','المستوى'], pre:SCI_ALERT}; };
-const LISTEN = (icon,title,day,date,cls) => ({icon, title, sub:'الحصة الثالثة',
-  rows:[[day,date,cls,'الحصة الثالثة','']],
-  info:[['نوع الاختبار','استماع'],['اليوم',day],['الموعد','الحصة الثالثة']],
-  pre:`<div class="alert">🎧 اختبار الاستماع يوم <b>${day}</b> في <b>الحصة الثالثة</b>؛ يُرجى الحضور في الموعد، والطالبة المتأخرة ليس لها وقت إضافي.</div>`});
-const AR_L = (cls='') => LISTEN('earAr','اللغة العربية – الورقة الأولى (استماع)','الاثنين','30-11-2026',cls);
-const EN_L = (cls='') => LISTEN('earEn','اللغة الإنجليزية – الورقة الأولى (استماع)','الثلاثاء','01-12-2026',cls);
+const LISTEN = (icon,title,day,date,cls,home) => { const w = home ? 'الحصة الثالثة (8:50 إلى 9:35)' : 'الحصة الثالثة';
+  return {icon, title, sub:w,
+  rows:[[day,date,cls,w,'']],
+  info:[['نوع الاختبار','استماع'],['اليوم',day],['الموعد', home ? 'من 8:50 إلى 9:35' : 'الحصة الثالثة']],
+  pre:`<div class="alert">🎧 اختبار الاستماع يوم <b>${day}</b> في <b>الحصة الثالثة</b>${home?' <b>من الساعة 8:50 إلى 9:35 صباحًا</b>':''}؛ يُرجى الحضور قبل الموعد، والطالبة المتأخرة ليس لها وقت إضافي.</div>`}; };
+const AR_L = (cls='',home=false) => LISTEN('earAr','اللغة العربية – الورقة الأولى (استماع)','الاثنين','30-11-2026',cls,home);
+const EN_L = (cls='',home=false) => LISTEN('earEn','اللغة الإنجليزية – الورقة الأولى (استماع)','الثلاثاء','01-12-2026',cls,home);
 const TECH_INFO = [['المكان','معمل الحاسب'],['الموعد','من 9:00 إلى 10:00 صباحًا'],['التأخر','لا وقت إضافي']];
 const TECH_ALERT = `<div class="alert">⏰ يبدأ الاختبار العملي <b>الساعة 9:00 صباحًا</b> وينتهي الساعة 10:00؛ يُرجى الحضور قبل الموعد، والطالبة المتأخرة ليس لها وقت إضافي.</div>`;
 const TECH_REF = `<div class="note" style="margin-bottom:12px"><b>المرجع:</b> وفق الجدول الرسمي لاختبارات نهاية الفصل الدراسي الأول – الصف الثاني عشر، المسار التكنولوجي (وزارة التربية والتعليم والتعليم العالي).</div>`;
@@ -661,8 +662,8 @@ const DATA = {
     }}
   },
   home: {
-    '10': {subjects:[ AR_L('منازل العاشر'), EN_L('منازل العاشر') ]},
-    '11': {subjects:[ AR_L('منازل الحادي عشر'), EN_L('منازل الحادي عشر'), PCH([['الاثنين','30-11-2026','منازل الحادي عشر (المنهج كاملًا)','9:30 إلى 10:30','معمل 1']]) ]},
+    '10': {subjects:[ AR_L('منازل العاشر',true), EN_L('منازل العاشر',true) ]},
+    '11': {subjects:[ AR_L('منازل الحادي عشر',true), EN_L('منازل الحادي عشر',true), PCH([['الاثنين','30-11-2026','منازل الحادي عشر (المنهج كاملًا)','9:45 إلى 10:45','معمل 1']]) ]},
     '12': {subjects:[ PCH([['الخميس','26-11-2026','منازل الثاني عشر (علمي – أدبي)','9:00 إلى 10:00','']]) ]}
   }
 };
@@ -720,7 +721,7 @@ function calendarHTML(list){
       const list2 = ev[key]||[];
       const isToday = d.getTime()===today.getTime();
       h += `<div class="cal-d ${list2.length?'has':''} ${isToday?'today':''}"><div class="cal-n">${d.getDate()}<small>${months[d.getMonth()]}</small></div>${
-        list2.map(e=>`<button class="cal-e" style="${cv(e.s.title.startsWith('تكنولوجيا المعلومات')?'it':e.s.icon)}" onclick="calPick(${e.i})" title="${e.s.title}"><span class="ce-i">${ICON[e.s.icon]}</span><span class="ce-t">${e.s.title.replace('الحوسبة وتكنولوجيا المعلومات','الحوسبة').replace(' (العملي)','').replace('اللغة العربية – الورقة الأولى (استماع)','استماع العربي').replace('اللغة الإنجليزية – الورقة الأولى (استماع)','استماع الإنجليزي')}</span>${e.cls?`<span class="ce-c">${e.cls}</span>`:''}${e.when?`<span class="ce-c" style="direction:rtl">${e.when}</span>`:''}</button>`).join('')
+        list2.map(e=>`<button class="cal-e" style="${cv(e.s.title.startsWith('تكنولوجيا المعلومات')?'it':e.s.icon)}" onclick="calPick(${e.i})" title="${e.s.title}"><span class="ce-i">${ICON[e.s.icon]}</span><span class="ce-t">${e.s.title.replace('الحوسبة وتكنولوجيا المعلومات','الحوسبة').replace(' (العملي)','').replace('اللغة العربية – الورقة الأولى (استماع)','استماع العربي').replace('اللغة الإنجليزية – الورقة الأولى (استماع)','استماع الإنجليزي')}</span>${e.cls?`<span class="ce-c">${e.cls}</span>`:''}${e.when?`<span class="ce-c" style="direction:rtl">${e.when.replace(/^الحصة الثالثة \((.*)\)$/,"$1")}</span>`:''}</button>`).join('')
       }</div>`;
     }
     h += '</div>';
@@ -817,7 +818,7 @@ document.addEventListener('keydown',e=>{ if(ex.classList.contains('open')){ if(e
 go(0);
 
 /* ---------- update notice ---------- */
-const APP_VER = '20';
+const APP_VER = '21';
 function checkUpdate(){
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
     if(j && j.v && j.v!==APP_VER && !document.getElementById('upd')){
